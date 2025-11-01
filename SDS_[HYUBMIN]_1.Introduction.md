@@ -1,7 +1,7 @@
 # 협업의 민족
 ## Software Design Specification
 
-
+![로고 이미지](./image/로고.png) 
 
 ## TEAM MEMBER
 * 22213492 | 강재호 | 
