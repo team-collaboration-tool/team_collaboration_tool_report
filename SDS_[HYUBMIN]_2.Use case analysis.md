@@ -1,9 +1,9 @@
 ## 2. Use case analysis
-### 2.1 Use Case Diagram
-![그림 1-1: Use Case Diagram](./image/UseCaseDiagram_3.jpg)
-[그림 1-1] Use Case Diagram
+### 2.1. Use Case Diagram
+![그림 2-1: Use Case Diagram](./image/UseCaseDiagram_3.jpg)
+[그림 2-1] Use Case Diagram
 
-### 2.2 Use Case Description
+### 2.2. Use Case Description
 
 ### Use case #1 회원가입
 
