@@ -1,7 +1,5 @@
 ## 7. Implementation Requirements
 
----
-
 ### 7.1. 개발 환경
 
 '협업의 민족'을 개발하기 위해 사용하는 환경이다.
@@ -32,8 +30,6 @@
 * **Design/Modeling Tools**
     * Figma
     * StarUML
-
----
 
 ### 7.2. 사용자 환경
 
