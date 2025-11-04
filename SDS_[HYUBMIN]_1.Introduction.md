@@ -25,7 +25,8 @@
 | 10/31/2025 | 1.1.3 | Use Case Description 작성(3) | 박한비 |
 | 11/01/2025 | 1.1.4 | Use Case Description 작성(4) | 박한비 |
 | 11/03/2025 | 1.1.5 | Use Case Description 수정(5) | 박한비 |
-| 11/03/2025 | 1.2.0 | UI prototype 작성 | 박한비
+| 11/03/2025 | 1.2.0 | UI prototype 작성 | 박한비 |
+| 11/04/2025 | 1.3.0 | 구현 요구사항 작성 | 박한비 |
 
 ---
 
@@ -49,7 +50,7 @@
 * Sequence diagram – 
 * State machine diagram – 
 * User interface prototype – 박한비
-* Implementation requirements - 
+* Implementation requirements - 박한비
 * Glossary – 박한비
 * References - 
 
