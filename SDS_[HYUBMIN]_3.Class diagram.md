@@ -10,6 +10,7 @@ CD를 볼 때 고려해야 할 사항은 다음과 같다.
 * 서버의 구조를 파악하기 위해 DB의 관점에서 본 CD를 작성했다.
 * ER Diagram을 먼저 작성한 후, 이를 CD로 변환시켰다.
 
+![[그림 3-1] DB Class Diagram](./image/DBclassdiagram.png)
 [그림 3-1] DB Class Diagram
 
 ---
