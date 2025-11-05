@@ -1,1 +1,196 @@
+## 3. Class diagram
 
+이번 장은 '협업의 민족' 시스템을 다양한 관점에서 바라본 Class diagram(이하 CD)과 각각에 대한 설명을 기술한다.
+CD를 볼 때 고려해야 할 사항은 다음과 같다.
+ 
+* 변수의 이름은 소문자로 시작하며 단어의 구분은 언더바(\_)로 한다.
+
+### 3.1. DB Class Diagram
+
+* 서버의 구조를 파악하기 위해 DB의 관점에서 본 CD를 작성했다.
+* ER Diagram을 먼저 작성한 후, 이를 CD로 변환시켰다.
+
+[그림 3-1] DB Class Diagram
+
+---
+
+#### User
+
+**Class Description**: 사용자의 정보를 저장하는 class
+
+| 구분 | Name | Type | Visibility | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| Attributes | id | varchar | private | 사용자를 구분하기 위한 고유의 변수 |
+| Attributes | password | varchar | private | 사용자의 비밀번호를 나타내는 변수 |
+| Attributes | name | varchar | private | 사용자의 이름을 나타내는 변수 |
+| Attributes | email | varchar | private | 사용자의 이메일 주소를 나타내는 변수 |
+| Attributes | phone | varchar | private | 사용자의 전화번호를 나타내는 변수 |
+| Attributes | field | varchar | private | 사용자의 분야를 나타내는 변수 |
+
+---
+
+#### Projects
+
+**Class Description**: 각 프로젝트들의 정보를 저장하는 class
+
+| 구분 | Name | Type | Visibility | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| Attributes | id | bigint | private | 프로젝트를 구분하기 위한 고유의 변수 |
+| Attributes | project_name | varchar | private | 각 프로젝트의 이름을 나타내는 변수 |
+| Attributes | project_owner_user_pk | bigint | private | 프로젝트 소유자를 나타내는 변수(users.id 참조) |
+| Attributes | Invite_code | varchar | private | 각 프로젝트의 초대 코드를 나타내는 변수 |
+
+---
+
+#### Shortcuts
+
+**Class Description**: 사용자가 설정한 바로가기 링크 정보를 저장하는 class
+
+| 구분 | Name | Type | Visibility | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| Attributes | shortcut_pk | bigint | private | 각 바로가기 링크를 구별하기 위한 고유 변수 |
+| Attributes | user_pk | bigint | private | 어떤 사용자의 바로가기인지 구별하기 위한 변수 |
+| Attributes | name | varchar | private | 바로가기의 이름을 나타내는 변수 |
+| Attributes | URL | varchar | private | 바로가기의 링크를 나타내는 변수 |
+
+---
+
+#### Project_user
+
+**Class Description**: 사용자와 프로젝트 간의 소속 관계를 나타내는 class
+
+| 구분 | Name | Type | Visibility | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| Attributes | id | bigint | private | 관계를 구분하기 위한 고유의 변수 |
+| Attributes | project_pk | bigint | private | 연결된 프로젝트(projects.id 참조) |
+| Attributes | user_pk | bigint | private | 연결된 사용자(users.id 참조) |
+| Attributes | status | varchar | private | 사용자의 프로젝트 내 상태를 나타내는 변수(프로젝트 멤버, 승인 대기 멤버) |
+
+---
+
+#### Calendar_events
+
+**Class Description**: 프로젝트의 일정 정보를 저장하는 class
+
+| 구분 | Name | Type | Visibility | Desciption |
+| :--- | :--- | :--- | :--- | :--- |
+| Attributes | event_pk | bigint | private | 이벤트를 구분하기 위한 고유의 변수 |
+| Attributes | project_pk | bigint | private | 어떤 프로젝트의 일정인지 구분하는 변수 |
+| Attributes | user_pk | bigint | private | 일정을 생성한 사용자를 구분하는 변수 |
+| Attributes | title | varchar | private | 이벤트의 이름을 저장하는 변수 |
+| Attributes | start_time | timestamp | private | 일정 시작 시간을 나타내는 변수 |
+| Attributes | end_time | timestamp | private | 일정 종료 시간을 나타내는 변수 |
+| Attributes | description | text | private | 일정 상세 설명을 나타내는 변수 |
+
+---
+
+#### Event_participants
+
+**Class Description**: 일정 참여자 정보를 저장하는 class
+
+| 구분 | Name | Type | Visibility | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| Attributes | participants_pk | bigint | private | 참가 기록의 고유 식별자 |
+| Attributes | event_pk | bigint | private | 참여한 일정을 구분하기 위한 변수 |
+| Attributes | user_pk | bigint | private | 어떤 사용자가 참여하는지 구분하는 변수 |
+
+---
+
+#### Posts
+
+**Class Description**: 각 프로젝트별 게시글 정보를 저장하는 class
+
+| 구분 | Name | Type | Visibility | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| Attributes | post_pk | bigint | private | 게시글을 구분하기 위한 고유의 변수 |
+| Attributes | project_pk | bigint | private | 연결된 프로젝트가 어떤 것인지 구분하는 변수 |
+| Attributes | user_pk | bigint | private | 게시글 작성자를 구분하기 위한 변수 |
+| Attributes | content | text | private | 게시글 본문 내용을 나타내는 변수 |
+| Attributes | created_at | timestamp | private | 게시글 생성 시간을 나타내는 변수 |
+| Attributes | updated_at | timestamp | private | 게시글 수정 시간을 나타내는 변수 |
+| Attributes | Is_notice | boolean | private | 공지사항 유무를 나타내는 변수 |
+| Attributes | has_voting | boolean | private | 투표 기능이 포함되어 있는지 구분하는 변수 |
+| Attributes | has_file | boolean | private | 첨부파일 여부를 나타내는 변수 |
+
+---
+
+#### Time_polls
+
+**Class Description**: 시간 조율표 정보를 저장하는 class
+
+| 구분 | Name | Type | Visibility | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| Attributes | poll_pk | bigint | private | 각 시간 조율표 이벤트를 구별하는 변수 |
+| Attributes | project_pk | bigint | private | 어떤 프로젝트에 속하는지 구분하는 변수 |
+| Attributes | creator_user_pk | bigint | private | 누가 생성한 것인지 구분하는 변수 |
+| Attributes | title | varchar | private | 각 시간 조율표의 제목을 저장하는 변수 |
+| Attributes | start_date | date | private | 시간 조율 범위의 시작 날짜를 저장하는 변수 |
+| Attributes | end_date | date | private | 시간 조율 범위의 마감 날짜를 저장하는 변수 |
+| Attributes | start_time_of_day | time | private | 시간 조율표의 시작 시간을 저장하는 변수(기본값은 09:00) |
+| Attributes | end_time_of_day | time | private | 시간 조율표의 종료 시간을 저장하는 변수(기본값은 18:00) |
+
+---
+
+#### Attachment_file
+
+**Class Description**: 게시글의 첨부파일 유무의 정보를 저장하는 class
+
+| 구분 | Name | Type | Visibility | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| Attributes | attachment_pk | bigint | private | 파일의 고유 식별자를 구분하는 변수 |
+| Attributes | post_pk | bigint | private | 어떤 게시글의 첨부 파일인지 구분하는 변수 |
+| Attributes | file_name | varchar | private | 파일 이름을 저장하는 변수 |
+
+---
+
+#### Votes
+
+**Class Description**: 게시글 내 투표 정보를 저장하는 class
+
+| 구분 | Name | Type | Visibility | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| Attributes | vote_pk | bigint | private | 투표를 구분하기 위한 고유의 변수 |
+| Attributes | post_pk | bigint | private | 어떤 게시글에 투표인지 구분하는 변수 |
+| Attributes | title | varchar | private | 투표 제목을 나타내는 변수 |
+| Attributes | start_time | timestamp | private | 투표 시작 시간을 나타내는 변수 |
+| Attributes | end_time | timestamp | private | 투표 종료 시간을 나타내는 변수 |
+| Attributes | allow_multiple_choices | boolean | private | 복수 선택 허용 여부를 나타내는 변수 |
+| Attributes | is_anonymous | boolean | private | 익명 투표 여부를 나타내는 변수 |
+
+---
+
+#### Time_response
+
+**Class Description**: 각 시간조율표에 대한 사용자들의 응답을 저장하는 class
+
+| 구분 | Name | Type | Visibility | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| Attributes | response_pk | bigint | private | 시간 응답을 구분하기 위한 고유의 변수 |
+| Attributes | poll_pk | bigint | private | 어떤 시간조율표에 대한 응답인지 구분하는 변수 |
+| Attributes | user_pk | bigint | private | 어떤 사용자가 가능한 시간대인지 구분하는 변수 |
+| Attributes | start_time_utc | timestamp | private | 드래그한 시간의 시작 시점을 UCT로 저장 |
+| Attributes | end_time_utc | timestamp | private | 드래그한 시간의 종료 시점을 UCT로 저장 |
+
+---
+
+#### Vote_options
+
+**Class Description**: 투표의 선택 항목을 저장하는 class
+
+| 구분 | Name | Type | Visibility | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| Attributes | option_pk | bigint | private | 투표 선택 항목을 구분하기 위한 고유의 변수 |
+| Attributes | vote_pk | bigint | private | 어떤 투표에 속한 항목인지 식별하는 변수 |
+| Attributes | content | varchar | private | 투표 선택 항목의 내용을 나타내는 변수 |
+
+---
+
+#### Vote_response
+
+**Class Description**: 각 투표에 대해 사용자가 어떤 항목에 투표했는지 저장하는 class
+
+| 구분 | Name | Type | Visibility | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| Attributes | response_pk | bigint | private | 투표 응답을 기록하는 변수 |
+| Attributes | option_pk | bigint | private | 어떤 항목에 투표했는지 구별하는 변수 |
+| Attributes | user_pk | bigint | private | 누가 투표를 했는지 구별하는 변수 |
