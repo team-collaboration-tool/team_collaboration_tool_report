@@ -4,7 +4,7 @@
 ![로고 이미지](./image/로고.png) 
 
 ## TEAM MEMBER
-* 22213492 | 강재호 | 
+* 22213492 | 강재호 | kikihottong@gmail.com
 * 22321627 | 김가영 | 22321627@yu.ac.kr
 * 22321620 | 류승현 | 22321620@yu.ac.kr
 * 22321658 | 박한비 | phbengel@yu.ac.kr
