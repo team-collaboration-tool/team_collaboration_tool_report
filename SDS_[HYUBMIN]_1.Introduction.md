@@ -27,6 +27,7 @@
 | 11/03/2025 | 1.1.5 | Use Case Description 수정(5) | 박한비 |
 | 11/03/2025 | 1.2.0 | UI prototype 작성 | 박한비 |
 | 11/04/2025 | 1.3.0 | 구현 요구사항 작성 | 박한비 |
+| 11/05/2025 | 1.4.0 | DB Class Diagram 추가 | 박한비 |
 
 ---
 
@@ -46,7 +47,8 @@
 ## Authors for each section
 * Introduction – 박한비
 * Use case analysis – 박한비
-* Class diagram – 
+* Class diagram
+  * DB Class diagram - 강재호, 손승우, 전준환     
 * Sequence diagram – 
 * State machine diagram – 
 * User interface prototype – 박한비
