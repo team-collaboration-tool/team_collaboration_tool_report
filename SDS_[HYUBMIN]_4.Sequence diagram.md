@@ -167,3 +167,35 @@
 [그림 6-22] 일정 확인 Sequence diagram
 
 [그림 6-22]는 사용자(프로젝트 참여자)가 프로젝트의 일정을 확인하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #22>의 경우이다. 사용자가 projectId를 보내면, 시스템은 projectId와 userEmail을 CalendarEventService로 전달한다. Service는 findProjectById와 findByEmail로 Project와 User를 조회한 뒤, checkProjectMembership을 호출하여 요청자가 'APPROVED' 상태의 멤버인지 권한 확인을 수행한다. 권한이 확인되면, calendarEventRepository.findByProject_ProjectPk를 호출하여 DB에서 해당 프로젝트의 모든 일정을 조회하고 List로 변환하여 반환한다.
+
+## 4.4. Community sequence diagram
+
+모든 게시글 기능은 게시판 목록 조회를 기본으로 동작하며, 사용자의 인증 상태(JWT 토큰 검증)를 기반으로 접근 권한을 확인한다. 즉, “게시글 조회(상세 조회)”는 작성·수정·삭제·검색의 공통 출발점이자 기능 수행의 기본 흐름으로 작동한다.
+
+### - 게시글 작성하기
+
+![[그림 6-23] 게시글 작성 Sequence diagram](./image/6-23.png)
+[그림 6-23] 게시글 작성 Sequence diagram
+
+[그림 6-23]은 사용자(프로젝트 참여자)가 게시판에서 새 게시글을 작성하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #23>의 경우이다. 사용자가 게시판에서 글쓰기 버튼을 클릭해 제목과 내용을 입력한 뒤 등록 버튼을 누를 때 기능이 시작된다. 시스템은 게시판 정보를 기반으로 현재 로그인 사용자를 확인하고, 입력된 내용을 이용해 새 게시글을 생성한다. 생성된 게시글은 데이터베이스에 저장되고, 화면은 자동으로 새 글의 상세 페이지로 전환된다.
+
+### - 게시글 수정하기
+
+![[그림 6-24] 게시글 수정 Sequence diagram](./image/6-24.png)
+[그림 6-24] 게시글 수정 Sequence diagram
+
+[그림 6-24]는 사용자(프로젝트 참여자)가 등록한 게시글을 수정하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #24>의 경우이다. 사용자가 게시글 상세 화면에서 수정 버튼을 눌러 내용을 변경하고 저장할 때 기능이 시작된다. 시스템은 로그인된 사용자와 게시글 작성자를 비교해 권한을 검증한 후, 수정된 제목과 내용을 데이터베이스에 반영한다. 수정이 완료되면 시스템은 갱신된 게시글 정보를 반환하고, 화면은 수정된 내용으로 갱신된다.
+
+### - 게시글 삭제하기
+
+![[그림 6-25] 게시글 삭제 Sequence diagram](./image/6-25.png)
+[그림 6-25] 게시글 삭제 Sequence diagram
+
+[그림 6-25]은 사용자(프로젝트 참여자)가 등록한 게시글을 삭제하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #24>의 경우이다. 사용자가 게시글 상세 화면에서 삭제 버튼을 클릭해 삭제를 확인할 때 기능이 시작된다. 시스템은 로그인된 사용자와 게시글 작성자를 비교하여 권한을 확인하고, 권한이 유효하면 해당 게시글을 데이터베이스에서 삭제한다. 삭제가 완료되면 시스템은 성공 응답을 반환하고, 게시판 목록 화면이 새로 로드된다.
+
+### - 게시글 조회하기
+
+![[그림 6-26] 게시글 조회 Sequence diagram](./image/6-26.png)
+[그림 6-26] 게시글 조회 Sequence diagram
+
+[그림 6-26]은 사용자(프로젝트 참여자)가 특정 게시글의 상세 내용을 조회하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #25>의 경우이다. 사용자가 게시판 목록에서 특정 게시글을 클릭하면 기능이 시작된다. 시스템은 선택된 게시글의 ID를 기반으로 작성자와 프로젝트 정보를 함께 조회하고, 게시글의 상세 내용을 사용자에게 표시한다. 조회 과정은 이후 수정·삭제 기능 실행의 기본 전제로 작동한다.
