@@ -40,7 +40,7 @@
   * Microsoft Edge
   * Apple Safari
 
-## 8. Glossary
+---
 
 # 8. Glossary
 
