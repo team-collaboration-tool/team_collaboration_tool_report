@@ -119,14 +119,51 @@
 
 ### - 프로젝트 삭제하기
 
-![[그림 6-16] 프로젝트 삭제  Sequence diagram](./image/6-16.png)
+![[그림 6-16] 프로젝트 삭제 Sequence diagram](./image/6-16.png)
 [그림 6-16] 프로젝트 삭제 Sequence diagram
 
 [그림 6-16]은 사용자(프로젝트 관리자)가 프로젝트를 삭제하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #15>의 경우이다. 프로젝트 관리자가 설정 페이지에서 '삭제' 버튼을 클릭할 때 기능이 시작된다. 사용자가 projectId와 함께 삭제 요청을 보내면, ProjectService는 findProjectById로 Project 엔티티를 조회한 뒤, owner.email과 requesterEmail을 비교하여 권한 확인을 수행한다. 권한이 확인되면, projectRepository.delete(project)를 호출하여 프로젝트를 DB에서 삭제한다.
 
 ### - 프로젝트 나가기
 
-![[그림 6-17] 프로젝트 나가기  Sequence diagram](./image/6-17.png)
+![[그림 6-17] 프로젝트 나가기 Sequence diagram](./image/6-17.png)
 [그림 6-17] 프로젝트 나가기 Sequence diagram
 
 [그림 6-17]은 사용자(프로젝트 참여자)가 프로젝트를 나가는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #17>의 경우이다. 사용자가 projectId와 projectName을 보내면, ProjectService는 findProjectById로 Project를, UserService로 User를 조회한다. Service는 프로젝트 관리자가 아닌지, 프로젝트명이 일치하는지, ProjectUser가 존재하는지 순차적으로 검증한다. 모든 검증을 통과하면, projectUserRepository.delete(projectUser)를 호출하여 DB에서 해당 관계를 삭제한다.
+
+## 4.3. Calendar sequence diagram
+
+### - 할 일 확인하기
+
+![[그림 6-18] 할 일 확인 Sequence diagram](./image/6-18.png)
+[그림 6-18] 할 일 확인 Sequence diagram
+
+[그림 6-18]은 사용자(프로젝트 참여자)가 7일 이내 마감되는 일정을 확인하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #18>의 경우이다. 사용자가 projectId를 보내면, 시스템은 projectId와 userEmail을 CalendarEventService로 전달한다. Service는 findProjectById와 findByEmail로 Project와 User를 조회한 뒤, checkProjectMembership을 호출하여 요청자가 'APPROVED' 상태의 멤버인지 권한 확인을 수행한다. 권한이 확인되면, Service는 LocalDateTime.now()와 plusDays(7)로 현재 시간과 7일 후의 시간을 계산하고, 이 두 시간을 calendarEventRepository.findByProject_ProjectPkAndEndTimeBetween으로 전달하여 DB에서 마감일이 7일 이내인 일정만 필터링하여 List로 반환한다.
+
+### - 공지사항 확인하기
+
+![[그림 6-19] 공지사항 확인 Sequence diagram](./image/6-19.png)
+[그림 6-19] 공지사항 확인 Sequence diagram
+
+[그림 6-19]는 사용자(프로젝트 참여자)가 공지사항을 확인하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #19>의 경우이다. 사용자가 projectId를 보내면, 시스템은 projectId와 userEmail을 NoticeService로 전달한다. Service는 findProjectById와 findByEmail로 Project와 User를 조회한 뒤, checkProj ectMembership을 호출하여 'APPROVED' 상태의 멤버인지 권한 확인을 수행한다. 권한이 확인되면, noticeRepository.findByProject_ProjectPkOrderByCr eatedAtDesc를 호출하여 DB에서 해당 프로젝트의 모든 공지사항을 최신순으로 정렬하여 List로 반환한다.
+
+### - 일정 추가하기
+
+![[그림 6-20] 일정 추가 Sequence diagram](./image/6-20.png)
+[그림 6-20] 일정 추가 Sequence diagram
+
+[그림 6-20]은 사용자(프로젝트 참여자)가 새로운 알정을 추가하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #20>의 경우이다. 사용자가 projectId와 CalendarEventCreateRequest DTO를 보내면, 시스템은 이 정보와 userEmail을 CalendarEventService로 전달한다. Service는 checkProjectMembership을 통해 'APPROVED' 상태의 멤버인지 권한 확인을 수행한다. 권한이 확인되면, Ser vice는 findParticipantsByPks를 호출하여 participantUserPks 목록을 Set 엔티티로 변환하고, 이를 newCalendarEvent 생성자에 전달하여 CalendarEvent 엔티티를 생성한 뒤 calendarEventRepository.save를 호출하여 DB에 저장하고 생성된 CalendarEventResponse를 반환한다.
+
+### - 일정 편집하기
+
+![[그림 6-21] 일정 편집 Sequence diagram](./image/6-21.png)
+[그림 6-21] 일정 편집 Sequence diagram
+
+[그림 6-21]은 사용자(프로젝트 참여자)가 등록된 일정을 수정하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #21>의 경우이다. 사용자가 eventId와 CalendarEventCreateRequest DTO를 보내면, 시스템은 이 정보와 userEmail을 CalendarEventService로 전달한다. Service는 findEventById로 수정할 CalendarEvent 엔티티를 조회한 뒤, 권한 확인 로직으로서 event.getCreateUser().getEmail()(일정 생성자) 또는 event.isParticipant()(참가자) 중 하나라도 userEmail과 일치하는지 비교한다. 권한이 확인되면, findParticipantsByPks로 새로운 참가자 목록을 조회하고 event.update()를 호출하여 엔티티를 변경한 뒤, 변경된 CalendarEventResponse를 반환한다.
+
+### - 일정 확인하기
+
+![[그림 6-22] 일정 확인 Sequence diagram](./image/6-22.png)
+[그림 6-22] 일정 확인 Sequence diagram
+
+[그림 6-22]는 사용자(프로젝트 참여자)가 프로젝트의 일정을 확인하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #22>의 경우이다. 사용자가 projectId를 보내면, 시스템은 projectId와 userEmail을 CalendarEventService로 전달한다. Service는 findProjectById와 findByEmail로 Project와 User를 조회한 뒤, checkProjectMembership을 호출하여 요청자가 'APPROVED' 상태의 멤버인지 권한 확인을 수행한다. 권한이 확인되면, calendarEventRepository.findByProject_ProjectPk를 호출하여 DB에서 해당 프로젝트의 모든 일정을 조회하고 List로 변환하여 반환한다.
