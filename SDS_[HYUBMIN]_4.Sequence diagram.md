@@ -43,3 +43,90 @@
 
 [그림 6-5]는 사용자가 개인정보 중 비밀번호를 변경하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #8>의 경우이다.
 사용자가 설정 화면에서 현재 비밀번호와 새 비밀번호를 입력하고 "비밀번호 변경" 버튼을 클릭할 때 기능이 시작된다. 사용자가 비밀번호 변경 요청을 보내면, 시스템은 JWT 토큰을 통해 사용자를 인증하고, 현재 비밀번호가 일치하는 경우에만 새 비밀번호로 갱신한다.
+
+## 4.2. Project sequence diagram
+
+
+### - 프로젝트 생성
+
+![[그림 6-6] 프로젝트 생성 Sequence diagram](./image/6-6.png)
+[그림 6-6] 프로젝트 생성 Sequence diagram
+
+[그림 6-6]은 사용자가 새 프로젝트를 생성하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #10>의 경우이다. 사용자가 ProjectCreateRequest와 함께 생성 요청을 보내면, 시스템 JwtAuthenticationFilter를 통해 ownerEmail을 확인하고, ProjectServices는 이 이메일로 User 엔티티를 조회한다. 그 후, Service는 Project 엔티티를 생성하며, 엔티티는 UUID를 이용해 고유한 참여 코드를 자동 생성한다. 동시에 ProjectUser 엔티티도 OWNER 역할과 APPROVED 상태로 함께 생성되어 DB에 저장된다.
+
+### - 프로젝트 조회
+
+![[그림 6-7] 프로젝트 조회 Sequence diagram](./image/6-7.png)
+[그림 6-7] 프로젝트 조회 Sequence diagram
+
+[그림 6-7]은 사용자가 특정 프로젝트로 정보를 확인하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #11>의 경우이다. 사용자가 projectId와 함께 상세 조회 요청을 보내면, 시스템은 userEmail과 projectId를 ProjectService로 전달한다. Service는 Project와 User 엔티티를 각각 조회한 후, ProjectUserRepository를 통해 두 엔티티의 관계(ProjectUser)를 확인하고 status가 'APPROVED'인지 검증한다. 권한이 확인되면, Service는 myRole과 myStatus가 포함된 ProjectResponseDTO를 생성하여 반환한다.
+
+### - 프로젝트명 수정하기
+
+![[그림 6-8] 프로젝트명 수정 Sequence diagram](./image/6-8.png)
+[그림 6-8] 프로젝트명 수정 Sequence diagram
+
+[그림 6-8]은 사용자(프로젝트 관리자)가 프로젝트명을 수정하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #12>의 경우이다. 사용자가 수정할 데이터(ProjectCreateRequest)와 projectId를 보내면, 시스템은 requesterEmail과 projectId를 ProjectService로 전달한다. Service는 findProjectById로 Project 엔티티를 조회한 뒤, 조회된 Project의 owner.email과 requesterEmail을 비교하여 권한 확인을 수행한다. 권한이 확인되면, project.update()를 호출하여 엔티티를 변경하고, 변경된 내용이 DB에 저장됩니다.
+
+### - 프로젝트 참여 코드 확인하기
+
+![[그림 6-9] 프로젝트 참여 코드 확인 Sequence diagram](./image/6-9.png)
+[그림 6-9] 프로젝트 참여 코드 확인 Sequence diagram
+
+[그림 6-9]는 사용자가 프로젝트 참여 코드를 확인하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #13>의 경우이다. 사용자가 projectId와 함께 요청을 보내면, 시스템은 requesterEmail을 ProjectService로 전달한다. Service는 findProjectById로 Project를, UserService로 User를 조회한 뒤, ProjectUserRepository를 통해 ProjectUser 엔티티를 조회하고 status가 'APPROVED'인지 검증한다. 모든 권한 확인을 통과하면, Service는 Project 엔티티의 joinCode를 포함한 ProjectCodeResponse를 생성하여 반환한다.
+
+### - 프로젝트 참여하기
+
+![[그림 6-10] 프로젝트 참여  Sequence diagram](./image/6-10.png)
+[그림 6-10] 프로젝트 참여 Sequence diagram
+
+[그림 6-10]은 사용자가 특정 프로젝트에 참여를 요청하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #16>의 경우이다. 사용자가 joinCode와 함께 요청을 보내면, ProjectService는 projectRepository.fi ndByJoinCode로 Project를 찾고 projectUserRepository.existsByProjectAndUser로 중복을 확인한다. 모든 검증을 통과하면, ProjectUser 엔티티가 PENDING 상태와 MEMBER 역할로 생성되어 DB에 저장된다.
+
+### - 프로젝트 참여 요청 목록 확인하기
+
+![[그림 6-11] 프로젝트 참여 요청 목록 Sequence diagram](./image/6-11.png)
+[그림 6-11] 프로젝트 참여 요청 목록 Sequence diagram
+
+[그림 6-11]부터 [그림 6-15]까지는 사용자(프로젝트 관리자)가 프로젝트 멤버를 관리하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #14>의 경우이다. [그림 6-11]은 프로젝트 멤버를 관리하기 위해 프로젝트 관리자가 참여 요청 대기 목록을 확인하는 sequence diagram이다. 사용자가 projectId와 함께 요청을 보내면, 시스템은 requesterEmail을 ProjectService로 전달한다. Service는 findProjectById로 Project 엔티티를 조회한 뒤, owner.email과 requesterEmail을 비교하여 권한 확인을 수행한다. 권한이 확인되면, projectUserRepository.findByProjectAndStatus를 호출하여 status가 'PENDING'인 ProjectUser 레코드 목록을 조회하고, 이 목록을 ProjectJoinRequestResponse 목록으로 변환하여 반환한다.
+
+### - 프로젝트 참여 요청 승인하기
+
+![[그림 6-12] 프로젝트 참여 요청 승인 Sequence diagram](./image/6-12.png)
+[그림 6-12] 프로젝트 참여 요청 승인 Sequence diagram
+
+[그림 6-12]는 프로젝트 관리자가 참여 요청을 보낸 멤버를 승인하는 sequence diagram이다. 프로젝트 관리자가 projectId와 projectUserPk를 보내면, ProjectService는 (관리자 권한을 확인한 뒤) projectUserRepository.findById로 ProjectUser 엔티티를 조회한다. Service는 projectUser.approve() 함수를 호출하여 해당 엔티티의 status를 PENDING에서 APPROVED로 변경하고, 이 변경 사항은 DB에 저장된다.
+
+### - 프로젝트 참여 요청 거절
+
+![[그림 6-13] 프로젝트 참여 요청 거절 Sequence diagram](./image/6-13.png)
+[그림 6-13] 프로젝트 참여 요청 거절 Sequence diagram
+
+[그림 6-13]은 프로젝트 관리자가 참여 요청을 보낸 멤버를 거절하는 sequence diagram이다. 프로젝트 관리자가 projectId와 projectUserPk를 보내면, ProjectService는 findProjectById로 Project를 조회하고, owner.email과 requesterEmail을 비교하여 권한 확인을 수행한다. 권한이 확인되면 projectUserRepository.findById로 ProjectUser를 조회하고, 여러 검증(프로젝트 일치, PENDING 상태)을 거친 뒤, projectUserRepository.delete(projectUser)를 호출하여 요청을 DB에서 삭제한다.
+
+### - 프로젝트 멤버 삭제
+
+![[그림 6-14] 프로젝트 멤버 삭제 Sequence diagram](./image/6-14.png)
+[그림 6-14] 프로젝트 멤버 삭제 Sequence diagram
+
+[그림 6-14]는 프로젝트 관리자가 프로젝트에 참여중인 멤버를 삭제하는 sequence diagram이다. 프로젝트 관리자가 projectId와 projectUserPk를 보내면, ProjectService는 findProject ById로 Project를 조회하고, owner.email과 reque sterEmail을 비교하여 권한 확인을 수행한다. 권한이 확인되면 projectUserRepository.findById로 Projec tUser를 조회하고, 프로젝트 관리자 본인이 아닌지 검증한 뒤, projectUserRepository.del ete(memberToExpel)를 호출하여 멤버를 DB에서 삭제한다.
+
+### - 프로젝트 관리자 권한 양도하기
+
+![[그림 6-15] 프로젝트 관리자 권한 양도 Sequence diagram](./image/6-15.png)
+[그림 6-15] 프로젝트 관리자 권한 양도 Sequence diagram
+
+[그림 6-15]는 프로젝트 관리자가 멤버에게 권한을 양도하는 sequence diagram이다. 사용자가 projectId와 newOwnerProjectUserPk(양도받을 멤버의 ProjectUser PK)를 보내면, 시스템은 이 정보와 인증된 currentOwnerEmail을 ProjectService.transferOwners hip으로 전달한다. Service는 findProjectById로 Project를 조회한 뒤, 핵심 권한 확인(인가) 로직으로서 project.getOwner().getEmail()과 currentOwnerEmail을 비교한다. 권한이 확인되면, Service는 projectUserRepository.findById로 양도받을 대상 멤버의 ProjectUser 엔티티를 조회하고, 이 멤버가 APPROVED 상태인지, 그리고 자기 자신에게 양도하는 것은 아닌지 추가적인 검증을 수행한다. 모든 검증을 통과하면, Service는 projectUserRepository.findByProjectAndUser로 현재 프로젝트 관리자의 ProjectUser 엔티티를 찾아, 현재 프로젝트 관리자의 역할은 MEMBER로 강등시키고 대상 멤버의 역할은 OWNER로 승격시킵니다. 동시에, Project 엔티티의 owner 필드 자체도 새로운 프로젝트 관리자의 User 객체로 변경한 뒤, 업데이트된 ProjectRespon seDTO를 반환한다.
+
+### - 프로젝트 삭제하기
+
+![[그림 6-16] 프로젝트 삭제  Sequence diagram](./image/6-16.png)
+[그림 6-16] 프로젝트 삭제 Sequence diagram
+
+[그림 6-16]은 사용자(프로젝트 관리자)가 프로젝트를 삭제하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #15>의 경우이다. 프로젝트 관리자가 설정 페이지에서 '삭제' 버튼을 클릭할 때 기능이 시작된다. 사용자가 projectId와 함께 삭제 요청을 보내면, ProjectService는 findProjectById로 Project 엔티티를 조회한 뒤, owner.email과 requesterEmail을 비교하여 권한 확인을 수행한다. 권한이 확인되면, projectRepository.delete(project)를 호출하여 프로젝트를 DB에서 삭제한다.
+
+### - 프로젝트 나가기
+
+![[그림 6-17] 프로젝트 나가기  Sequence diagram](./image/6-17.png)
+[그림 6-17] 프로젝트 나가기 Sequence diagram
+
+[그림 6-17]은 사용자(프로젝트 참여자)가 프로젝트를 나가는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #17>의 경우이다. 사용자가 projectId와 projectName을 보내면, ProjectService는 findProjectById로 Project를, UserService로 User를 조회한다. Service는 프로젝트 관리자가 아닌지, 프로젝트명이 일치하는지, ProjectUser가 존재하는지 순차적으로 검증한다. 모든 검증을 통과하면, projectUserRepository.delete(projectUser)를 호출하여 DB에서 해당 관계를 삭제한다.
