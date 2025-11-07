@@ -1,6 +1,10 @@
 ## 2. Use case analysis
 ### 2.1. Use Case Diagram
-![그림 2-1: Use Case Diagram](./image/UseCaseDiagram_7.jpg)
+
+Use Case Diagram에 관한 고려사항은 아래와 같다.
+- 회원은 로그인을 한 사용자이다. '협업의 민족'은 기본적으로 로그인을 하지 않으면 기능을 이용할 수 없다. (회원가입 기능 제외)
+
+![그림 2-1: Use Case Diagram](./image/UseCaseDiagram8.jpg)
 [그림 2-1] Use Case Diagram
 
 ### 2.2. Use Case Description
