@@ -204,9 +204,9 @@
 
 ---
 
-### * User class diagram
+### User class diagram
 
-![[그림 3-2] User class diagram](.image/UserCD)
+![[그림 3-2] User class diagram](.image/UserCD.png)
 [그림 3-2] User class diagram
 
 #### User
@@ -285,9 +285,9 @@
 ---
 ---
 
-### * Project class diagram
+### Project class diagram
 
-![[그림 3-3] Project class diagram](./image/ProjectCD)
+![[그림 3-3] Project class diagram](./image/ProjectCD.png)
 [그림 3-3] Project class diagram
 
 #### ProjectController
@@ -349,9 +349,9 @@
 ---
 ---
 
-### * Calendar class diagram
+### Calendar class diagram
 
-![[그림 3-4] Calendar class diagram](./image/CalendarCD)
+![[그림 3-4] Calendar class diagram](./image/CalendarCD.png)
 [그림 3-4] Calendar class diagram
 
 #### CalendarController
