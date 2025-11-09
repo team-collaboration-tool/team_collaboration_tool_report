@@ -5,7 +5,7 @@
 ### 3.1. DB class diagram
 
 * 서버의 구조를 파악하기 위해 DB의 관점에서 본 CD를 작성했다.
-      * ER diagram을 먼저 작성한 후, 이를 CD로 변환시켰다.
+  * ER diagram을 먼저 작성한 후, 이를 CD로 변환시켰다.
 * 변수의 이름은 소문자로 시작하며 단어의 구분은 언더바(_)로 한다.
 
 ![[그림 3-1] DB class diagram](./image/DBclassdiagram.png)
