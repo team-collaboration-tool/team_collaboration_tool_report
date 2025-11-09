@@ -206,7 +206,7 @@
 
 ### User class diagram
 
-![[그림 3-2] User class diagram](.image/UserCD.png)
+![[그림 3-2] User class diagram](./image/UserCD.png)
 [그림 3-2] User class diagram
 
 #### User
