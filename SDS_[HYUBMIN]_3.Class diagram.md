@@ -1,17 +1,15 @@
 ## 3. Class diagram
 
-이번 장은 '협업의 민족' 시스템을 다양한 관점에서 바라본 Class diagram(이하 CD)과 각각에 대한 설명을 기술한다.
-CD를 볼 때 고려해야 할 사항은 다음과 같다.
- 
-* 변수의 이름은 소문자로 시작하며 단어의 구분은 언더바(\_)로 한다.
+이 장은 '협업의 민족' 시스템을 다양한 관점에서 바라본 Class diagram(이하 CD)과 각각에 대한 설명을 기술한다.
 
-### 3.1. DB Class Diagram
+### 3.1. DB class diagram
 
 * 서버의 구조를 파악하기 위해 DB의 관점에서 본 CD를 작성했다.
-* ER Diagram을 먼저 작성한 후, 이를 CD로 변환시켰다.
+      * ER diagram을 먼저 작성한 후, 이를 CD로 변환시켰다.
+* 변수의 이름은 소문자로 시작하며 단어의 구분은 언더바(_)로 한다.
 
-![[그림 3-1] DB Class Diagram](./image/DBclassdiagram.png)
-[그림 3-1] DB Class Diagram
+![[그림 3-1] DB class diagram](./image/DBclassdiagram.png)
+[그림 3-1] DB class diagram
 
 ---
 
@@ -26,7 +24,7 @@ CD를 볼 때 고려해야 할 사항은 다음과 같다.
 | Attributes | name | varchar | private | 사용자의 이름을 나타내는 변수 |
 | Attributes | email | varchar | private | 사용자의 이메일 주소를 나타내는 변수 |
 | Attributes | phone | varchar | private | 사용자의 전화번호를 나타내는 변수 |
-| Attributes | field | varchar | private | 사용자의 분야를 나타내는 변수 |
+| Attributes | field | varchar | private | 사용자의 분야(직무/전공)를 나타내는 변수 |
 
 ---
 
@@ -37,9 +35,9 @@ CD를 볼 때 고려해야 할 사항은 다음과 같다.
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | Attributes | id | bigint | private | 프로젝트를 구분하기 위한 고유의 변수 |
-| Attributes | project_name | varchar | private | 각 프로젝트의 이름을 나타내는 변수 |
-| Attributes | project_owner_user_pk | bigint | private | 프로젝트 소유자를 나타내는 변수(users.id 참조) |
-| Attributes | Invite_code | varchar | private | 각 프로젝트의 초대 코드를 나타내는 변수 |
+| Attributes | project_name | varchar | private | 각 프로젝트명을 나타내는 변수 |
+| Attributes | project_owner_user_pk | bigint | private | 프로젝트 관리자를 나타내는 변수(users.id 참조) |
+| Attributes | Invite_code | varchar | private | 각 프로젝트의 참여코드를 나타내는 변수 |
 
 ---
 
@@ -73,27 +71,27 @@ CD를 볼 때 고려해야 할 사항은 다음과 같다.
 
 **Class Description**: 프로젝트의 일정 정보를 저장하는 class
 
-| 구분 | Name | Type | Visibility | Desciption |
+| 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| Attributes | event_pk | bigint | private | 이벤트를 구분하기 위한 고유의 변수 |
+| Attributes | event_pk | bigint | private | 일정을 구분하기 위한 고유의 변수 |
 | Attributes | project_pk | bigint | private | 어떤 프로젝트의 일정인지 구분하는 변수 |
 | Attributes | user_pk | bigint | private | 일정을 생성한 사용자를 구분하는 변수 |
-| Attributes | title | varchar | private | 이벤트의 이름을 저장하는 변수 |
+| Attributes | title | varchar | private | 일정의 이름을 저장하는 변수 |
 | Attributes | start_time | timestamp | private | 일정 시작 시간을 나타내는 변수 |
 | Attributes | end_time | timestamp | private | 일정 종료 시간을 나타내는 변수 |
-| Attributes | description | text | private | 일정 상세 설명을 나타내는 변수 |
+| Attributes | description | text | private | 일정 상세 정보를 나타내는 변수 |
 
 ---
 
 #### Event_participants
 
-**Class Description**: 일정 참여자 정보를 저장하는 class
+**Class Description**: 일정 참가자 정보를 저장하는 class
 
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | Attributes | participants_pk | bigint | private | 참가 기록의 고유 식별자 |
-| Attributes | event_pk | bigint | private | 참여한 일정을 구분하기 위한 변수 |
-| Attributes | user_pk | bigint | private | 어떤 사용자가 참여하는지 구분하는 변수 |
+| Attributes | event_pk | bigint | private | 참가한 일정을 구분하기 위한 변수 |
+| Attributes | user_pk | bigint | private | 어떤 사용자가 참가하는지 구분하는 변수 |
 
 ---
 
@@ -117,18 +115,18 @@ CD를 볼 때 고려해야 할 사항은 다음과 같다.
 
 #### Time_polls
 
-**Class Description**: 시간 조율표 정보를 저장하는 class
+**Class Description**: 시간조율표 정보를 저장하는 class
 
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| Attributes | poll_pk | bigint | private | 각 시간 조율표 이벤트를 구별하는 변수 |
+| Attributes | poll_pk | bigint | private | 각 시간조율표 이벤트를 구별하는 변수 |
 | Attributes | project_pk | bigint | private | 어떤 프로젝트에 속하는지 구분하는 변수 |
 | Attributes | creator_user_pk | bigint | private | 누가 생성한 것인지 구분하는 변수 |
-| Attributes | title | varchar | private | 각 시간 조율표의 제목을 저장하는 변수 |
-| Attributes | start_date | date | private | 시간 조율 범위의 시작 날짜를 저장하는 변수 |
-| Attributes | end_date | date | private | 시간 조율 범위의 마감 날짜를 저장하는 변수 |
-| Attributes | start_time_of_day | time | private | 시간 조율표의 시작 시간을 저장하는 변수(기본값은 09:00) |
-| Attributes | end_time_of_day | time | private | 시간 조율표의 종료 시간을 저장하는 변수(기본값은 18:00) |
+| Attributes | title | varchar | private | 각 시간조율표의 이름을 저장하는 변수 |
+| Attributes | start_date | date | private | 시간조율 범위의 시작 날짜를 저장하는 변수 |
+| Attributes | end_date | date | private | 시간조율 범위의 마감 날짜를 저장하는 변수 |
+| Attributes | start_time_of_day | time | private | 시간조율표의 시작 시간을 저장하는 변수(기본값은 09:00) |
+| Attributes | end_time_of_day | time | private | 시간조율표의 종료 시간을 저장하는 변수(기본값은 18:00) |
 
 ---
 
@@ -151,11 +149,11 @@ CD를 볼 때 고려해야 할 사항은 다음과 같다.
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | Attributes | vote_pk | bigint | private | 투표를 구분하기 위한 고유의 변수 |
-| Attributes | post_pk | bigint | private | 어떤 게시글에 투표인지 구분하는 변수 |
+| Attributes | post_pk | bigint | private | 어떤 게시글의 투표인지 구분하는 변수 |
 | Attributes | title | varchar | private | 투표 제목을 나타내는 변수 |
 | Attributes | start_time | timestamp | private | 투표 시작 시간을 나타내는 변수 |
 | Attributes | end_time | timestamp | private | 투표 종료 시간을 나타내는 변수 |
-| Attributes | allow_multiple_choices | boolean | private | 복수 선택 허용 여부를 나타내는 변수 |
+| Attributes | allow_multiple_choices | boolean | private | 복수 선택 여부를 나타내는 변수 |
 | Attributes | is_anonymous | boolean | private | 익명 투표 여부를 나타내는 변수 |
 
 ---
