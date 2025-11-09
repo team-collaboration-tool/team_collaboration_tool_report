@@ -193,3 +193,209 @@
 | Attributes | response_pk | bigint | private | 투표 응답을 기록하는 변수 |
 | Attributes | option_pk | bigint | private | 어떤 항목에 투표했는지 구별하는 변수 |
 | Attributes | user_pk | bigint | private | 누가 투표를 했는지 구별하는 변수 |
+
+## 3.2. Function class diagram
+
+본 절에서는 시스템의 주요 기능별 클래스 구조와 역할을 시각적으로 나타낸 Function class diagram을 제시한다. 각 기능 모듈 내에서 클래스 간의 관계와 책임을 명확히 파악하기 위해 작성되었으며, Controller, Service, Domain, DTO 등 계층 간 상호작용을 중심으로 설계되었다.<br>
+각 Function class diagram은 해당 모듈이 담당하는 주요 역할을 기반으로 작성되었으며, 각 클래스의 속성(Attributes)과 연산(Operations)을 함께 기술하여 클래스의 내부 구조를 한 눈에 확인할 수 있다.<br>
+이를 통해 시스템 전체의 아키키텍처를 이해하고, 기능 간의 의존 관계 및 데이터 흐름을 한 눈에 확인할 수 있다.
+
+* 변수의 이름은 소문자로 시작하며 단어의 구분은 대문자로 한다.
+
+---
+
+### * User class diagram
+
+![[그림 3-2] User class diagram](.image/UserCD)
+[그림 3-2] User class diagram
+
+#### User
+
+**Class Description:** 사용자의 정보를 저장하고 DB 테이블 users와 매핑되는 엔티티 class
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | userPk | Long | private | 사용자 고유 식별자 (PK) |
+| | password | String | private | 암호화된 비밀번호 |
+| | name | String | private | 사용자 이름 |
+| | email | String | private | 사용자 이메일 |
+| | phone | String | private | 사용자 전화번호 |
+| | field | String | private | 사용자 분야 |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | User | password : String,<br>name : String,<br>email : String,<br>phone : String,<br>field : String | 생성자 | 새 사용자 객체를 생성하는 생성자 |
+
+---
+
+#### UserController
+
+**Class Description:** 사용자 관련 기능(회원가입, 로그인, 정보 수정, 비밀번호 변경, 개인정보 조회)을 담당하는 컨트롤러 class
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | userService | UserService | private | 사용자 관련 비즈니스 로직을 수행하는 서비스 class |
+| | passwordEncoder | BCryptPasswordEncoder | private | 비밀번호 암호화를 위한 인코더 객체 |
+| | jwtTokenProvider | JwtTokenProvider | private | JWT 토큰 발급 및 검증 유틸 클래스 |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | signup | request : UserSignupRequestDTO | ResponseEntity | 회원가입 요청을 처리하는 메서드 |
+| | login | request : Map<String,String> | ResponseEntity | 사용자 로그인 처리 및 JWT 토큰 발급 |
+| | getMyInfo | userEmail : String | ResponseEntity | 로그인된 사용자의 개인정보를 반환 |
+| | updateUser | userEmail : String, request : UserUpdateRequest | ResponseEntity | 사용자 정보를 수정하는 메서드 |
+| | updatePassword | userEmail : String, request : UserPasswordUpdateRequest | ResponseEntity | 비밀번호를 변경하는 메서드 |
+
+---
+
+#### UserRepository
+
+**Class Description:** JPA를 사용하여 DB의 사용자 테이블(users)과 상호작용하는 Repository 인터페이스
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | findByEmail | email : String | Optional | 이메일로 사용자 조회 |
+| | existsByEmail | email : String | boolean | 이메일 중복 여부 확인 |
+
+---
+
+#### UserService
+
+**Class Description:** 회원가입, 사용자 정보 조회 및 수정, 비밀번호 변경 등 사용자 관련 로직을 담당하는 서비스 class
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | userRepository | UserRepository | private | 사용자 정보를 관리하는 JPA Repository |
+| | passwordEncoder | BCryptPasswordEncoder | private | 비밀번호 암호화용 인코더 객체 |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | registerUser | request : UserSignupRequestDTO | User | 회원가입 처리 및 사용자 저장 |
+| | findByEmail | email : String | User | 이메일로 사용자 조회 |
+| | updateUser | email : String, <br>request : UserUpdateRequest | void | 사용자 정보 수정 |
+| | updatePassword | email : String, <br>request : UserPasswordUpdateRequest | void | 비밀번호 변경 처리 |
+
+---
+---
+
+### * Project class diagram
+
+![[그림 3-3] Project class diagram](./image/ProjectCD)
+[그림 3-3] Project class diagram
+
+#### ProjectController
+
+**Class Description:** 사용자 관련 기능(회원가입, 로그인, 정보 수정, 비밀번호 변경, 개인정보 조회)을 담당하는 컨트롤러 class
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | projectService | ProjectService | private | Project 도메인의 비즈니스 로직을 처리하는 서비스(생성자를 통한 의존성 주입) |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | createProject | @RequestBody ProjectCreateRequest request<br>@AuthenticationPrincipal String email | ResponseEntity<ProjectResponseDTO> | 새 프로젝트를 생성 |
+| | getParticipatingProjects | @AuthenticationPrincipal String email | ResponseEntity<List<ProjectResponseDTO>> | 현재 사용자가 참여 중인 프로젝트 목록 조회 |
+| | getProject | @PathVariable Long projectid | ResponseEntity<ProjectResponseDTO> | 단일 프로젝트의 상세 정보 조회 |
+| | updateProject | @PathVariable Long projectId<br>@RequestBody ProjectCreateRequest request<br>@AuthenticationPrincipal String email | ResponseEntity<ProjectResponseDTO> | 프로젝트명 수정 |
+| | leaveProject | @PathVariable Long projectId<br>@RequestBody ProjectCreateRequest request<br>@AuthenticationPrincipal String email | ResponseEntity<void> | 프로젝트 나가기(프로젝트명 확인 필요, 관리자일 경우 불가능) |
+| | deleteProject | @PathVariable Long projectId<br>@RequestBody ProjectCreateRequest request<br>@AuthenticationPrincipal String email | ResponseEntity<void> | 프로젝트 삭제 |
+| | getProjectJoinCode | @AuthenticationPrincipal String email<br>@PathVariable Long projectId | ResponseEntity<ProjectCodeResponse> | 프로젝트의 고유 참여코드 조회 |
+| | requestJoin | @AuthenticationPrincipal String email<br>@RequestParam String joinCode | ResponseEntity<ProjectJoinRequestResponse> | 참여코드를 사용해 프로젝트 참여를 요청(상태:PENDDING) |
+| | getPendingRequestList | @AuthenticationPrincipal String email<br>@PathVariable Long projectId | ResponseEntity<List<ProjectJoinRequestRsponse>> | 프로젝트 승인 대기 멤버 목록을 조회(관리자 권한) |
+| | approveProject | @PathVariable Long projectId<br>@PathVariable Long projectUserPk<br>@AuthenticationPrincipal String email | ResponseEntity<ProjectResponseDTO> | 프로젝트 참여 요청을 승인(관리자 권한) |
+| | rejectProjectJoin | @PathVariable Long projectId<br>@PathVariable Long projectUserPk<br>@AuthenticationPrincipal String email | ResponseEntity<Void> | 프로젝트 참여 요청을 거절(관리자 권한) |
+| | expelMember | @PathVariable Long projectId<br>@PathVariable Long projectUserPk<br>@AuthenticationPrincipal String email | ResponseEntity<Void> | 프로젝트 멤버를 삭제(관리자 권한, 자신x) |
+| | transferOwnership | @PathVariable Long projectId<br>@PathVariable Long projectUserPk<br>@AuthenticationPrincipal String email | ResponseEntity<Void> | 프로젝트 관리자 권한을 다른 멤버에게 양도(관리자 권한) |
+
+---
+
+#### ProjectService
+
+**Class Description:** 프로젝트(생성, 수정, 삭제), 멤버 관리(참여, 승인, 삭제, 관리자 권한 양도), 권한 검증(관리자, 멤버) 등 프로젝트와 관련된 서비스 class
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | projectRepository | ProjectRepository | private | Project 엔티티에 대한 DB 작업 처리 |
+| | projectUserRepository | ProjectUserRepository | private | ProjectUser(참여 관계) 엔티티에 대한 DB 작업 처리 |
+| | userService | UserService | private | User 엔티티 정보를 조회하기 위해 사용 |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | findProjectById | Long projectId | Project | ID로 Project 엔티티를 조회 |
+| | createProject | ProjectCreateRequest request | ProjectResponseDTO | 새 프로젝트를 생성하고, 요청자를 OWNER 및 APPROVED 상태로 등록 |
+| | getParticipatingProject | String userEmail | List<ProjectResponseDTO> | 사용자가 참여 중인(APPROVED 상태) 모든 프로젝트 목록 조회 |
+| | getProject | Long projectld<br>String userEmail | ProjectResponseDTO | 단일 프로젝트 정보 조회(APPROVED 상태 확인) |
+| | updateProject | Long ProjectId<br>ProjectCreateRequest request<br>String requesterEmail | ProjectRsponseDTO | 프로젝트 수정(OWNER 권한) |
+| | leaveProject | Long projectId<br>String userEmail<br>String projectName toConfirm | void | 프로젝트 나가기(요청자가 Member인지, 프로젝트명이 일치하는지 확인) |
+| | deleteProject | Long projectId | void | 프로젝트 삭제(요청자가 OWNER인지, 프로젝트명이 일치하는지 확인) |
+| | getProjectJoinCode | Long projectId<br>String requesterEmail | ProjectCodeResponse | 프로젝트 참여코드 조회 |
+| | requestJoin | String joinCode<br>String requesterEmail | ProjectJoinRequestResponse | 참여코드로 프로젝트 참여 요청(PENDING 상태로 ProjectUser 생성) |
+| | rejectProjectJoin | Long projectUserPk<br>String ownerEmail<br>Long projectid | void | projectUserPk에 해당하는 참여 요청을 거절(관리자 권한 확인) |
+| | getPendingRequestList | Long projectId | List<ProjectJoinRequestResponse> | PENDING 상태인 승인 대기 멤버 목록 조회 |
+| | expelProjectMember | Long projecUserPk<br>String ownerEmail<br>Long projectId | void | projectUserPk에 해당하는 멤버를 삭제 |
+| | transferOwnership | Long targetUserPk<br>String currentOwnerEmail | void | 프로젝트 OWNER 권한을 다른 멤버에게 양도 |
+
+---
+---
+
+### * Calendar class diagram
+
+![[그림 3-4] Calendar class diagram](./image/CalendarCD)
+[그림 3-4] Calendar class diagram
+
+#### CalendarController
+
+**Class Description:** 클라이언트가 특정 프로젝트의 일정에 접근하려고 할 때 처리되는 컨트롤러 class
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | calendarEventService | CalendarEventService | private | CalendarEvent 도메인의 비즈니스 로직을 처리 |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | createEvent | @PathVariable Long projectId | ResponseEntity<CalendarEventResponse> | 새 일정을 등록 |
+| | getEventsByProject | @PathVariable Long porjectId<br>@AuthenticationPrincipal String email | ResponseEntityList<CalendarEventResponse> | 해당 프로젝트의 전체 일정 조회 |
+| | getUpcomingEvents | @PathVariable Long porjectId<br>@AuthenticationPrincipal String email | ResponseEntity<CalendarEventResponse> | 7일 이내 마감 일정을 조회 |
+| | updateEvent | @PathVariable Long porjectId<br>@PathVariable Long eventId<br>@RequestVodyCalendarEventCreateRequest request<br>@AuthenticationPrincipal String email | ResponseEntity<CalendarEventResponse> | 등록된 일정 수정 |
+| | deleteEvent | @PathVariable Long porjectId<br>@PathVariable Long eventId<br>@AuthenticationPrincipal String email | ResponseEntity<Void> | 일정 삭제 |
+
+---
+
+#### CalendarService
+
+**Class Description:** 클라이언트가 특정 프로젝트의 일정에 접근하려고 할 때 처리되는 컨트롤러 class
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | calendarEventService | CalendarEventService | private | CalendarEvent 도메인의 비즈니스 로직을 처리 |
+| | projectService | ProjectService | private | 프로젝트 정보를 조회하거나 권한을 확인 |
+| | userService | UserService | private | 이메일 기반으로 사용자 정보를 조회 |
+| | projectUserRepository | ProjectUserRepository | private | 사용자의 프로젝트 참여 상태를 확인 |
+| | userRepository | UserRepository | private | 일정에 참여하는 참가자들의 User 엔티티를 조회 |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | createEvent | Long projectId<br>CalendarEventCreateRequest request<br>String userEmail | CalendarEventResponse | 새 일정을 생성하고 저장 |
+| | getEventsByProject | @PathVariable Long porjectId<br>@AuthenticationPrincipal String email | List<CalendarEventResponse> | 프로젝트 멤버 확인 후, 해당 프로젝트의 모든 일정 조회 |
+| | getUpcomingEvents | @PathVariable Long porjectId<br>@AuthenticationPrincipal String email | List<CalendarEventResponse> | 프로젝트 멤버 확인 후, 7일 이내 마감되는 일정 조회 |
+| | getEvent | @PathVariable Long porjectId<br>@PathVariable Long eventId<br>@RequestBodyCalendarEventCreateRequest request<br>@AuthenticationPrincipal String email | CalendarEventResponse | 단일 일정 조회 |
+| | updateEvent | @PathVariable Long porjectId<br>@PathVariable Long eventId<br>@AuthenticationPrincipal String email | CalendarEventResponse | 일정 수정 |
+| | deleteEvent | Long eventid<br>String userEmail | void | 일정 삭제 |
+| | findEventById | Long eventId | CalendarEvent | eventId로 CalendarEvent 엔티티를 조회 |
+| | checkProjectMembership | Project project<br>User user | void | 사용자가 해당 프로젝트의 승인된 멤버인지 확인 |
+| | findParticipantsByPks | List<Long> participantUserPks | Set<User> | 사용자 PK 목록으로 User 엔티티 Set을 조회 |
