@@ -4,7 +4,7 @@
 Use case diagram에 관한 고려사항은 아래와 같다.
 - 회원은 로그인을 한 사용자이다. '협업의 민족'은 기본적으로 로그인을 하지 않으면 기능을 이용할 수 없다. (회원가입 기능 제외)
 
-![그림 2-1: Use case diagram](./image/UseCaseDiagram10.jpg)
+![그림 2-1: Use case diagram](./image/UseCaseDiagram11.jpg)
 [그림 2-1] Use case diagram
 
 ### 2.2. Use case description
@@ -541,7 +541,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #13 프로젝트 참여코드 확인하기
+### Use case #13 프로젝트 코드 확인하기
 
 #### GENERAL CHARACTERISTICS
 | | |
