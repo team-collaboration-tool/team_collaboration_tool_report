@@ -4,12 +4,12 @@
 Use case diagram에 관한 고려사항은 아래와 같다.
 - 회원은 로그인을 한 사용자이다. '협업의 민족'은 기본적으로 로그인을 하지 않으면 기능을 이용할 수 없다. (회원가입 기능 제외)
 
-![그림 2-1: Use case diagram](./image/UseCaseDiagram11.jpg)
+![그림 2-1: Use case diagram](./image/UseCaseDiagram12.jpg)
 [그림 2-1] Use case diagram
 
 ### 2.2. Use case description
 
-### Use case #1 회원가입하기
+### Use case #1 회원가입
 
 #### GENERAL CHARACTERISTICS
 | | |
@@ -18,7 +18,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 7. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 비회원 |
 | **Preconditions** | 웹사이트에 접속한 상태여야 한다. |
@@ -41,13 +41,13 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 #### EXTENSION SCENARIOS
 | Step | Branching Action |
 | :--- | :--- |
-| 4 | 4a. 이메일이 중복되는 경우 |
+| 4 | 4a. 이메일이 중복될 경우 |
 | | 4a.1. 시스템은 아이디 중복 메시지를 출력한다. |
 | | 4a.2. 아이디를 입력하는 단계로 돌아간다. (Use case #1-3) |
-| | 4b. 두 비밀번호가 일치하지 않는 경우 |
+| | 4b. 두 비밀번호가 일치하지 않을 경우 |
 | | 4b.1. 시스템은 오류 메시지를 출력한다. |
 | | 4b.2. 비밀번호 입력 단계로 돌아간다. (Use case #1-3) |
-| | 4c. 필수 항목을 누락한 경우 |
+| | 4c. 필수 항목을 누락할 경우 |
 | | 4c.1. 시스템은 오류 메시지를 출력한다. |
 | | 4c.2. 회원가입 버튼은 비활성화 상태를 유지한다. |
 | | 4c.3. 회원가입 정보 입력 단계로 돌아간다. |
@@ -62,7 +62,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #2 로그인하기
+### Use case #2 로그인
 
 #### GENERAL CHARACTERISTICS
 | | |
@@ -71,7 +71,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 비회원 |
 | **Preconditions** | 사용자는 웹사이트에 접속한 상태여야 하고, 회원가입이 완료된 상태여야 한다. |
@@ -89,10 +89,10 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 #### EXTENSION SCENARIOS
 | Step | Branching Action |
 | :--- | :--- |
-| 2 | 2a. 비밀번호가 일치하지 않는 경우 |
+| 2 | 2a. 비밀번호가 일치하지 않을 경우 |
 | | 2a.1. 시스템은 오류 메시지를 출력한다. |
 | | 2a.2. 비밀번호를 입력하는 단계로 돌아간다. (Use case #2-1) |
-| | 2b. 사용자 정보가 존재하지 않는 경우(아이디가 일치하지 않는 경우) |
+| | 2b. 사용자 정보가 존재하지 않을 경우(아이디가 일치하지 않을 경우) |
 | | 2b.1. 아이디 칸 아래에 시스템은 오류 메시지를 출력한다. |
 
 #### RELATED INFORMATION
@@ -105,20 +105,20 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #3 대시보드 확인하기
+### Use case #3 개인 일정 확인
 
 #### GENERAL CHARACTERISTICS
 | | |
 | :--- | :--- |
-| **Summary** | 프로젝트의 달력에서 추가한 일정 중 참가자로 있는 한 달 이내의 일정을 확인한다. |
+| **Summary** | 프로젝트의 달력에서 추가한 일정 중 참가자로 있는 일정을 확인한다. |
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 회원 |
 | **Preconditions** | 사용자는 로그인된 상태여야 한다. |
-| **Trigger** | 대시보드 페이지에 접근할 때 |
+| **Trigger** | 메인 페이지에 접근할 때 |
 | **Success Post Condition** | 모든 프로젝트에서 참가자로 설정된 일정을 확인한다. |
 | **Failed Post Condition** | 시스템이 일정 불러오기에 실패한다. |
 
@@ -126,182 +126,9 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | Step | Action |
 | :--- | :--- |
 | S | 모든 프로젝트에서 참가자로 설정된 일정을 확인한다. |
-| 1 | 사용자는 대시보드 페이지에 접근한다. |
-| 2 | 시스템은 DB에서 사용자가 참가자로 등록된 일정 중 오늘을 기준으로 한 달 내에 마감되는 일정 정보를 불러온다. |
-| 3 | 시스템은 불러온 정보를 마감 일자를 기준으로 오름차순 정렬되어 프로젝트 이름과 일정 이름을 화면에 표시한다. |
-
-#### EXTENSION SCENARIOS
-| Step | Branching Action |
-| :--- | :--- |
-| 3 | 3a. 시스템이 불러온 정보가 없을 경우 |
-| | 3a.1. 정보가 없는 경우 빈 화면으로 표시한다. |
-
-#### RELATED INFORMATION
-| | |
-| :--- | :--- |
-| **Performance** | ≦ 3 Seconds |
-| **Frequency** | 사용자가 페이지에 접근할 때마다 |
-| **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
-
----
-
-### Use case #4 알림 확인하기
-
-#### GENERAL CHARACTERISTICS
-| | |
-| :--- | :--- |
-| **Summary** | 프로젝트의 게시판 공지사항이나 투표 마감을 알려주는 알림을 확인한다. |
-| **Scope** | 협업의 민족 |
-| **Level** | User level |
-| **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
-| **Status** | Analysis |
-| **Primary Actor** | 회원 |
-| **Preconditions** | 사용자는 로그인된 상태여야 한다. |
-| **Trigger** | 대시보드 페이지에 접근할 때 |
-| **Success Post Condition** | 참여중인 모든 프로젝트의 알림을 확인한다. |
-| **Failed Post Condition** | 시스템이 알림의 사용될 정보를 불러오기에 실패한다. |
-
-#### MAIN SUCCESS SCENARIO
-| Step | Action |
-| :--- | :--- |
-| S | 참여중인 모든 프로젝트의 알림을 확인한다. |
-| 1 | 사용자는 대시보드 페이지에 접근한다. |
-| 2 | 시스템은 DB에서 모든 프로젝트에서 새로 등록된 공지사항이나 마감 1일 전인 투표 정보를 불러온다. |
-| 3 | 시스템은 불러온 정보를 프로젝트 명을 포함하여 새로운 공지사항 등록 또는 마감 1일 전 투표 이름을 알림 도착 시간과 함께 표시한다. |
-
-#### EXTENSION SCENARIOS
-| Step | Branching Action |
-| :--- | :--- |
-| 3 | 3a. 시스템이 불러온 정보가 없을 경우 |
-| | 3a.1. '알림이 없습니다.'라는 문구를 출력한다. |
-
-#### RELATED INFORMATION
-| | |
-| :--- | :--- |
-| **Performance** | ≦ 3 Seconds |
-| **Frequency** | 사용자가 페이지에 접근할 때마다 |
-| **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
-
----
-
-### Use case #5 바로가기 추가하기
-
-#### GENERAL CHARACTERISTICS
-| | |
-| :--- | :--- |
-| **Summary** | 외부 웹사이트의 주소를 등록하여 바로가기로 추가한다. |
-| **Scope** | 협업의 민족 |
-| **Level** | User level |
-| **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
-| **Status** | Analysis |
-| **Primary Actor** | 회원 |
-| **Preconditions** | 사용자는 로그인된 상태여야 한다. |
-| **Trigger** | 대시보드 페이지에 접속 한 상태일 때 |
-| **Success Post Condition** | 사용자가 원하는 외부 웹사이트를 바로가기에 추가한다. |
-| **Failed Post Condition** | 외부 웹사이트 추가에 실패한다. |
-
-#### MAIN SUCCESS SCENARIO
-| Step | Action |
-| :--- | :--- |
-| S | 자주 사용하는 외부 웹사이트 주소를 등록하여 바로가기를 추가한다. |
-| 1 | 사용자는 대시보드 페이지에 접속한다. |
-| 2 | 바로가기의 추가 버튼을 누른다. |
-| 3 | 등록하고자 하는 웹사이트의 주소와 이름 작성하여 추가한다. |
-| 4 | 시스템은 등록된 바로가기 목록을 화면에 표시한다. |
-
-#### EXTENSION SCENARIOS
-| Step | Branching Action |
-| :--- | :--- |
-| 3 | 3a. 바로가기가 10개를 초과하는 경우 |
-| | 3a.1. 시스템은 오류 메시지를 출력한다. |
-| 4 | 4a. 시스템이 불러온 정보가 없을 경우 |
-| | 4a.1. 정보가 없는 경우 빈 화면으로 표시한다. |
-
-#### RELATED INFORMATION
-| | |
-| :--- | :--- |
-| **Performance** | ≦ 3 Seconds |
-| **Frequency** | 사용자가 기능을 실행할 때마다 |
-| **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
-
----
-
-### Use case #6 바로가기 편집하기
-
-#### GENERAL CHARACTERISTICS
-| | |
-| :--- | :--- |
-| **Summary** | 등록된 바로가기를 수정하거나 삭제한다. |
-| **Scope** | 협업의 민족 |
-| **Level** | User level |
-| **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
-| **Status** | Analysis |
-| **Primary Actor** | 회원 |
-| **Preconditions** | 추가된 바로가기가 최소 1개는 존재해야 한다. |
-| **Trigger** | 추가된 바로가기의 ··· 버튼을 누를 때 |
-| **Success Post Condition** | 등록한 바로가기의 수정 또는 삭제에 성공한다. |
-| **Failed Post Condition** | 등록한 바로가기의 수정 또는 삭제에 실패한다. |
-
-#### MAIN SUCCESS SCENARIO
-| Step | Action |
-| :--- | :--- |
-| S | 이미 추가된 바로가기의 내용을 수정 또는 삭제한다. |
-| 1 | 사용자는 추가된 바로가기의 ··· 버튼을 눌러 수정 또는 삭제를 선택한다. |
-| 2 | 바로가기의 내용을 수정하여 다시 저장하거나 삭제한다. |
-| 3 | 동작을 수행한 결과를 시스템은 해당 바로가기에 적용하여 바로가기 목록을 표시한다. |
-
-#### EXTENSION SCENARIOS
-| Step | Branching Action |
-| :--- | :--- |
-| 1 | 1a. 수정을 선택한 경우 |
-| | 1a.1. 바로가기 수정 단계로 이동한다. (Use case #6-2a) |
-| | 1b. 삭제를 선택한 경우 |
-| | 1b.1. 바로가기 삭제 단계로 이동한다. (Use case #6-2b) |
-| 2 | 2a. 바로가기를 수정하는 경우 |
-| | 2a.1. 등록한 주소나 이름을 수정하고 저장 버튼을 누른다. |
-| | 2a.2. 시스템은 DB에 정보를 업데이트한다. |
-| | 2b. 바로가기를 삭제하는 경우 |
-| | 2b.1. 시스템은 DB에서 정보를 삭제한다. |
-
-#### RELATED INFORMATION
-| | |
-| :--- | :--- |
-| **Performance** | ≦ 3 Seconds |
-| **Frequency** | 사용자가 기능을 실행할 때마다 |
-| **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
-
----
-
-### Use case #7 외부 웹사이트 접속하기
-
-#### GENERAL CHARACTERISTICS
-| | |
-| :--- | :--- |
-| **Summary** | 추가한 바로가기를 사용하여 외부 웹사이트에 접속한다. |
-| **Scope** | 협업의 민족 |
-| **Level** | User level |
-| **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
-| **Status** | Analysis |
-| **Primary Actor** | 회원 |
-| **Preconditions** | 추가된 바로가기가 최소 1개는 존재해야 한다. |
-| **Trigger** | 추가된 바로가기 버튼을 누를 때 |
-| **Success Post Condition** | 사용자가 원하는 외부 웹사이트로 접근한다. |
-| **Failed Post Condition** | 외부 웹사이트로 접근하지 못한다. |
-
-#### MAIN SUCCESS SCENARIO
-| Step | Action |
-| :--- | :--- |
-| S | 바로가기를 선택하여 외부 웹사이트에 접근한다. |
-| 1 | 사용자는 이동하고자 하는 바로가기를 선택한다. |
-| 2 | 시스템은 새로운 창을 열어 사용자가 선택한 웹사이트로 이동시킨다. |
+| 1 | 사용자는 메인 페이지에 접근한다. |
+| 2 | 시스템은 DB에서 사용자가 참가자로 등록된 일정 정보를 불러온다. |
+| 3 | 시스템은 불러온 정보를 달력의 해당 일정 날짜에 프로젝트 이름과 일정 이름을 화면에 표시한다. |
 
 #### EXTENSION SCENARIOS
 | Step | Branching Action |
@@ -312,13 +139,13 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | | |
 | :--- | :--- |
 | **Performance** | ≦ 3 Seconds |
-| **Frequency** | 사용자가 기능을 실행할 때마다 |
+| **Frequency** | 사용자가 페이지에 접근할 때마다 |
 | **Concurrency** | 제한 없음 |
 | **Due Date** | 2025. 11. 7. |
 
 ---
 
-### Use case #8 개인정보 변경하기
+### Use case #4 개인정보 변경
 
 #### GENERAL CHARACTERISTICS
 | | |
@@ -327,11 +154,11 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 회원 |
 | **Preconditions** | 사용자는 설정 페이지에 접근하여 개인정보 확인을 완료한 상태여야 한다. |
-| **Trigger** | 변경하고자 하는 정보의 수정 아이콘을 누를 때 |
+| **Trigger** | 수정하기 버튼을 누를 때 |
 | **Success Post Condition** | 사용자의 개인정보가 수정된다. |
 | **Failed Post Condition** | 사용자의 개인정보 수정에 실패한다. |
 
@@ -339,33 +166,28 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | Step | Action |
 | :--- | :--- |
 | S | 회원가입 시 등록한 개인정보를 변경한다. |
-| 1 | 사용자는 변경하고자 하는 정보의 수정 아이콘을 누른다. |
+| 1 | 사용자는 수정하기 버튼을 누른다. |
 | 2 | 변경하고자 하는 정보를 수정한다. |
-| 3 | 동작을 수행한 결과를 시스템은 DB에 저장한다. |
+| 3 | 저장하기 버튼을 누른다. |
+| 4 | 동작을 수행한 결과를 시스템은 DB에 저장한다. |
 
 #### EXTENSION SCENARIOS
 | Step | Branching Action |
 | :--- | :--- |
-| 1 | 1a. 이름 수정 아이콘을 선택한 경우 |
-| | 1a.1. 이름 변경 단계로 이동한다. (Use case #8-2a) |
-| | 1b. 비밀번호 수정 아이콘을 선택한 경우 |
-| | 1b.1. 비밀번호 변경 단계로 이동한다. (Use case #8-2b) |
-| | 1c. 전화번호 수정 아이콘을 선택한 경우 |
-| | 1c.1. 전화번호 변경 단계로 이동한다. (Use case #8-2c) |
-| | 1d. 전공/직무 수정 아이콘을 선택한 경우 |
-| | 1d.1. 전공/직무 변경 단계로 이동한다. (Use case #8-2d) |
-| 2 | 2a. 사용자의 이름을 변경하는 하는 경우 |
-| | 2a.1. 변경하고자 하는 이름을 작성하여 변경한다. |
-| | 2b. 사용자의 비밀번호를 변경하는 하는 경우 |
+| 2 | 2a. 사용자의 이름을 변경할 경우 |
+| | 2a.1. 변경하고자 하는 이름을 입력한다. |
+| | 2b. 사용자의 비밀번호를 변경할 경우 |
 | | 2b.1. 사용자는 현재 비밀번호, 새 비밀번호, 새 비밀번호 확인을 입력한다. |
-| | 2b.2. 사용자가 저장 버튼을 누른다. |
-| | 2b.2.ⅰ. 저장된 사용자의 비밀번호와 일치하지 않는 경우, 시스템은 오류 메시지를 출력하고, 비밀번호를 입력하는 단계로 돌아간다. (#Use case #8-2b.1) |
-| | 2b.2.ⅱ. 입력정보가 양식과 다른 경우, 시스템은 오류 메시지를 출력하고, 비밀번호를 입력하는 단계로 돌아간다. (Use case #8-2b.1) |
-| | 2b.3.ⅲ. 새 비밀번호가 일치하지 않는 경우, 시스템은 오류 메시지를 출력하고, 비밀번호를 입력하는 단계로 돌아간다. (Use case #8-2b.1) |
-| | 2c. 사용자의 전화번호를 변경하는 하는 경우 |
-| | 2c.1. 변경하고자 하는 전화번호를 작성하여 변경한다. |
-| | 2d. 전공/직무를 변경하는 하는 경우 |
-| | 2d.1. 카테고리에서 변경하고자 하는 전공/직무를 선택하여 변경한다. |
+| | 2c. 사용자의 전화번호를 변경할 경우 |
+| | 2c.1. 변경하고자 하는 전화번호를 입력한다. |
+| | 2d. 전공/직무를 변경할 경우 |
+| | 2d.1. 카테고리에서 변경하고자 하는 전공/직무를 선택한다. |
+| 3 | 3a. 현재 비밀번호가 일치하지 않을 경우 |
+| | 3a.1. 시스템은 오류 메시지를 출력하고, 비밀번호를 입력하는 단계로 돌아간다. (Use case #4-2b) |
+| | 3b. 입력한 새 비밀번호가 양식과 다를 경우 |
+| | 3b.1. 시스템은 오류 메시지를 출력하고, 비밀번호를 입력하는 단계로 돌아간다. (Use case #4-2b) |
+| | 3c. 재입력한 새 비밀번호가 일치하지 않을 경우 |
+| | 3c.1. 시스템은 오류 메시지를 출력하고, 비밀번호를 입력하는 단계로 돌아간다. (Use case #4-2b) |
 
 #### RELATED INFORMATION
 | | |
@@ -377,7 +199,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #9 회원 탈퇴하기
+### Use case #5 회원 탈퇴
 
 #### GENERAL CHARACTERISTICS
 | | |
@@ -386,7 +208,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 회원 |
 | **Preconditions** | 사용자는 설정 페이지에 접근한 상태여야 한다. |
@@ -408,7 +230,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | :--- | :--- |
 | 3 | 3a. 비밀번호가 일치하지 않을 경우 |
 | | 3a.1. 시스템은 오류 메시지를 출력한다. |
-| | 3a.2. 회원 탈퇴 버튼을 누르기 이전으로 돌아간다. |
+| | 3a.2. 시스템은 회원 탈퇴 창을 닫는다. |
 
 #### RELATED INFORMATION
 | | |
@@ -420,7 +242,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #10 프로젝트 생성하기
+### Use case #6 프로젝트 생성
 
 #### GENERAL CHARACTERISTICS
 | | |
@@ -429,7 +251,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 회원 |
 | **Preconditions** | 사용자는 로그인된 상태여야 한다. |
@@ -462,16 +284,16 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #11 프로젝트 조회하기
+### Use case #7 프로젝트 접근
 
 #### GENERAL CHARACTERISTICS
 | | |
 | :--- | :--- |
-| **Summary** | 확인하고자 하는 프로젝트를 조회한다. |
+| **Summary** | 확인하고자 하는 프로젝트에 접근한다. |
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 사용자가 참여 중인 프로젝트가 최소 1개는 존재해야 한다. |
@@ -501,16 +323,16 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #12 프로젝트명 수정하기
+### Use case #8 프로젝트명 수정
 
 #### GENERAL CHARACTERISTICS
 | | |
 | :--- | :--- |
-| **Summary** | 프로젝트의 명을 수정한다. |
+| **Summary** | 프로젝트의 이름을 수정한다. |
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 관리자 |
 | **Preconditions** | 사용자는 해당 프로젝트의 관리자 권한을 가지고, 프로젝트 관리 페이지에 접근한 상태여야 한다. |
@@ -541,16 +363,16 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #13 프로젝트 코드 확인하기
+### Use case #9 프로젝트 코드 확인
 
 #### GENERAL CHARACTERISTICS
 | | |
 | :--- | :--- |
-| **Summary** | 프로젝트 관리 페이지에서 생성된 참여코드를 확인한다. |
+| **Summary** | 프로젝트에 부여된 참여코드를 확인한다. |
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트 관리 페이지에 접근한 상태여야 한다. |
@@ -581,7 +403,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #14 프로젝트 멤버 관리하기
+### Use case #10 프로젝트 멤버 관리\
 
 #### GENERAL CHARACTERISTICS
 | | |
@@ -590,7 +412,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 관리자 |
 | **Preconditions** | 사용자는 해당 프로젝트의 관리자 권한을 가지고, 프로젝트 관리 페이지에 접근한 상태여야 한다. 또한, 승인 대기 중인 사용자가 최소 1명 존재하거나, 관리자를 제외한 참여 멤버가 최소 1명 존재해야 한다. |
@@ -608,14 +430,14 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 #### EXTENSION SCENARIOS
 | Step | Branching Action |
 | :--- | :--- |
-| 2 | 2a. 승인 아이콘을 선택한 경우 (참여 요청 관리) |
+| 2 | 2a. 승인 아이콘을 선택할 경우 (참여 요청 관리) |
 | | 2a.1. 승인 대기 멤버DB에서 해당 멤버가 삭제된다. |
 | | 2a.2. 프로젝트 멤버 칸에 승인된 멤버가 추가된다. |
-| | 2b. 거절 아이콘을 선택한 경우 (참여 요청 관리) |
+| | 2b. 거절 아이콘을 선택할 경우 (참여 요청 관리) |
 | | 2b.1. 승인 대기 멤버 칸에서 해당 멤버가 사라진다. |
-| | 2c. 멤버 삭제 아이콘을 선택한 경우 (프로젝트 멤버 관리) |
+| | 2c. 멤버 삭제 아이콘을 선택할 경우 (프로젝트 멤버 관리) |
 | | 2c.1. 프로젝트 멤버 칸에서 해당 멤버가 사라진다. |
-| | 2d. 관리자 권한 양도 아이콘을 선택한 경우 (프로젝트 멤버 관리) |
+| | 2d. 관리자 권한 양도 아이콘을 선택할 경우 (프로젝트 멤버 관리) |
 | | 2d.1. 관리자 권한이 해당 멤버에게 양도된다. |
 | | 2d.2. 기존에 관리자였던 사용자의 관리자 권한이 사라진다. |
 
@@ -629,7 +451,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #15 프로젝트 삭제하기
+### Use case #11 프로젝트 삭제하기
 
 #### GENERAL CHARACTERISTICS
 | | |
@@ -638,7 +460,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 관리자 |
 | **Preconditions** | 사용자는 해당 프로젝트의 관리자 권한을 가지고, 프로젝트 관리 페이지에 접근한 상태여야 하며, 관리자를 제외한 사용자가 아무도 없어야 한다. |
@@ -653,12 +475,12 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | 1 | 프로젝트 삭제 버튼을 누른다. |
 | 2 | 사용자는 해당 프로젝트의 명을 입력한다. |
 | 3 | 시스템은 입력한 내용이 프로젝트 명과 일치하는지 확인한다. |
-| 4 | 일치하는 경우, 해당 프로젝트는 DB에서 삭제된다. |
+| 4 | 일치할 경우, 해당 프로젝트는 DB에서 삭제된다. |
 
 #### EXTENSION SCENARIOS
 | Step | Branching Action |
 | :--- | :--- |
-| 3 | 3a. 프로젝트 명이 일치하지 않는 경우 |
+| 3 | 3a. 프로젝트 명이 일치하지 않을 경우 |
 | | 3a.1. 오류 메시지가 출력되며, 입력창이 닫힌다. |
 | | 3a.2. 삭제 버튼을 누르는 단계로 돌아간다. (Use case #15-1) |
 | 4 | 4a. 프로젝트 삭제 시 |
@@ -674,7 +496,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #16 프로젝트 참여하기
+### Use case #12 프로젝트 참여
 
 #### GENERAL CHARACTERISTICS
 | | |
@@ -683,7 +505,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 회원 |
 | **Preconditions** | 사용자는 참여하고자 하는 프로젝트가 생성되어 있어야 하고, 프로젝트 참여코드를 알고 있는 상태여야 한다. |
@@ -703,9 +525,9 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 #### EXTENSION SCENARIOS
 | Step | Branching Action |
 | :--- | :--- |
-| 3 | 3a. 참여코드가 일치하지 않는 경우 |
+| 3 | 3a. 참여코드가 일치하지 않을 경우 |
 | | 3a.1. 오류 메시지가 출력된다. |
-| | 3a.2. 참여코드를 입력하는 단계로 돌아간다. (Use case #16-2) |
+| | 3a.2. 참여코드를 입력하는 단계로 돌아간다. (Use case #12-2) |
 
 #### RELATED INFORMATION
 | | |
@@ -717,7 +539,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #17 프로젝트 나가기
+### Use case #13 프로젝트 나가기
 
 #### GENERAL CHARACTERISTICS
 | | |
@@ -726,7 +548,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 관리자 권한을 가지지 않은 사용자가 프로젝트 관리 페이지에 접근한 상태여야 한다. |
@@ -741,14 +563,14 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | 1 | 프로젝트 나가기 버튼을 누른다. |
 | 2 | 사용자는 해당 프로젝트의 명을 입력한다. |
 | 3 | 시스템은 입력한 내용이 프로젝트 명과 일치하는지 확인한다. |
-| 4 | 입력한 프로젝트명과 삭제할 프로젝트명이 일치하는 경우, 프로젝트 참여자 목록에서 사용자는 삭제한다. |
+| 4 | 입력한 프로젝트명과 삭제할 프로젝트명이 일치할 경우, 프로젝트 참여자 목록에서 사용자는 삭제한다. |
 
 #### EXTENSION SCENARIOS
 | Step | Branching Action |
 | :--- | :--- |
-| 3 | 3a. 프로젝트 명이 일치하지 않는 경우 |
+| 3 | 3a. 프로젝트 명이 일치하지 않을 경우 |
 | | 3a.1. 오류 메시지가 출력되며, 입력창이 닫힌다. |
-| | 3a.2. 나가기 버튼을 누르는 단계로 돌아간다. (Use case #17-1) |
+| | 3a.2. 나가기 버튼을 누르는 단계로 돌아간다. (Use case #13-1) |
 
 #### RELATED INFORMATION
 | | |
@@ -760,95 +582,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #18 할 일 확인하기
-
-#### GENERAL CHARACTERISTICS
-| | |
-| :--- | :--- |
-| **Summary** | 달력에서 추가한 일정 중 마감일이 다가온 일정만 골라서 프로젝트 페이지에서 알려준다. |
-| **Scope** | 협업의 민족 |
-| **Level** | User level |
-| **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
-| **Status** | Analysis |
-| **Primary Actor** | 프로젝트 참여자 |
-| **Preconditions** | 사용하고자 하는 프로젝트 페이지에 접근한 상태여야 한다. |
-| **Trigger** | 프로젝트의 달력 페이지에 접근할 때 |
-| **Success Post Condition** | 해당 프로젝트에서 7일 이내에 마감되는 일정을 모아서 간단하게 확인한다. |
-| **Failed Post Condition** | 시스템이 7일 이내 마감되는 일정을 불러오기에 실패한다. |
-
-#### MAIN SUCCESS SCENARIO
-| Step | Action |
-| :--- | :--- |
-| S | 해당 프로젝트에서 마감일이 다가온 일정들을 모아서 표시한다. |
-| 1 | 사용자는 프로젝트의 달력 페이지에 접근한다. |
-| 2 | 시스템은 DB에서 해당 프로젝트의 일정 중 마감일이 해당 날짜 기준 7일 이내인 일정을 불러온다. |
-| 3 | 시스템은 불러온 정보를 각 일정의 이름을 마감 D-day와 함께 화면에 표시한다. |
-
-#### EXTENSION SCENARIOS
-| Step | Branching Action |
-| :--- | :--- |
-| 3 | 3a. 시스템이 불러온 정보가 없을 경우 |
-| | 3a.1. 정보가 없는 경우 빈 화면으로 표시한다. |
-| | 3b. 일정이 8개 이상 되는 경우 |
-| | 3b.1. 해당 칸 스크롤을 통해 다른 일정을 확인할 수 있다. |
-
-#### RELATED INFORMATION
-| | |
-| :--- | :--- |
-| **Performance** | ≦ 3 Seconds |
-| **Frequency** | 사용자가 페이지에 접근할 때마다 |
-| **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
-
----
-
-### Use case #19 공지사항 확인하기
-
-#### GENERAL CHARACTERISTICS
-| | |
-| :--- | :--- |
-| **Summary** | 게시판에 올라온 공지사항을 프로젝트 페이지에서 알려준다. |
-| **Scope** | 협업의 민족 |
-| **Level** | User level |
-| **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
-| **Status** | Analysis |
-| **Primary Actor** | 프로젝트 참여자 |
-| **Preconditions** | 사용하고자 하는 프로젝트 페이지에 접근한 상태여야 한다. |
-| **Trigger** | 프로젝트의 달력 페이지에 접근할 때 |
-| **Success Post Condition** | 해당 프로젝트의 공지사항을 모아서 간단하게 확인한다. |
-| **Failed Post Condition** | 시스템이 공지사항 정보를 불러오기에 실패한다. |
-
-#### MAIN SUCCESS SCENARIO
-| Step | Action |
-| :--- | :--- |
-| S | 해당 프로젝트에서 게시판의 공지사항들을 모아서 표시한다. |
-| 1 | 사용자는 프로젝트의 달력 페이지에 접근한다. |
-| 2 | 시스템은 DB에서 해당 프로젝트의 게시판에서 공지사항의 정보를 불러온다. |
-| 3 | 시스템은 불러온 정보를 게시글의 제목으로 화면에 표시한다. |
-
-#### EXTENSION SCENARIOS
-| Step | Branching Action |
-| :--- | :--- |
-| 3 | 3a. 시스템이 불러온 정보가 없을 경우 |
-| | 3a.1. 정보가 없는 경우 빈 화면으로 표시한다. |
-| | 3b. 게시글을 누르는 경우 |
-| | 3b.1. 해당 게시글로 이동되어 글을 확인할 수 있다. |
-| | 3c. 공지가 내려간 게시글의 경우 |
-| | 3c.1. 자동으로 해당 게시글의 제목이 공지사항 칸에서 삭제된다. |
-
-#### RELATED INFORMATION
-| | |
-| :--- | :--- |
-| **Performance** | ≦ 3 Seconds |
-| **Frequency** | 사용자가 페이지에 접근할 때마다 |
-| **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
-
----
-
-### Use case #20 일정 추가하기
+### Use case #14 일정 추가
 
 #### GENERAL CHARACTERISTICS
 | | |
@@ -857,7 +591,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 달력 페이지에 접근한 상태여야 한다. |
@@ -893,7 +627,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #21 일정 편집하기
+### Use case #15 일정 편집
 
 #### GENERAL CHARACTERISTICS
 | | |
@@ -902,7 +636,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 달력 페이지에 접근한 상태여야 하고, 추가된 일정이 최소 1개 이상 존재해야 하며, 해당 일정의 작성자, 참가자로 추가된 사용자여야 한다. |
@@ -922,15 +656,15 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 #### EXTENSION SCENARIOS
 | Step | Branching Action |
 | :--- | :--- |
-| 2 | 2a. 수정을 선택한 경우 |
-| | 2a.1. 일정 수정 단계로 이동한다. (Use case #21-3a) |
-| | 2b. 삭제를 선택한 경우 |
-| | 2b.1. 일정 삭제 단계로 이동한다. (Use case #21-3b) |
-| 3 | 3a. 일정을 수정하는 경우 |
+| 2 | 2a. 수정을 선택할 경우 |
+| | 2a.1. 일정 수정 단계로 이동한다. (Use case #15-3a) |
+| | 2b. 삭제를 선택할 경우 |
+| | 2b.1. 일정 삭제 단계로 이동한다. (Use case #15-3b) |
+| 3 | 3a. 일정을 수정할 경우 |
 | | 3a.1. 저장된 내용을 DB에서 불러와 화면에 표시한다. |
 | | 3a.2. 상세 정보를 수정하여 저장한다. |
 | | 3a.3. 시스템은 DB 정보를 업데이트한다. |
-| | 3b. 일정을 삭제하는 경우 |
+| | 3b. 일정을 삭제할 경우 |
 | | 3b.1. 해당 일정이 삭제된다. |
 | | 3b.2. 시스템은 DB에서 정보를 삭제한다. |
 
@@ -944,7 +678,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #22 일정 조회하기
+### Use case #16 일정 조회
 
 #### GENERAL CHARACTERISTICS
 | | |
@@ -953,7 +687,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 달력 페이지에 접근한 상태여야 하고, 추가된 일정이 최소 1개 이상 존재해야 한다. |
@@ -985,7 +719,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #23 게시글 작성하기
+### Use case #17 게시글 작성
 
 #### GENERAL CHARACTERISTICS
 | | |
@@ -994,7 +728,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 게시판 페이지에 접근한 상태여야 한다. |
@@ -1015,21 +749,21 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 #### EXTENSION SCENARIOS
 | Step | Branching Action |
 | :--- | :--- |
-| 3 | 3a. 파일 첨부를 선택한 경우 |
+| 3 | 3a. 파일 첨부를 선택할 경우 |
 | | 3a.1. 파일 선택을 통해 첨부할 파일을 가져온다. |
-| | 3b. 투표 생성을 선택한 경우 |
+| | 3b. 투표 생성을 선택할 경우 |
 | | 3b.1. 투표 추가를 선택하여 새 투표를 생성한다. |
 | | 3b.2. 시스템은 투표 작성 모달창을 화면에 표시한다. |
 | | 3b.3. 사용자는 투표 생성에 필요한 내용을 작성한다. |
 | | 3b.4. 투표 생성 버튼을 눌러 투표를 생성한다. |
-| | 3c. 투표 정보가 하나라도 입력되지 않은 경우 |
+| | 3c. 투표 정보가 하나라도 입력되지 않을 경우 |
 | | 3c.1. 시스템은 오류 메시지를 화면에 출력한다. |
-| | 3c.2. 투표 정보 입력 단계로 돌아간다. (Use case #3b.3) |
+| | 3c.2. 투표 정보 입력 단계로 돌아간다. (Use case #17-3b.3) |
 | | 3d. 공지사항의 개수가 10개를 초과하게 될 경우 |
 | | 3d.1. 공지사항 유무 체크 박스가 비활성화 되며, 이미 공지사항이 10개라는 문구를 출력한다. |
-| 4 | 4a. 게시글의 제목이 입력되지 않은 경우 |
+| 4 | 4a. 게시글의 제목이 입력되지 않을 경우 |
 | | 4a.1. 시스템은 오류 메시지를 출력한다. |
-| | 4a.2. 게시글 작성 단계로 돌아간다. (Use case #23-3) |
+| | 4a.2. 게시글 작성 단계로 돌아간다. (Use case #17-3) |
 
 #### RELATED INFORMATION
 | | |
@@ -1041,7 +775,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #24 게시글 편집하기
+### Use case #18 게시글 편집하기
 
 #### GENERAL CHARACTERISTICS
 | | |
@@ -1050,7 +784,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 게시판 페이지에 접근한 상태여야 하고, 게시글의 작성자가 사용자 본인이어야 하며, 사용자가 작성한 게시글이 최소 1개는 존재해야 한다. |
@@ -1070,34 +804,34 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 #### EXTENSION SCENARIOS
 | Step | Branching Action |
 | :--- | :--- |
-| 2 | 2a. 수정을 선택한 경우 |
-| | 2a.1. 게시글 수정 단계로 이동한다. (Use case #24-3a) |
-| | 2b. 삭제을 선택한 경우 |
-| | 2b.1. 게시글 삭제 단계로 이동한다. (Use case #24-3b) |
-| 3 | 3a. 게시글을 수정하는 경우 |
+| 2 | 2a. 수정을 선택할 경우 |
+| | 2a.1. 게시글 수정 단계로 이동한다. (Use case #18-3a) |
+| | 2b. 삭제을 선택할 경우 |
+| | 2b.1. 게시글 삭제 단계로 이동한다. (Use case #18-3b) |
+| 3 | 3a. 게시글을 수정할 경우 |
 | | 3a.1. 저장된 내용을 DB에서 불러와 게시글 입력 단계로 돌아간다. |
 | | 3a.2. 게시글의 내용을 변경하여 저장한다. |
-| | 3a.3. 투표를 생성하는 경우 |
-| | 3a.3.ⅰ. Use case #23-3b의 시나리오와 동일하다. |
-| | 3a.4. 투표를 삭제하는 경우 |
+| | 3a.3. 투표를 생성할 경우 |
+| | 3a.3.ⅰ. Use case #17-3b의 시나리오와 동일하다. |
+| | 3a.4. 투표를 삭제할 경우 |
 | | 3a.4.ⅰ. 사용자가 기존에 생성된 투표의 삭제 아이콘을 누른다. |
 | | 3a.4.ⅱ. 시스템은 해당 투표와 모든 투표 내역을 DB에서 삭제하고. 화면에서 투표창을 제거한다. |
-| | 3a.5. 파일 첨부하는 경우 |
-| | 3a.5.ⅰ. Use case #23-3a의 시나리오와 동일하다. |
-| | 3a.6. 첨부 파일을 삭제하는 경우 |
+| | 3a.5. 파일 첨부할 경우 |
+| | 3a.5.ⅰ. Use case #17-3a의 시나리오와 동일하다. |
+| | 3a.6. 첨부 파일을 삭제할 경우 |
 | | 3a.6.ⅰ. 삭제 아이콘을 눌러 삭제한다. |
-| | 3a.7. 공지사항 등록하는 경우 |
-| | 3a.7.ⅰ. Use case #23-3d의 시나리오와 동일하다. |
-| | 3a.8. 공지사항 해제하는 경우 |
+| | 3a.7. 공지사항 등록할 경우 |
+| | 3a.7.ⅰ. Use case #17-3d의 시나리오와 동일하다. |
+| | 3a.8. 공지사항 해제할 경우 |
 | | 3a.8.ⅰ. 공지사항 유무 체크 박스를 선택 해제 한다. |
 | | 3a.9. 시스템은 DB에 정보를 업데이트 한다. |
-| | 3b. 게시글을 삭제하는 경우 |
+| | 3b. 게시글을 삭제할 경우 |
 | | 3b.1. 삭제 버튼을 누른다. |
 | | 3b.2. 작성된 게시글이 삭제된다. |
 | | 3b.3. 시스템은 DB에서 정보를 삭제한다. |
-| 4 | 4a. 게시글이 수정된 경우 |
+| 4 | 4a. 게시글이 수정될 경우 |
 | | 4a.1. 작성한 게시글 페이지에서 내용을 확인한다. |
-| | 4b. 게시글이 삭제된 경우 |
+| | 4b. 게시글이 삭제될 경우 |
 | | 4b.1. 사용자는 게시판 페이지로 이동된다. |
 
 #### RELATED INFORMATION
@@ -1110,7 +844,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #25 게시글 조회하기
+### Use case #19 게시글 접근
 
 #### GENERAL CHARACTERISTICS
 | | |
@@ -1119,7 +853,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 게시판 페이지에 접근한 상태여야 하고, 작성된 게시글이 최소 1개 이상 존재해야 한다. |
@@ -1139,7 +873,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 #### EXTENSION SCENARIOS
 | Step | Branching Action |
 | :--- | :--- |
-| 4 | 4a. 투표에 참여를 원하는 경우 |
+| 4 | 4a. 투표에 참여를 원할 경우 |
 | | 4a.1. 마감기한이 지나지 않은 투표를 포함하는 게시글을 조회한다. |
 | | 4a.2. 투표 창의 원하는 선택지를 선택하여 투표하기 버튼을 누른다. |
 | | 4a.3. 시스템은 사용자의 투표 내역을 DB에 저장한다. |
@@ -1148,7 +882,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | | 4a.6. 이미 투표를 한 상태이고 마감 전이면 재투표하기 버튼을 누른다. |
 | | 4a.7. 투표 창의 변경하고자 하는 선택지로 선택하여 투표하기 버튼을 누른다. |
 | | 4a.8. 시스템은 사용자의 투표 내역을 DB에 저장한다. |
-| | 4b. 첨부 파일을 다운로드하는 경우 |
+| | 4b. 첨부 파일을 다운로드할 경우 |
 | | 4c.1. 첨부 파일 목록에서 다운로드하고자 하는 파일 이름을 누른다. |
 | | 4c.2. 시스템은 DB에서 해당 파일을 가져와 사용자에게 전송한다. |
 | | 4c.3. 사용자의 브라우저가 파일 다운로드를 실행한다. |
@@ -1164,7 +898,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #26 시간조율표 생성하기
+### Use case #20 시간조율표 생성
 
 #### GENERAL CHARACTERISTICS
 | | |
@@ -1173,7 +907,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트 시간조율표 생성 페이지에 접근한 상태여야 한다. |
@@ -1193,16 +927,12 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 #### EXTENSION SCENARIOS
 | Step | Branching Action |
 | :--- | :--- |
-| 2 | 2a. 이름이 입력되지 않은 경우 |
+| 2 | 2a. 이름이 입력되지 않을 경우 |
 | | 2a.1. 시스템은 오류 메시지를 출력한다. |
-| | 2a.2. 표 정보 입력 단계로 돌아간다. (Use case #26-1) |
-| | 2b. 열 생성 개수가 선택되지 않은 경우 |
+| | 2a.2. 표 정보 입력 단계로 돌아간다. (Use case #20-1) |
+| | 2b. 열 생성 개수가 선택되지 않을 경우 |
 | | 2b.1. 시스템은 오류 메시지를 출력한다. |
-| | 2b.2. 표 정보 입력 단계로 돌아간다. (Use case #26-1) |
-| 4 | 4a. 리스트 정렬 |
-| | 4a.1. 생성 순으로 내림차순 정렬된다. |
-| | 4b. 표 자동 삭제 |
-| | 4b.1. 설정된 마지막 날짜가 지나면 표의 정보는 DB에서 자동으로 삭제된다. |
+| | 2b.2. 표 정보 입력 단계로 돌아간다. (Use case #20-1) |
 
 #### RELATED INFORMATION
 | | |
@@ -1214,7 +944,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #27 시간 일정 편집하기
+### Use case #21 시간 일정 편집
 
 #### GENERAL CHARACTERISTICS
 | | |
@@ -1223,7 +953,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 시간조율 페이지에 접근한 상태여야 하고, 생성된 시간조율표가 존재해야 한다. |
@@ -1243,9 +973,9 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 #### EXTENSION SCENARIOS
 | Step | Branching Action |
 | :--- | :--- |
-| 4 | 4a. 시간 일정을 추가하는 경우 |
+| 4 | 4a. 시간 일정을 추가할 경우 |
 | | 4a.1. 사용자는 표의 빈 부분 위에서 원하는 시간대까지 드래그한다. |
-| | 4b. 시간 일정을 삭제하는 경우 |
+| | 4b. 시간 일정을 삭제할 경우 |
 | | 4b.1. 사용자는 이미 채워진 부분 위에서 원하는 시간대까지 드래그한다. |
 
 #### RELATED INFORMATION
@@ -1258,7 +988,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #28 시간 일정 조회하기
+### Use case #22 시간 일정 확인
 
 #### GENERAL CHARACTERISTICS
 | | |
@@ -1267,7 +997,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 시간조율 페이지에 접근한 상태여야 하고, 생성된 시간조율표가 존재해야 한다. |
@@ -1298,7 +1028,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #29 개인정보 확인하기
+### Use case #23 개인정보 확인
 
 #### GENERAL CHARACTERISTICS
 | | |
@@ -1307,7 +1037,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 회원 |
 | **Preconditions** | 사용자는 시스템에 회원으로 등록된 상태로, 로그인한 상태여야 한다. |
@@ -1337,7 +1067,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 
 ---
 
-### Use case #30 로그아웃하기
+### Use case #24 로그아웃
 
 #### GENERAL CHARACTERISTICS
 | | |
@@ -1346,7 +1076,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 회원 |
 | **Preconditions** | 로그아웃을 하기 위해 사용자는 로그인 상태여야 한다. |
@@ -1374,3 +1104,46 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Frequency** | 사용자가 기능을 실행할 때마다 |
 | **Concurrency** | 제한 없음 |
 | **Due Date** | 2025. 11. 7. |
+
+---
+
+### Use case #25 게시글 검색
+
+#### GENERAL CHARACTERISTICS
+| | |
+| :--- | :--- |
+| **Summary** | 게시판에 등록된 게시글 중 제목 또는 작성자를 기준으로 원하는 게시글을 검색한다. |
+| **Scope** | 협업의 민족 |
+| **Level** | User level |
+| **Author** | 박한비 |
+| **Last Update** | 2025. 11. 25. |
+| **Status** | Analysis |
+| **Primary Actor** | 프로젝트 참여자 |
+| **Preconditions** | 프로젝트의 게시판 페이지에 접근한 상태여야 하며, 게시판에 게시글이 최소 1개는 존재해야 한다. |
+| **Trigger** | 검색창에 검색어를 입력하고 검색 아이콘을 누를 때 |
+| **Success Post Condition** | 검색 조건(제목 또는 작성자)에 일치하는 게시글 목록이 화면에 표시된다. |
+| **Failed Post Condition** | 검색 결과가 없음을 알리는 알림이 표시된다. |
+
+#### MAIN SUCCESS SCENARIO
+| Step | Action |
+| :--- | :--- |
+| S | 게시판에서 제목이나 작성자로 게시글을 검색한다. |
+| 1 | 사용자는 게시판 페이지 하단의 검색창에 찾고자 하는 검색어를 입력한다. |
+| 2 | 검색 아이콘을 누른다. |
+| 3 | 시스템은 입력된 검색어가 제목 또는 작성자에 포함된 게시글을 DB에서 필터링하여 조회한다. |
+| 4 | 시스템은 검색된 게시글 목록을 게시판 화면에 표시한다. |
+
+#### EXTENSION SCENARIOS
+| Step | Branching Action |
+| :--- | :--- |
+| 3 | 3a. 검색 결과가 없을 경우 |
+| | 3a.1. 시스템은 검색 결과가 없다는 알림을 표시한다. |
+
+#### RELATED INFORMATION
+| | |
+| :--- | :--- |
+| **Performance** | ≦ 3 Seconds |
+| **Frequency** | 사용자가 기능을 실행할 때마다 |
+| **Concurrency** | 제한 없음 |
+| **Due Date** | 2025. 12. 12. |
+
