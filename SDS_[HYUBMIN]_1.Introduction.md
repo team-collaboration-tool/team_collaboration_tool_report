@@ -31,7 +31,9 @@
 | 11/06/2025 | 1.4.1 | 김가영 피드백 기반 전반적인 보고서 수정 | 박한비 |
 | 11/07/2025 | 1.5.0 | Sequence Diagram 및 State Machine Diagram, Glossary, References 추가 | 박한비 |
 | 11/08/2025 | 1.5.1 | 보고서 전체적인 단어 수정 | 박한비 |
-| 11/09/2025 | 1.6.0 | Function class diagram 추가 | 박한비 |
+| 11/09/2025 | 1.6.0 | Function class diagram 추가 | 박한비 
+| 11/25/2025 | 1.6.1 | Use case description 작성(5) 및 수정, Use case diagram 수정 | 박한비 |
+| 11/26/2025 | 1.6.2 | Glossary, UI prototype 수정 | 박한비 |
 
 ---
 
