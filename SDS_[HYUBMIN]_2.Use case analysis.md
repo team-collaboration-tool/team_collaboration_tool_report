@@ -18,7 +18,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 7. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 비회원 |
 | **Preconditions** | 웹사이트에 접속한 상태여야 한다. |
@@ -71,7 +71,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 비회원 |
 | **Preconditions** | 사용자는 웹사이트에 접속한 상태여야 하고, 회원가입이 완료된 상태여야 한다. |
@@ -251,7 +251,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 회원 |
 | **Preconditions** | 사용자는 로그인된 상태여야 한다. |
@@ -412,7 +412,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 관리자 |
 | **Preconditions** | 사용자는 해당 프로젝트의 관리자 권한을 가지고, 프로젝트 관리 페이지에 접근한 상태여야 한다. 또한, 승인 대기 중인 사용자가 최소 1명 존재하거나, 관리자를 제외한 참여 멤버가 최소 1명 존재해야 한다. |
@@ -460,7 +460,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 관리자 |
 | **Preconditions** | 사용자는 해당 프로젝트의 관리자 권한을 가지고, 프로젝트 관리 페이지에 접근한 상태여야 하며, 관리자를 제외한 사용자가 아무도 없어야 한다. |
@@ -505,7 +505,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 회원 |
 | **Preconditions** | 사용자는 참여하고자 하는 프로젝트가 생성되어 있어야 하고, 프로젝트 참여코드를 알고 있는 상태여야 한다. |
@@ -548,7 +548,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 관리자 권한을 가지지 않은 사용자가 프로젝트 관리 페이지에 접근한 상태여야 한다. |
@@ -591,7 +591,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 달력 페이지에 접근한 상태여야 한다. |
@@ -636,7 +636,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 달력 페이지에 접근한 상태여야 하고, 추가된 일정이 최소 1개 이상 존재해야 하며, 해당 일정의 작성자, 참가자로 추가된 사용자여야 한다. |
@@ -687,7 +687,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 달력 페이지에 접근한 상태여야 하고, 추가된 일정이 최소 1개 이상 존재해야 한다. |
@@ -728,7 +728,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 게시판 페이지에 접근한 상태여야 한다. |
@@ -784,7 +784,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 게시판 페이지에 접근한 상태여야 하고, 게시글의 작성자가 사용자 본인이어야 하며, 사용자가 작성한 게시글이 최소 1개는 존재해야 한다. |
@@ -853,7 +853,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 게시판 페이지에 접근한 상태여야 하고, 작성된 게시글이 최소 1개 이상 존재해야 한다. |
@@ -907,7 +907,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트 시간조율표 생성 페이지에 접근한 상태여야 한다. |
@@ -953,7 +953,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 시간조율 페이지에 접근한 상태여야 하고, 생성된 시간조율표가 존재해야 한다. |
@@ -997,7 +997,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 시간조율 페이지에 접근한 상태여야 하고, 생성된 시간조율표가 존재해야 한다. |
@@ -1037,7 +1037,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 회원 |
 | **Preconditions** | 사용자는 시스템에 회원으로 등록된 상태로, 로그인한 상태여야 한다. |
@@ -1076,7 +1076,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 6. |
+| **Last Update** | 2025. 11. 25. |
 | **Status** | Analysis |
 | **Primary Actor** | 회원 |
 | **Preconditions** | 로그아웃을 하기 위해 사용자는 로그인 상태여야 한다. |
