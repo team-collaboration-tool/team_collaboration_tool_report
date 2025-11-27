@@ -34,6 +34,7 @@
 | 11/09/2025 | 1.6.0 | Function class diagram 추가 | 박한비 
 | 11/25/2025 | 1.6.1 | Use case description 작성(5) 및 수정, Use case diagram 수정 | 박한비 |
 | 11/26/2025 | 1.6.2 | Glossary, UI prototype 수정 | 박한비 |
+| 11/27/2025 | 1.6.3 | UI prototype 이미지 변경 및 내용 삭제 | 박한비 |
 
 ---
 
