@@ -41,19 +41,6 @@
 
 ---
 
-#### Shortcuts
-
-**Class Description**: 사용자가 설정한 바로가기 링크 정보를 저장하는 class
-
-| 구분 | Name | Type | Visibility | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| Attributes | shortcut_pk | bigint | private | 각 바로가기 링크를 구별하기 위한 고유 변수 |
-| Attributes | user_pk | bigint | private | 어떤 사용자의 바로가기인지 구별하기 위한 변수 |
-| Attributes | name | varchar | private | 바로가기의 이름을 나타내는 변수 |
-| Attributes | URL | varchar | private | 바로가기의 링크를 나타내는 변수 |
-
----
-
 #### Project_user
 
 **Class Description**: 사용자와 프로젝트 간의 소속 관계를 나타내는 class
@@ -368,7 +355,6 @@
 | --- | --- | --- | --- | --- |
 | Operations | createEvent | @PathVariable Long projectId | ResponseEntity<CalendarEventResponse> | 새 일정을 등록 |
 | | getEventsByProject | @PathVariable Long porjectId<br>@AuthenticationPrincipal String email | ResponseEntityList<CalendarEventResponse> | 해당 프로젝트의 전체 일정 조회 |
-| | getUpcomingEvents | @PathVariable Long porjectId<br>@AuthenticationPrincipal String email | ResponseEntity<CalendarEventResponse> | 7일 이내 마감 일정을 조회 |
 | | updateEvent | @PathVariable Long porjectId<br>@PathVariable Long eventId<br>@RequestVodyCalendarEventCreateRequest request<br>@AuthenticationPrincipal String email | ResponseEntity<CalendarEventResponse> | 등록된 일정 수정 |
 | | deleteEvent | @PathVariable Long porjectId<br>@PathVariable Long eventId<br>@AuthenticationPrincipal String email | ResponseEntity<Void> | 일정 삭제 |
 
@@ -392,7 +378,6 @@
 | --- | --- | --- | --- | --- |
 | Operations | createEvent | Long projectId<br>CalendarEventCreateRequest request<br>String userEmail | CalendarEventResponse | 새 일정을 생성하고 저장 |
 | | getEventsByProject | @PathVariable Long porjectId<br>@AuthenticationPrincipal String email | List<CalendarEventResponse> | 프로젝트 멤버 확인 후, 해당 프로젝트의 모든 일정 조회 |
-| | getUpcomingEvents | @PathVariable Long porjectId<br>@AuthenticationPrincipal String email | List<CalendarEventResponse> | 프로젝트 멤버 확인 후, 7일 이내 마감되는 일정 조회 |
 | | getEvent | @PathVariable Long porjectId<br>@PathVariable Long eventId<br>@RequestBodyCalendarEventCreateRequest request<br>@AuthenticationPrincipal String email | CalendarEventResponse | 단일 일정 조회 |
 | | updateEvent | @PathVariable Long porjectId<br>@PathVariable Long eventId<br>@AuthenticationPrincipal String email | CalendarEventResponse | 일정 수정 |
 | | deleteEvent | Long eventid<br>String userEmail | void | 일정 삭제 |
