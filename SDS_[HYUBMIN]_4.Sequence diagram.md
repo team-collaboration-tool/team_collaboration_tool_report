@@ -213,3 +213,29 @@
 
 [그림 4-25]는 사용자(프로젝트 참여자)가 특정 게시글을 검색하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #25>의 경우이다.<br>
 사용자가 게시판 화면의 검색창에 키워드를 입력하고 검색 버튼을 누를 때 기능이 시작된다. 시스템은 제목이나 작성자 조건을 추가해 게시글을 필터링할 수 있다. 검색 결과만을 포함한 목록을 반환하고, 브라우저는 해당 결과를 목록 형태로 표시한다.
+
+## 4.4. 시간조율 sequence diagram
+
+### 시간조율표 생성
+
+![[그림 4-26] 시간조율표 생성 Sequence diagram](./image/4-26.png)
+[그림 4-26] 시간조율표 생성 Sequence diagram
+
+[그림 4-26]은 사용자가 새로운 시간조율표를 생성하는 과정을 나타내는 sequence diagram이다. use case description에서 <Use Case #20>의 경우이다.<br>
+사용자가 시간조율 생성 화면에서 제목, 날짜, 시간 범위 등을 입력하고 “생성” 버튼을 눌러서 POST /api/time-poll 요청을 보내면 컨트롤러는 createTimePoll()을 호출한다. 서비스는 프로젝트와 생성자 정보를 조회한 뒤,  새로운 TimePoll을 저장한다. 생성 후 컨트롤러는 최신 목록을 제공하기 위해 getPollList()를 다시 호출하여, 서비스는 조회된 목록을 PollSummary 형태로 반환한다. 사용자는 생성 후 갱신된 시간조율 리스트를 확인할 수 있다.
+
+### 시간 일정 편집
+
+![[그림 4-27] 시간 일정 편집 Sequence diagram](./image/4-27.png)
+[그림 4-27] 시간 일정 편집 Sequence diagram
+
+[그림 4-27]은 사용자가 특정 시간조율에 대해 자신의 가능 시간을 제출하거나 수정하는 과정을 나타낸 sequence diagram이다. use case description에서 <Use Case #21>의 경우이다.<br>
+사용자가 POST /api/time-poll/submit 요청을 보내면, 서비스는 기존 응답이 있는 경우, 기존 응답을 삭제하고 새로운 시간 응답을 저장한다. 저장이 완료되면 최신 시간표를 보여주기 위해 getPollDetailGrid()를 다시 호출하며, grid 생성 로직이 동일하게 수행된다. 업데이트된 DetailResponse가 반환되어 사용자는 반영된 시간표를 즉시 확인할 수 있다.
+
+### 시간 일정 확인
+
+![[그림 4-28] 시간 일정 확인 Sequence diagram](./image/4-28.png)
+[그림 4-28] 시간 일정 확인 Sequence diagram
+
+[그림 4-28]은 사용자가 특정 시간조율의 상세 정보를 조회하는 과정을 나타내는 sequence diagram이다. use case description에서 <Use Case #22>의 경우이다.<br>
+사용자가 GET /api/time-poll/{pollId} 요청을 보내면, 컨트롤러는 서비스의 getPollDetailGrid()를 호출한다. 서비스는 TimePollRepository에서 시간조율을 조회하고 TimeResponseRepository에서 응답 목록을 불러온 뒤, fillGrid()를 반복 실행해 시간표 데이터를 생성한다. 최종적으로 구성된 DetailResponse가 사용자에게 전달되어 사용자는 시간조율표를 확인할 수 있다.
