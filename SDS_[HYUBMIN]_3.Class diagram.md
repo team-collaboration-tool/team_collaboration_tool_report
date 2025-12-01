@@ -384,3 +384,196 @@
 | | findEventById | Long eventId | CalendarEvent | eventId로 CalendarEvent 엔티티를 조회 |
 | | checkProjectMembership | Project project<br>User user | void | 사용자가 해당 프로젝트의 승인된 멤버인지 확인 |
 | | findParticipantsByPks | List<Long> participantUserPks | Set<User> | 사용자 PK 목록으로 User 엔티티 Set을 조회 |
+
+---
+---
+
+### 시간조율 class diagram
+
+![[그림 3-6] 시간조율 class diagram](./image/시간조율CD.png)
+[그림 3-6] 시간조율 class diagram
+
+#### TimePoll
+
+**Class Description:** 시간조율표의 기본 정보를 저장하고 DB 테이블의 time_poll과 매핑되는 엔티티 class
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | pollPk | Long | private | 시간조율표 고유 식별자 |
+| | project | Project | private | 시간조율표가 속한 프로젝트 |
+| | creator | User | private | 시간조율표 생성자 |
+| | title | String | private | 시간조율표 제목 |
+| | startDate | LocalDate | private | 시간조율표 시작 날짜 |
+| | endDate | LocalDate | private | 시간조율표 종료 날짜 |
+| | startTimeofDay | LocalDate | private | 하루 중 시작 시간 |
+| | endTimeofDay | LocalDate | private | 하루 중 종료 시간 |
+| | responses | List<TimeResponse> | private | 사용자들이 제출한 응답 목록 |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | TimePoll | Project: Project, creator: User, title: String, startDate: LocalDate, endDate: LocalDate, startTimeOfDay: LocalTime, endTimeOfDay: LocalTime | 생성자 | 새 시간조율 엔티티를 생성하는 생성자 |
+
+---
+
+#### CreateRequest
+
+**Class Description:** 시간조율을 새로 생성할 때 클라이언트로부터 전달받는 요청 데이터를 담는 DTO class
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | projectId | Long | private | 시간조율이 속한 프로젝트 식별자(PK) |
+| | creatorId | Long | private | 시간조율을 생성한 사용자 식별자(PK) |
+| | title | String | private | 시간조율 제목 |
+| | startDate | LocalDate | private | 시간조율 시작 날짜 |
+| | endDate | LocalDate | private | 시간조율 종료 날짜 (duration을 통해 계산된 값) |
+| | duration | Integer | private | 기준 날짜(startDate)로부터 며칠 동안 조율할지(일 수) |
+| | startTimeOfDay | LocalTime | private | 하루 중 조율 시작 시간 |
+| | endTimeOfDay | LocalTime | private | 하루 중 조율 종료 시간 |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | CreateRequest | projectId: Long, creatorId: Long, title: String, startDate: LocalDate, duration: Integer, startTimeOfDay: LocalTime, endTimeOfDay: LocalTime | 생성자 | 새 시간조율 생성 요청 객체를 생성하는 생성자 |
+
+---
+
+#### PollSummary
+
+**Class Description:** 시간 조율 목록 화면에 각 시간조율을 간단히 보여주기 위한 요약 정보 DTO Class
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | pollId | Long | private | 시간조율 식별자(PK) |
+| | title | String | private | 시간조율 제목 |
+| | startDate | LocalDate | private | 시간조율 시작 날짜 |
+| | endDate | LocalDate | private | 시간조율 종료 날짜 |
+| | duration | Integer | private | 전체 조율 일 수 |
+| | startTime | LocalTime | private | 하루 중 조율 시작 시간 |
+| | endTime | LocalTime | private | 하루 중 조율 종료 시간 |
+| | userCount | Integer | private | 해당 시간조율에 참여한 사용자 수 |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | PollSummary | pollId: Long, title: String, startDate: LocalDate, endDate: LocalDate, duration: Integer, startTime: LocalTime, endTime: LocalTime, userCount: Integer | 생성자 | 목록 조회 응답용 요약 객체 생성자 |
+
+---
+
+#### TimeRange
+
+**Class Description:** 사용자가 가능한 시간 구간을 제출할 때, 한 구간의 시작/끝 시간을 표현하는 내부 DTO Class
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | start | String | private | 가능한 시간 구간 시작 시각(ISO 문자열) |
+| | end | String | private | 가능한 시간 구간 종료 시각(ISO 문자열) |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | TimeRange | start: String, end: String | 생성자 | 한 개의 가능 시간 구간을 생성하는 생성자 |
+
+---
+
+#### SubmitRequest
+
+**Class Description:** 특정 시간조율에 대해 사용자가 자신의 가능 시간을 제출할 때 사용하는 DTO Class
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | pollId | Long | private | 시간조율 식별자(PK) |
+| | userId | Long | private | 응답을 제출하는 사용자 식별자(PK) |
+| | availableTimes | List<TimeRange> | private | 사용자가 선택한 여러 가능 시간 구간 목록 |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | SubmitRequest | pollId: Long, userId: Long, availableTimes: List<TimeRange> | 생성자 | 시간 응답 제출 요청 객체 생성자 |
+
+---
+
+#### DetailResponse
+
+**Class Description:** 단일 시간조율에 대해 상세 화면에서 사용할 전체 시간표(그리드) 정보를 내려주는 응답 DTO class
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | pollId | Long | private | 시간조율 식별자(PK) |
+| | title | String | private | 시간조율 제목 |
+| | gridData | int[][] | private | 날짜/시간 칸마다 몇 명이 가능한지 나타내는 2차원 배열 |
+| | dateLabels | List<String> | private | 가로축 날짜 라벨(예: 11/23, 11/24 …) |
+| | timeLabels | List<String> | private | 세로축 시간 라벨(예: 09:00, 09:30 …) |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | DetailResponse | pollId: Long, title: String, gridData: int[][], dateLabels: List<String>, timeLabels: List<String> | 생성자 | 시간표 상세 응답 객체를 생성하는 생성자 |
+
+---
+
+#### TimePollController
+
+**Class Description:** 시간조율 관련 HTTP 요청을 처리하고, 클라이언트와 TimePollService 사이의 인터페이스 역할을 하는 REST 컨트롤러 class
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | timePollService | TimePollService | private | 비즈니스 로직을 처리하는 서비스 객체 |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | getAllPolls | projectId: Long | List<PollSummary> | 특정 프로젝트의 전체 시간조율 목록 조회 |
+| | createPoll | request: CreateRequest | List<PollSummary> 또는 응답 Entity | 새로운 시간조율을 생성하고 최신 목록 반환 |
+| | getPollDetail | pollId: Long | DetailResponse | 단일 시간조율의 상세 시간표 정보 조회 |
+| | submitTime | request: SubmitRequest | void / 응답 메시지 | 사용자의 가능 시간 정보를 제출 |
+
+---
+
+#### TimePollService
+
+**Class Description:** 시간조율 생성, 목록 조회, 응답 저장, 상세 시간표 생성 등 시간조율 비즈니스 로직을 담당하는 Service
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | timePollRepository | TimePollRepository | private | 시간조율 엔티티에 대한 DB 접근 객체 |
+| | timeResponseRepository | TimeResponseRepository | private | 시간 응답 엔티티에 대한 DB 접근 객체 |
+| | projectRepository | ProjectRepository | private | 프로젝트 엔티티에 대한 DB 접근 객체 |
+| | userRepository | UserRepository | private | 사용자 엔티티에 대한 DB 접근 객체 |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | createTimePoll | request: CreateRequest | TimePoll | 새 시간조율을 생성하여 저장 |
+| | getPollList | projectId: Long | List<PollSummary> | 프로젝트별 시간조율 목록을 요약 형태로 조회 |
+| | submitResponse | request: SubmitRequest | void | 사용자의 가능 시간 응답을 저장(또는 갱신) |
+| | getPollDetailGrid | pollId: Long | DetailResponse | 특정 시간조율의 전체 시간표 그리드 데이터를 생성 |
+| | fillGrid (private) | grid: int[][], response: TimeResponse, ... | void | 응답 데이터를 기반으로 grid 배열에 인원수를 채워 넣는 내부 헬퍼 메서드 |
+
+---
+
+#### TimeResponse
+
+**Class Description:** 특정 시간조율에 대해 한 사용자가 제출한 가능 시간 구간을 나타내는 엔티티 class
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | responsePk | Long | private | 시간 응답 고유 식별자(PK) |
+| | poll | TimePoll | private | 응답이 속한 시간조율 엔티티 |
+| | user | User | private | 응답을 남긴 사용자 엔티티 |
+| | startTimeUtc | LocalDateTime | private | 가능한 시간 구간 시작 시각(UTC 기준) |
+| | endTimeUtc | LocalDateTime | private | 가능한 시간 구간 종료 시각(UTC 기준) |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | TimeResponse | poll: TimePoll, user: User, startTimeUtc: LocalDateTime, endTimeUtc: LocalDateTime | 생성자 | 한 사용자의 가능 시간 응답 엔티티 생성자 |
