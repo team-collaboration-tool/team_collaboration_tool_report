@@ -96,7 +96,6 @@
 | Attributes | updated_at | timestamp | private | 게시글 수정 시간을 나타내는 변수 |
 | Attributes | Is_notice | boolean | private | 공지사항 유무를 나타내는 변수 |
 | Attributes | has_voting | boolean | private | 투표 기능이 포함되어 있는지 구분하는 변수 |
-| Attributes | has_file | boolean | private | 첨부파일 여부를 나타내는 변수 |
 
 ---
 
@@ -114,18 +113,6 @@
 | Attributes | end_date | date | private | 시간조율 범위의 마감 날짜를 저장하는 변수 |
 | Attributes | start_time_of_day | time | private | 시간조율표의 시작 시간을 저장하는 변수(기본값은 09:00) |
 | Attributes | end_time_of_day | time | private | 시간조율표의 종료 시간을 저장하는 변수(기본값은 18:00) |
-
----
-
-#### Attachment_file
-
-**Class Description**: 게시글의 첨부파일 유무의 정보를 저장하는 class
-
-| 구분 | Name | Type | Visibility | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| Attributes | attachment_pk | bigint | private | 파일의 고유 식별자를 구분하는 변수 |
-| Attributes | post_pk | bigint | private | 어떤 게시글의 첨부 파일인지 구분하는 변수 |
-| Attributes | file_name | varchar | private | 파일 이름을 저장하는 변수 |
 
 ---
 
@@ -388,10 +375,10 @@
 ---
 ---
 
-### 시간조율 class diagram
+### TimeSchedule class diagram
 
-![[그림 3-6] 시간조율 class diagram](./image/시간조율CD.png)
-[그림 3-6] 시간조율 class diagram
+![[그림 3-6] TimeSchedule class diagram](./image/시간조율CD.png)
+[그림 3-6] TimeSchedule class diagram
 
 #### TimePoll
 
