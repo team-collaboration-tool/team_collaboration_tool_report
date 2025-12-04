@@ -214,7 +214,7 @@
 [그림 4-25]는 사용자(프로젝트 참여자)가 특정 게시글을 검색하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #25>의 경우이다.<br>
 사용자가 게시판 화면의 검색창에 키워드를 입력하고 검색 버튼을 누를 때 기능이 시작된다. 시스템은 제목이나 작성자 조건을 추가해 게시글을 필터링할 수 있다. 검색 결과만을 포함한 목록을 반환하고, 브라우저는 해당 결과를 목록 형태로 표시한다.
 
-## 4.4. 시간조율 sequence diagram
+## 4.4. TimeSchedule sequence diagram
 
 ### 시간조율표 생성
 
