@@ -37,6 +37,7 @@
 | 11/27/2025 | 1.6.3 | UI prototype 이미지 변경 및 내용 삭제 | 박한비 |
 | 11/30/2025 | 1.6.4 | Class diagram 및 Sequence diagram 수정 | 박한비 |
 | 12/01/2025 | 1.7.0 | 시간조율 class diagram, sequence diagram 추가 | 박한비 |
+| 12/04/2025 | 1.7.1 | Use case 및 DB class diagram, UI prototype 수정 | 박한비 |
 
 ---
 
@@ -62,13 +63,13 @@
     * User class diagram - 손승우
     * Project class diagram - 강재호
     * Calendar class diagram - 강재호
-    * 시간조율 class diagram – 전준환
+    * TimeSchedule class diagram – 전준환
 * Sequence diagram
   * User sequence diagram – 김가영, 손승우
   * Project sequence diagram – 류승현, 강재호
   * Calendar sequence diagram – 류승현, 강재호
   * Community sequence diagram – 신현우, 전준환
-  * 시간조율 sequence diagram – 전준환
+  * TimeSchedule sequence diagram – 전준환
 * State machine diagram - 류승현, 박한비, 신현우
 * User interface prototype – 박한비
 * Implementation requirements - 박한비
