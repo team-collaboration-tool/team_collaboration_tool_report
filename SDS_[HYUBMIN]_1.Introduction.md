@@ -18,7 +18,7 @@
 
 | Revision date | Version # | Description | Author |
 | :--- | :--- | :--- | :--- |
-| 10/26/2025 | 1.0.0 | 보고서의 전반적인 틀 및 Introduce 작성 | 박한비 |
+| 10/26/2025 | 1.0.0 | 보고서의 전반적인 틀 및 Introduction 작성 | 박한비 |
 | 10/27/2025 | 1.1.0 | Use Case Diagram 추가 | 박한비 |
 | 10/28/2025 | 1.1.1 | Use Case Description 작성(1) | 박한비 |
 | 10/29/2025 | 1.1.2 | Use Case Description 작성(2) | 박한비 |
@@ -36,8 +36,9 @@
 | 11/26/2025 | 1.6.2 | Glossary, UI prototype 수정 | 박한비 |
 | 11/27/2025 | 1.6.3 | UI prototype 이미지 변경 및 내용 삭제 | 박한비 |
 | 11/30/2025 | 1.6.4 | Class diagram 및 Sequence diagram 수정 | 박한비 |
-| 12/01/2025 | 1.7.0 | 시간조율 class diagram, sequence diagram 추가 | 박한비 |
+| 12/01/2025 | 1.7.0 | TimeSchedule class diagram, sequence diagram 추가 | 박한비 |
 | 12/04/2025 | 1.7.1 | Use case 및 DB class diagram, UI prototype 수정 | 박한비 |
+| 12/05/2026 | 1.7.2 | State machine diagram 수정 | 박한비 |
 
 ---
 
@@ -70,7 +71,7 @@
   * Calendar sequence diagram – 류승현, 강재호
   * Community sequence diagram – 신현우, 전준환
   * TimeSchedule sequence diagram – 전준환
-* State machine diagram - 류승현, 박한비, 신현우
+* State machine diagram - 류승현, 박한비
 * User interface prototype – 박한비
 * Implementation requirements - 박한비
 * Glossary – 류승현, 박한비, 전준환
