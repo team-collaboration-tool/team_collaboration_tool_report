@@ -178,10 +178,12 @@
 
 ---
 
-### User class diagram
+### 3.2.1. User class diagram
 
 ![[그림 3-2] User class diagram](./image/UserCD.png)
 [그림 3-2] User class diagram
+
+---
 
 #### User
 
@@ -259,10 +261,12 @@
 ---
 ---
 
-### Project class diagram
+### 3.2.2. Project class diagram
 
 ![[그림 3-3] Project class diagram](./image/ProjectCD.png)
 [그림 3-3] Project class diagram
+
+---
 
 #### ProjectController
 
@@ -323,10 +327,12 @@
 ---
 ---
 
-### Calendar class diagram
+### 3.2.3. Calendar class diagram
 
 ![[그림 3-4] Calendar class diagram](./image/CalendarCD.png)
 [그림 3-4] Calendar class diagram
+
+---
 
 #### CalendarController
 
@@ -375,10 +381,12 @@
 ---
 ---
 
-### Community class diagram
+### 3.2.4. Community class diagram
 
 ![[그림 3-5] Community class diagram](./image/CommunityCD.png)
 [그림 3-5] Community class diagram
+
+---
 
 #### PostController
 
@@ -534,10 +542,12 @@
 ---
 ---
 
-### TimeSchedule class diagram
+### 3.2.5. TimeSchedule class diagram
 
 ![[그림 3-6] TimeSchedule class diagram](./image/시간조율CD.png)
 [그림 3-6] TimeSchedule class diagram
+
+---
 
 #### TimePoll
 
