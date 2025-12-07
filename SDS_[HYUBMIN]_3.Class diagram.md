@@ -375,6 +375,165 @@
 ---
 ---
 
+### Community class diagram
+
+![[그림 3-5] Community class diagram](./image/CommunityCD.png)
+[그림 3-5] Community class diagram
+
+#### PostController
+
+**Class Description:** 게시글 관련 기능(게시글 생성, 접근, 수정, 삭제, 공지 등록/해제, 게시글 목록 확인)을 담당하는 컨트롤러 클래스
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | postService | PostService | private | 게시글 비즈니스 로직 처리 서비스 |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | createPost | String userEmail<br>String postJson | ResponseEntity<PostResponse> | 게시글 생성 요청 처리 |
+| | getPostById | Long PostId<br>String userEmail | ResponseEntity<PostResponse> | 특정 게시글 접근 |
+| | updatepost | Long postId<br>PostUpdateRequest | ResponseEntity<PostResponse> | 게시글 수정 |
+| | deletepost | Long postId<br>String userEmail | ResponseEntity<Map> | 게시글 삭제 |
+| | getAllPosts | Long projectPk<br>String keyword<br>PostSearchType searchType | ResponseEntity<Page<PostResponse>> | 게시글 목록 확인(검색/페이징) |
+| | markAsNotice | Long postId<br>String userEmail | ResponseEntity<PostResponse> | 게시글을 공지사항으로 등록 |
+| | UnmarkAsNotice | Long postId<br>String userEmail | ResponseEntity<PostResponse> | 공지사항 해제 |
+| | getNoticePosts | Long projectPk | ResponseEntity<List<PostResponse>> | 특정 프로젝트의 공지 게시글 목록 확인 |
+
+---
+
+#### VoteController
+
+**Class Description:** 투표 생성, 투표하기, 재투표하기 기능을 제공하는 컨트롤러 클래스
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | voteService | VoteService | private | 투표 관련 비즈니스 로직 처리 서비스 |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | createVote | VoteCreateRequest request<br>String userEmail | ResponseEntity<VoteResponse> | 새로운 투표 생성 |
+| | castVote | Long optionId<br>String userEmail | ResponseEntity<String> | 투표 시 처음 투표 |
+| | reCastVote | Long optionId<br>String userEmail | ResponseEntity<String> | 단일 선택 투표 재투표 |
+| | reCastVoteAll | Long voteId<br>List<Long> selectedOptionId<br>String userEmail | ResponseEntity<String> | 중복 선택 투표 재투표 |
+
+---
+
+#### NoticeController
+
+**Class Description:** 프로젝트 내 공지사항 등록 및 목록 확인을 담당하는 컨트롤러 클래스
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | noticeService | NoticeService | private | 공지사항 비즈니스 로직 처리 서비스 |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | getNotices | Long projectId<br>String email | ResponseEntity<List<NoticeResponse>> | 프로젝트 공지사항 목록 확인 |
+| | createNotice | Long projectId<br>String title<br>String content<br>String email | ResponseEntity<NoticeResponse> | 새로운 공지사항 등록 |
+
+---
+
+#### PostService
+
+**Class Description:** 게시글 생성/수정/삭제/접근 및 투표 연결 로직을 처리하는 서비스 클래스
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | postRepository | PostRepository | private | 게시글 데이터베이스 처리 |
+| | userRepository | UserRepository | private | 사용자 조회 |
+| | projectRepository | ProjectRepository | private | 프로젝트 조회 |
+| | voteRepository | VoteRepository | private | 투표 엔티티 저장 |
+| | voteRecordRepository | VoteRecordRepository | private | 투표 기록 조회 |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | createPost | PostCreateRequest request<br>String userEmail | PostResponse | 게시글 생성 + 투표 초기화 |
+| | getPostById | Long postId<br>String userEmail | PostResponse | 게시글 접근 및 투표 참여 여부 확인 |
+| | getPostsByProject | Long projectPk | Page<PostResponse> | 프로젝트별 게시글 목록 확인 |
+| | updatePost | Long postId<br>PostUpdateRequest request | PostResponse | 게시글 수정 + 투표 수정 |
+| | deletePost | Long postId<br>String userEmail | void | 게시글 삭제 & postNumber 정렬 |
+| | markAsNotice | Long postId<br>String userEmail | PostResponse | 게시글 공지 등록 |
+| | unmarkAsNotice | Long postId<br>String userEmail | PostResponse | 게시글 공지 해제 |
+
+---
+
+#### VoteService
+
+**Class Description:** 투표 올리기, 투표하기, 재투표하기 등 투표 비즈니스 로직을 수행하는 클래스
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | voteRepository | VoteRepository | private | Vote 엔티티 저장 |
+| | voteOptionRepository | VoteOptionRepository | private | VoteOption 조회 |
+| | voteRecordRepository | VoteRecordRepository | private | 투표 기록 관리 |
+| | userRepository | userRepository | private | 사용자 조회 |
+| | postRepository | PostRepository | private | 게시글 조회 |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | createVote | VoteCreateRequest request<br>String Email | VoteResponse | 게시글에 투표 생성 |
+| | castVote | Long optionId<br>String userEmail | void | 투표 첫 선택 |
+| | reCastVote | Long optionId<br>String userEmail | void | 단일 선택 투표 재투표 |
+| | reCastVoteAll | Long voteId<br>List<Long> selectedOptionIds<br>String email | void | 중복 선택 전체 재투표 |
+
+---
+
+#### NoticeService
+
+**Class Description:** 프로젝트 공지사항 등록/조회 기능 수행
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | noticeRepository | NoticeRepository | private | 공지사항 조회/저장 |
+| | projectService | ProjectService | private | 프로젝트 조회 |
+| | userService | UserService | private | 사용자 조회 |
+| | projectUserRepository | ProjectUserRepository | private | 프로젝트 참여 상태 확인 |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | getNoticeByProject | Long projectId<br>String Email | List <NoticeResponse> | 프로젝트 공지사항 조회 |
+| | createNotice | Long projectId<br>String title<br>String content<br>String email | NoticeResponse | 공지사항 등록 |
+
+---
+
+#### Post (Domain)
+
+**Class Description:** 게시글의 핵심 정보를 저장하는 엔티티
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | postPk | Long | private | 게시글 식별자 |
+| | postNumber | Long | private | 프로젝트 내 게시글 순번 |
+| | project | Project | private | 게시글이 속한 프로젝트 |
+| | user | User | private | 게시글 작성자 |
+| | title | String | private | 게시글 제목 |
+| | content | String | private | 게시글 내용 |
+| | isNotice | Boolean | private | 게시글 공지 등록 여부 |
+| | hasVoting | Boolean | private | 게시글 투표 포함 여부 |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | update | String title<br>String content<br>Boolean isNotice | - | 게시글 정보 업데이트 |
+| | setIsNotice | Boolean isNotice | - | 공지여부 설정 |
+| | setVote | Vote vote | - | 게시글에 투표 연결 |
+
+---
+---
+
 ### TimeSchedule class diagram
 
 ![[그림 3-6] TimeSchedule class diagram](./image/시간조율CD.png)
