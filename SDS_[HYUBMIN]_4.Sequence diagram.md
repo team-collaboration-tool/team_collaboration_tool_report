@@ -24,6 +24,7 @@
 ### 개인정보 확인
 
 ![[그림 4-3] 개인정보 확인 Sequence diagram](./image/개인정보_확인.png)
+
 [그림 4-3] 개인정보 확인 Sequence diagram
 
 [그림 4-3]은 사용자가 자신의 개인정보를 확인하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #23>의 경우이다.<br>
@@ -237,6 +238,7 @@
 ### 시간 일정 확인
 
 ![[그림 4-28] 시간 일정 확인 Sequence diagram](./image/4-28.png)
+
 [그림 4-28] 시간 일정 확인 Sequence diagram
 
 [그림 4-28]은 사용자가 특정 시간조율의 상세 정보를 조회하는 과정을 나타내는 sequence diagram이다. use case description에서 <Use Case #22>의 경우이다.<br>
