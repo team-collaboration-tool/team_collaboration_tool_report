@@ -18,7 +18,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 25. |
+| **Last Update** | 2025. 12. 4. |
 | **Status** | Analysis |
 | **Primary Actor** | 비회원 |
 | **Preconditions** | 웹사이트에 접속한 상태여야 한다. |
@@ -69,7 +69,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 제한 없음 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -112,7 +112,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 제한 없음 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -125,7 +125,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 25. |
+| **Last Update** | 2025. 12. 7. |
 | **Status** | Analysis |
 | **Primary Actor** | 회원 |
 | **Preconditions** | 사용자는 로그인된 상태여야 한다. |
@@ -139,7 +139,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | S | 모든 프로젝트에서 참가자로 설정된 일정을 확인한다. |
 | 1 | 사용자는 메인 페이지에 접근한다. |
 | 2 | 시스템은 DB에서 사용자가 참가자로 등록된 일정 정보를 불러온다. |
-| 3 | 시스템은 불러온 정보를 달력의 해당 일정 날짜에 프로젝트 이름과 일정 이름을 화면에 표시한다. |
+| 3 | 시스템은 불러온 정보를 달력의 해당 일정 날짜에 프로젝트 이름과 일정 이름을 모두 회색 색상으로 화면에 표시한다. |
 
 #### EXTENSION SCENARIOS
 | Step | Branching Action |
@@ -152,7 +152,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자가 페이지에 접근할 때마다 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -206,7 +206,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자가 기능을 실행할 때마다 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -249,7 +249,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자 당 1번 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -291,7 +291,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자가 기능을 실행할 때마다 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -330,7 +330,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자가 기능을 실행할 때마다 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -370,7 +370,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자가 기능을 실행할 때마다 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -410,7 +410,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자가 기능을 실행할 때마다 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -458,7 +458,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자가 기능을 실행할 때마다 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -471,7 +471,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 25. |
+| **Last Update** | 2025. 12. 4. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 관리자 |
 | **Preconditions** | 사용자는 해당 프로젝트의 관리자 권한을 가지고, 프로젝트 관리 페이지에 접근한 상태여야 하며, 관리자를 제외한 사용자가 아무도 없어야 한다. |
@@ -502,7 +502,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자가 기능을 실행할 때마다 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -515,7 +515,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 25. |
+| **Last Update** | 2025. 12. 7. |
 | **Status** | Analysis |
 | **Primary Actor** | 회원 |
 | **Preconditions** | 사용자는 참여하고자 하는 프로젝트가 생성되어 있어야 하고, 프로젝트 참여코드를 알고 있는 상태여야 한다. |
@@ -529,8 +529,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | S | 프로젝트에 참여하기 위해 참여 요청을 보낸다. |
 | 1 | 대시보드 페이지의 검색창을 누른다. |
 | 2 | 사용자는 참여하고자 하는 프로젝트의 참여코드를 입력한다. |
-| 3 | 시스템은 참여코드가 존재하는지 확인 후 프로젝트명을 화면에 출력한다. |
-| 4 | 사용자는 프로젝트 참여 버튼을 눌러 프로젝트 참여 요청을 보낸다. |
+| 3 | 사용자는 Enter 키를 눌러 프로젝트 참여 요청을 보낸다. |
 
 #### EXTENSION SCENARIOS
 | Step | Branching Action |
@@ -545,7 +544,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자가 기능을 실행할 때마다 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -558,7 +557,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 25. |
+| **Last Update** | 2025. 12. 4. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 관리자 권한을 가지지 않은 사용자가 프로젝트 관리 페이지에 접근한 상태여야 한다. |
@@ -587,7 +586,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자가 기능을 실행할 때마다 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -632,7 +631,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자가 기능을 실행할 때마다 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -645,7 +644,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 25. |
+| **Last Update** | 2025. 12. 4. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 달력 페이지에 접근한 상태여야 하고, 추가된 일정이 최소 1개 이상 존재해야 하며, 해당 일정의 작성자, 참가자로 추가된 사용자여야 한다. |
@@ -683,7 +682,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자가 기능을 실행할 때마다 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -696,7 +695,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 25. |
+| **Last Update** | 2025. 12. 4. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 달력 페이지에 접근한 상태여야 하고, 추가된 일정이 최소 1개 이상 존재해야 한다. |
@@ -724,7 +723,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자가 기능을 실행할 때마다 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -737,7 +736,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 25. |
+| **Last Update** | 2025. 12. 4. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 게시판 페이지에 접근한 상태여야 한다. |
@@ -780,7 +779,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자가 기능을 실행할 때마다 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -793,7 +792,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 25. |
+| **Last Update** | 2025. 12. 4. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 게시판 페이지에 접근한 상태여야 하고, 게시글의 작성자가 사용자 본인이어야 하며, 사용자가 작성한 게시글이 최소 1개는 존재해야 한다. |
@@ -840,7 +839,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자가 기능을 실행할 때마다 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -853,7 +852,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 25. |
+| **Last Update** | 2025. 12. 4. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 게시판 페이지에 접근한 상태여야 하고, 작성된 게시글이 최소 1개 이상 존재해야 한다. |
@@ -889,7 +888,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자가 기능을 실행할 때마다 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -935,7 +934,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자가 기능을 실행할 때마다 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -979,7 +978,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자가 기능을 실행할 때마다 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -1019,7 +1018,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자가 기능을 실행할 때마다 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -1058,7 +1057,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자가 기능을 실행할 때마다 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -1098,7 +1097,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Performance** | ≦ 3 Seconds |
 | **Frequency** | 사용자가 기능을 실행할 때마다 |
 | **Concurrency** | 제한 없음 |
-| **Due Date** | 2025. 11. 7. |
+| **Due Date** | 2025. 12. 12. |
 
 ---
 
@@ -1111,7 +1110,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 25. |
+| **Last Update** | 2025. 12. 7. |
 | **Status** | Analysis |
 | **Primary Actor** | 프로젝트 참여자 |
 | **Preconditions** | 프로젝트의 게시판 페이지에 접근한 상태여야 하며, 게시판에 게시글이 최소 1개는 존재해야 한다. |
@@ -1132,7 +1131,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | Step | Branching Action |
 | :--- | :--- |
 | 3 | 3a. 검색 결과가 없을 경우 |
-| | 3a.1. 시스템은 검색 결과가 없다는 알림을 표시한다. |
+| | 3a.1. 시스템은 빈 상태의 게시글 목록으로 표시한다. |
 
 #### RELATED INFORMATION
 | | |

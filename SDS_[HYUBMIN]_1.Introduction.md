@@ -38,7 +38,8 @@
 | 11/30/2025 | 1.6.4 | Class diagram 및 Sequence diagram 수정 | 박한비 |
 | 12/01/2025 | 1.7.0 | TimeSchedule class diagram, sequence diagram 추가 | 박한비 |
 | 12/04/2025 | 1.7.1 | Use case 및 DB class diagram, UI prototype 수정 | 박한비 |
-| 12/05/2026 | 1.7.2 | State machine diagram 수정 | 박한비 |
+| 12/05/2025 | 1.7.2 | State machine diagram 수정 | 박한비 |
+| 12/07/2025 | 1.7.3 | Use case description 및 TimeSchedule class diagram, sequence diagram 수정 | 박한비
 
 ---
 
