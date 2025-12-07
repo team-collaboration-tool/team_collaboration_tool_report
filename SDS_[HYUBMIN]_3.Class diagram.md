@@ -20,11 +20,11 @@
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | Attributes | id | varchar | private | 사용자를 구분하기 위한 고유의 변수 |
-| Attributes | password | varchar | private | 사용자의 비밀번호를 나타내는 변수 |
-| Attributes | name | varchar | private | 사용자의 이름을 나타내는 변수 |
-| Attributes | email | varchar | private | 사용자의 이메일 주소를 나타내는 변수 |
-| Attributes | phone | varchar | private | 사용자의 전화번호를 나타내는 변수 |
-| Attributes | field | varchar | private | 사용자의 분야(직무/전공)를 나타내는 변수 |
+| | password | varchar | private | 사용자의 비밀번호를 나타내는 변수 |
+| | name | varchar | private | 사용자의 이름을 나타내는 변수 |
+| | email | varchar | private | 사용자의 이메일 주소를 나타내는 변수 |
+| | phone | varchar | private | 사용자의 전화번호를 나타내는 변수 |
+| | field | varchar | private | 사용자의 분야(직무/전공)를 나타내는 변수 |
 
 ---
 
@@ -35,9 +35,9 @@
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | Attributes | id | bigint | private | 프로젝트를 구분하기 위한 고유의 변수 |
-| Attributes | project_name | varchar | private | 각 프로젝트명을 나타내는 변수 |
-| Attributes | project_owner_user_pk | bigint | private | 프로젝트 관리자를 나타내는 변수(users.id 참조) |
-| Attributes | Invite_code | varchar | private | 각 프로젝트의 참여코드를 나타내는 변수 |
+| | project_name | varchar | private | 각 프로젝트명을 나타내는 변수 |
+| | project_owner_user_pk | bigint | private | 프로젝트 관리자를 나타내는 변수(users.id 참조) |
+| | Invite_code | varchar | private | 각 프로젝트의 참여코드를 나타내는 변수 |
 
 ---
 
@@ -48,9 +48,9 @@
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | Attributes | id | bigint | private | 관계를 구분하기 위한 고유의 변수 |
-| Attributes | project_pk | bigint | private | 연결된 프로젝트(projects.id 참조) |
-| Attributes | user_pk | bigint | private | 연결된 사용자(users.id 참조) |
-| Attributes | status | varchar | private | 사용자의 프로젝트 내 상태를 나타내는 변수(프로젝트 멤버, 승인 대기 멤버) |
+| | project_pk | bigint | private | 연결된 프로젝트(projects.id 참조) |
+| | user_pk | bigint | private | 연결된 사용자(users.id 참조) |
+| | status | varchar | private | 사용자의 프로젝트 내 상태를 나타내는 변수(프로젝트 멤버, 승인 대기 멤버) |
 
 ---
 
@@ -61,12 +61,12 @@
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | Attributes | event_pk | bigint | private | 일정을 구분하기 위한 고유의 변수 |
-| Attributes | project_pk | bigint | private | 어떤 프로젝트의 일정인지 구분하는 변수 |
-| Attributes | user_pk | bigint | private | 일정을 생성한 사용자를 구분하는 변수 |
-| Attributes | title | varchar | private | 일정의 이름을 저장하는 변수 |
-| Attributes | start_time | timestamp | private | 일정 시작 시간을 나타내는 변수 |
-| Attributes | end_time | timestamp | private | 일정 종료 시간을 나타내는 변수 |
-| Attributes | description | text | private | 일정 상세 정보를 나타내는 변수 |
+| | project_pk | bigint | private | 어떤 프로젝트의 일정인지 구분하는 변수 |
+| | user_pk | bigint | private | 일정을 생성한 사용자를 구분하는 변수 |
+| | title | varchar | private | 일정의 이름을 저장하는 변수 |
+| | start_time | timestamp | private | 일정 시작 시간을 나타내는 변수 |
+| | end_time | timestamp | private | 일정 종료 시간을 나타내는 변수 |
+| | description | text | private | 일정 상세 정보를 나타내는 변수 |
 
 ---
 
@@ -77,8 +77,8 @@
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | Attributes | participants_pk | bigint | private | 참가 기록의 고유 식별자 |
-| Attributes | event_pk | bigint | private | 참가한 일정을 구분하기 위한 변수 |
-| Attributes | user_pk | bigint | private | 어떤 사용자가 참가하는지 구분하는 변수 |
+| | event_pk | bigint | private | 참가한 일정을 구분하기 위한 변수 |
+| | user_pk | bigint | private | 어떤 사용자가 참가하는지 구분하는 변수 |
 
 ---
 
@@ -89,13 +89,13 @@
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | Attributes | post_pk | bigint | private | 게시글을 구분하기 위한 고유의 변수 |
-| Attributes | project_pk | bigint | private | 연결된 프로젝트가 어떤 것인지 구분하는 변수 |
-| Attributes | user_pk | bigint | private | 게시글 작성자를 구분하기 위한 변수 |
-| Attributes | content | text | private | 게시글 본문 내용을 나타내는 변수 |
-| Attributes | created_at | timestamp | private | 게시글 생성 시간을 나타내는 변수 |
-| Attributes | updated_at | timestamp | private | 게시글 수정 시간을 나타내는 변수 |
-| Attributes | Is_notice | boolean | private | 공지사항 유무를 나타내는 변수 |
-| Attributes | has_voting | boolean | private | 투표 기능이 포함되어 있는지 구분하는 변수 |
+| | project_pk | bigint | private | 연결된 프로젝트가 어떤 것인지 구분하는 변수 |
+| | user_pk | bigint | private | 게시글 작성자를 구분하기 위한 변수 |
+| | content | text | private | 게시글 본문 내용을 나타내는 변수 |
+| | created_at | timestamp | private | 게시글 생성 시간을 나타내는 변수 |
+| | updated_at | timestamp | private | 게시글 수정 시간을 나타내는 변수 |
+| | Is_notice | boolean | private | 공지사항 유무를 나타내는 변수 |
+| | has_voting | boolean | private | 투표 기능이 포함되어 있는지 구분하는 변수 |
 
 ---
 
@@ -106,13 +106,13 @@
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | Attributes | poll_pk | bigint | private | 각 시간조율표 이벤트를 구별하는 변수 |
-| Attributes | project_pk | bigint | private | 어떤 프로젝트에 속하는지 구분하는 변수 |
-| Attributes | creator_user_pk | bigint | private | 누가 생성한 것인지 구분하는 변수 |
-| Attributes | title | varchar | private | 각 시간조율표의 이름을 저장하는 변수 |
-| Attributes | start_date | date | private | 시간조율 범위의 시작 날짜를 저장하는 변수 |
-| Attributes | end_date | date | private | 시간조율 범위의 마감 날짜를 저장하는 변수 |
-| Attributes | start_time_of_day | time | private | 시간조율표의 시작 시간을 저장하는 변수(기본값은 09:00) |
-| Attributes | end_time_of_day | time | private | 시간조율표의 종료 시간을 저장하는 변수(기본값은 18:00) |
+| | project_pk | bigint | private | 어떤 프로젝트에 속하는지 구분하는 변수 |
+| | creator_user_pk | bigint | private | 누가 생성한 것인지 구분하는 변수 |
+| | title | varchar | private | 각 시간조율표의 이름을 저장하는 변수 |
+| | start_date | date | private | 시간조율 범위의 시작 날짜를 저장하는 변수 |
+| | end_date | date | private | 시간조율 범위의 마감 날짜를 저장하는 변수 |
+| | start_time_of_day | time | private | 시간조율표의 시작 시간을 저장하는 변수(기본값은 09:00) |
+| | end_time_of_day | time | private | 시간조율표의 종료 시간을 저장하는 변수(기본값은 18:00) |
 
 ---
 
@@ -123,12 +123,12 @@
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | Attributes | vote_pk | bigint | private | 투표를 구분하기 위한 고유의 변수 |
-| Attributes | post_pk | bigint | private | 어떤 게시글의 투표인지 구분하는 변수 |
-| Attributes | title | varchar | private | 투표 제목을 나타내는 변수 |
-| Attributes | start_time | timestamp | private | 투표 시작 시간을 나타내는 변수 |
-| Attributes | end_time | timestamp | private | 투표 종료 시간을 나타내는 변수 |
-| Attributes | allow_multiple_choices | boolean | private | 복수 선택 여부를 나타내는 변수 |
-| Attributes | is_anonymous | boolean | private | 익명 투표 여부를 나타내는 변수 |
+| | post_pk | bigint | private | 어떤 게시글의 투표인지 구분하는 변수 |
+| | title | varchar | private | 투표 제목을 나타내는 변수 |
+| | start_time | timestamp | private | 투표 시작 시간을 나타내는 변수 |
+| | end_time | timestamp | private | 투표 종료 시간을 나타내는 변수 |
+| | allow_multiple_choices | boolean | private | 복수 선택 여부를 나타내는 변수 |
+| | is_anonymous | boolean | private | 익명 투표 여부를 나타내는 변수 |
 
 ---
 
@@ -139,10 +139,10 @@
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | Attributes | response_pk | bigint | private | 시간 응답을 구분하기 위한 고유의 변수 |
-| Attributes | poll_pk | bigint | private | 어떤 시간조율표에 대한 응답인지 구분하는 변수 |
-| Attributes | user_pk | bigint | private | 어떤 사용자가 가능한 시간대인지 구분하는 변수 |
-| Attributes | start_time_utc | timestamp | private | 드래그한 시간의 시작 시점을 UCT로 저장 |
-| Attributes | end_time_utc | timestamp | private | 드래그한 시간의 종료 시점을 UCT로 저장 |
+| | poll_pk | bigint | private | 어떤 시간조율표에 대한 응답인지 구분하는 변수 |
+| | user_pk | bigint | private | 어떤 사용자가 가능한 시간대인지 구분하는 변수 |
+| | start_time_utc | timestamp | private | 드래그한 시간의 시작 시점을 UCT로 저장 |
+| | end_time_utc | timestamp | private | 드래그한 시간의 종료 시점을 UCT로 저장 |
 
 ---
 
@@ -153,8 +153,8 @@
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | Attributes | option_pk | bigint | private | 투표 선택 항목을 구분하기 위한 고유의 변수 |
-| Attributes | vote_pk | bigint | private | 어떤 투표에 속한 항목인지 식별하는 변수 |
-| Attributes | content | varchar | private | 투표 선택 항목의 내용을 나타내는 변수 |
+| | vote_pk | bigint | private | 어떤 투표에 속한 항목인지 식별하는 변수 |
+| | content | varchar | private | 투표 선택 항목의 내용을 나타내는 변수 |
 
 ---
 
@@ -165,8 +165,8 @@
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | Attributes | response_pk | bigint | private | 투표 응답을 기록하는 변수 |
-| Attributes | option_pk | bigint | private | 어떤 항목에 투표했는지 구별하는 변수 |
-| Attributes | user_pk | bigint | private | 누가 투표를 했는지 구별하는 변수 |
+| | option_pk | bigint | private | 어떤 항목에 투표했는지 구별하는 변수 |
+| | user_pk | bigint | private | 누가 투표를 했는지 구별하는 변수 |
 
 ## 3.2. Function class diagram
 
