@@ -176,8 +176,6 @@
 
 * 변수의 이름은 소문자로 시작하며 단어의 구분은 대문자로 한다.
 
----
-
 ### 3.2.1. User class diagram
 
 ![[그림 3-2] User class diagram](./image/UserCD.png)
