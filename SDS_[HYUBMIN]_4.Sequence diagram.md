@@ -222,7 +222,8 @@
 [그림 4-26] 시간조율표 생성 Sequence diagram
 
 [그림 4-26]은 사용자가 새로운 시간조율표를 생성하는 과정을 나타내는 sequence diagram이다. use case description에서 <Use Case #20>의 경우이다.<br>
-사용자가 시간조율 생성 화면에서 제목, 날짜, 시간 범위 등을 입력하고 “생성” 버튼을 눌러서 POST /api/time-poll 요청을 보내면 컨트롤러는 createTimePoll()을 호출한다. 서비스는 프로젝트와 생성자 정보를 조회한 뒤,  새로운 TimePoll을 저장한다. 생성 후 컨트롤러는 최신 목록을 제공하기 위해 getPollList()를 다시 호출하여, 서비스는 조회된 목록을 PollSummary 형태로 반환한다. 사용자는 생성 후 갱신된 시간조율 리스트를 확인할 수 있다.
+사용자가 시간조율 생성 화면에서 제목, 날짜, 시간 범위 등을 입력하고 “생성” 버튼을 눌러서 POST /api/time-poll 요청을 전송한다. TimePollController는 이를 받아 createTimePoll()을 호출하며, 서비스는 Project와 User 정보를 조회한 뒤 새로운 TimePoll 엔티티를 생성 및 저장한다.<br>
+생성 완료 후 컨트롤러는 최신 목록을 반환하기 위해 즉시 getPollList(projectId)를 다시 호출한다. 서비스는 종료되지 않은(TimePoll.endDate ≥ today) 시간조율표들을 조회한 뒤, 각 항목을 PollSummary로 변환하여 기간(duration)과 응답자 수(userCount)를 계산한다. 최종적으로 컨트롤러는 PollSummary 리스트를 사용자에게 응답으로 전달하며, 사용자는 생성 직후 갱신된 시간조율표 목록을 확인할 수 있다.
 
 ### 시간 일정 편집
 
@@ -230,7 +231,8 @@
 [그림 4-27] 시간 일정 편집 Sequence diagram
 
 [그림 4-27]은 사용자가 특정 시간조율에 대해 자신의 가능 시간을 제출하거나 수정하는 과정을 나타낸 sequence diagram이다. use case description에서 <Use Case #21>의 경우이다.<br>
-사용자가 POST /api/time-poll/submit 요청을 보내면, 서비스는 기존 응답이 있는 경우, 기존 응답을 삭제하고 새로운 시간 응답을 저장한다. 저장이 완료되면 최신 시간표를 보여주기 위해 getPollDetailGrid()를 다시 호출하며, grid 생성 로직이 동일하게 수행된다. 업데이트된 DetailResponse가 반환되어 사용자는 반영된 시간표를 즉시 확인할 수 있다.
+사용자가 가능 시간을 선택하여 POST /api/time-poll/submit요청을 보내면, TimePollController는 이를 TimePollService의 submitResponse()로 전달한다. 서비스는 해당 사용자가 이전에 제출한 응답이 있는지 확인하고, 존재할 경우 기존 응답들을 먼저 삭제한다. 이후 전달받은 availableTimes 정보를 기반으로 새로운 TimeResponse 목록을 생성하여 한 번에 저장한다.<br>
+저장이 완료되면 컨트롤러는 최신 히트맵 형태의 시간표를 제공하기 위해 즉시 getPollDetailGrid(pollId, userId)를 다시 호출한다. 서비스는 모든 사용자 응답과 현재 사용자의 응답을 각각 조회하고, 동일한 그리드 생성 로직을 통해 teamGrid와 myGrid를 구성한다. 최종적으로 생성된 DetailResponse가 사용자에게 반환되며, 사용자는 자신의 선택이 바로 반영된 최신 시간표를 확인할 수 있다.
 
 ### 시간 일정 확인
 
@@ -238,4 +240,5 @@
 [그림 4-28] 시간 일정 확인 Sequence diagram
 
 [그림 4-28]은 사용자가 특정 시간조율의 상세 정보를 조회하는 과정을 나타내는 sequence diagram이다. use case description에서 <Use Case #22>의 경우이다.<br>
-사용자가 GET /api/time-poll/{pollId} 요청을 보내면, 컨트롤러는 서비스의 getPollDetailGrid()를 호출한다. 서비스는 TimePollRepository에서 시간조율을 조회하고 TimeResponseRepository에서 응답 목록을 불러온 뒤, fillGrid()를 반복 실행해 시간표 데이터를 생성한다. 최종적으로 구성된 DetailResponse가 사용자에게 전달되어 사용자는 시간조율표를 확인할 수 있다.
+사용자가 GET /api/time-poll/{pollId}?userId=U요청을 전송하면, TimePollController는 이를 받아 서비스의 getPollDetailGrid(pollId, U)를 호출한다. TimePollService는 먼저 TimePollRepository에서 해당 시간 조율표 정보를 조회한 뒤, TimeResponseRepository를 통해 전체 사용자 응답 목록(allResponses)과 현재 사용자의 응답 목록(myResponses)을 각각 가져온다.<br>
+조회된 응답 데이터는 동일한 그리드 생성 로직을 사용하여 반복문을 통해 teamGrid와 myGrid로 채워진다. 이후 서비스는 완성된 DetailResponse 객체를 컨트롤러로 반환하고, 컨트롤러는 이를 사용자에게 전달한다. 최종적으로 사용자는 구성된 시간표(teamGrid, myGrid)를 확인하며 팀 전체의 가능 시간과 자신의 가능 시간을 비교해볼 수 있다.
