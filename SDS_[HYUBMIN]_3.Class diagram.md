@@ -1,4 +1,4 @@
-### 3. Class diagram
+# 3. Class diagram
 
 이 장은 '협업의 민족' 시스템을 다양한 관점에서 바라본 Class diagram(이하 CD)과 각각에 대한 설명을 기술한다.
 
