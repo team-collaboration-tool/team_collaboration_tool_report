@@ -197,16 +197,26 @@
 
 사용자가 projectId를 보내면, 시스템은 projectId와 userEmail을 CalendarEventService로 전달한다. Service는 findProjectById와 findByEmail로 Project와 User를 조회한 뒤, checkProjectMembership을 호출하여 요청자가 'APPROVED' 상태의 멤버인지 권한 확인을 수행한다. 권한이 확인되면, calendarEventRepository.findByProject_ProjectPk를 호출하여 DB에서 해당 프로젝트의 모든 일정을 조회하고 List<CalendarEventResponse>로 변환하여 반환한다.
 
+### 개인 일정 확인
+
+![[그림 4-21] 개인 일정 확인 Sequence diagram](./image/마이페이지.png)
+
+[그림 4-21] 개인 일정 확인 Sequence diagram
+
+[그림 4-21]은 사용자가 마이페이지에서 개인의 일정을 확인하는 sequence diagram이다. use case description에서 <Use Case #3>의 경우이다.<br>
+  
+사용자가 마이페이지에 접속하면 시스템은 사용자의 이메일을 CalendarEventService로 전달한다. Service는 ProjectUserRepository를 통해 사용자가 'APPROVED' 상태로 참여 중인 모든 프로젝트의 ID 목록을 조회한다. 그 후, calendarEventRepository.findByProject_ProjectPkIn을 호출하여 해당 프로젝트들에 속한 모든 일정을 한 번에 조회하고, List로 변환하여 반환한다.
+
 ---
 
 ## 4.4. Community sequence diagram
 
 ### 게시글 작성
 
-![[그림 4-21] 게시글 작성 Sequence diagram](./image/4-21.png)
-[그림 4-21] 게시글 작성 Sequence diagram
+![[그림 4-22] 게시글 작성 Sequence diagram](./image/4-21.png)
+[그림 4-22] 게시글 작성 Sequence diagram
 
-[그림 4-21]은 사용자(프로젝트 참여자)가 게시판에서 새 게시글을 작성하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #17>의 경우이다.<br>
+[그림 4-22]는 사용자(프로젝트 참여자)가 게시판에서 새 게시글을 작성하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #17>의 경우이다.<br>
 
  사용자가 게시판에서 “게시글 작성” 버튼을 누르고 제목, 내용, 투표 옵션(선택 사항)을 입력한 뒤 등록 버튼을 클릭하면 기능이 시작된다. 시스템은 먼저 로그인한 사용자 정보를 조회하여 게시글 작성 권한을 확인하고, 사용자가 선택한 프로젝트 정보를 불러온다. 이후 프로젝트 내 게시글 번호(postNumber)를 계산하여 새 게시글 객체를 생성한다.<br>
  
@@ -216,19 +226,19 @@
 
 ### 게시글 수정
 
-![[그림 4-22] 게시글 수정 Sequence diagram](./image/4-22.png)
-[그림 4-22] 게시글 수정 Sequence diagram
+![[그림 4-23] 게시글 수정 Sequence diagram](./image/4-22.png)
+[그림 4-23] 게시글 수정 Sequence diagram
 
-[그림 4-22]는 사용자(프로젝트 참여자)가 등록한 게시글을 수정하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #18>의 경우이다.<br>
+[그림 4-23]은 사용자(프로젝트 참여자)가 등록한 게시글을 수정하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #18>의 경우이다.<br>
 
 사용자가 게시글 상세 화면에서 “수정” 버튼을 클릭하여 제목, 내용, 공지 여부(선택 사항)를 변경한 뒤 저장을 누르면 기능이 시작된다. 시스템은 먼저 로그인한 사용자 정보를 조회하고, 수정 대상 게시글의 작성자와 일치하는지 비교하여 수정 권한을 검증한다. 권한이 확인되면 시스템은 사용자가 입력한 제목·내용·공지 여부를 게시글 엔티티에 반영하고, 기존에 연결된 투표 정보가 있는 경우에는 변경하지 않고 그대로 유지한다. 수정이 완료되면 시스템은 갱신된 게시글 정보를 PostResponse 형태로 반환한다.
 
 ### 게시글 삭제
 
-![[그림 4-23] 게시글 삭제 Sequence diagram](./image/4-23.png)
-[그림 4-23] 게시글 삭제 Sequence diagram
+![[그림 4-24] 게시글 삭제 Sequence diagram](./image/4-23.png)
+[그림 4-24] 게시글 삭제 Sequence diagram
 
-[그림 4-23]은 사용자(프로젝트 참여자)가 등록한 게시글을 삭제하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #18>의 경우이다.<br>
+[그림 4-24]는 사용자(프로젝트 참여자)가 등록한 게시글을 삭제하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #18>의 경우이다.<br>
 
  사용자가 게시글 상세 화면에서 “삭제” 버튼을 클릭해 삭제를 확정하면 기능이 시작된다. 시스템은 먼저 로그인한 사용자 정보를 조회한 뒤, 삭제 대상 게시글의 작성자와 일치하는지 비교하여 삭제 권한을 검증한다. 권한이 확인되면 시스템은 해당 게시글을 데이터베이스에서 삭제한다.<br>
  
@@ -236,10 +246,10 @@
 
 ### 게시글 접근
 
-![[그림 4-24] 게시글 접근 Sequence diagram](./image/4-24.png)
-[그림 4-24] 게시글 접근 Sequence diagram
+![[그림 4-25] 게시글 접근 Sequence diagram](./image/4-24.png)
+[그림 4-25] 게시글 접근 Sequence diagram
 
-[그림 4-24]는 사용자(프로젝트 참여자)가 특정 게시글의 상세 내용을 조회하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #19>의 경우이다.<br>
+[그림 4-25]는 사용자(프로젝트 참여자)가 특정 게시글의 상세 내용을 조회하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #19>의 경우이다.<br>
 
  사용자가 게시판 목록에서 게시글을 클릭하면 시스템은 해당 게시글 ID를 이용해 게시글, 작성자, 프로젝트 정보를 함께 조회한다. 이후 로그인된 사용자가 있을 경우, 조회된 게시글의 작성자와 비교하여 사용자가 게시글 작성자인지 여부를 판단한다.<br>
  
@@ -249,10 +259,10 @@
 
 ### 개시글 검색
 
-![[그림 4-25] 게시글 검색 Sequence diagram](./image/4-25.png)
-[그림 4-25] 게시글 검색 Sequence diagram
+![[그림 4-26] 게시글 검색 Sequence diagram](./image/4-25.png)
+[그림 4-26] 게시글 검색 Sequence diagram
 
-[그림 4-25]는는 사용자(프로젝트 참여자)가 특정 게시글을 검색하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #25>의 경우이다.<br>
+[그림 4-26]은 사용자(프로젝트 참여자)가 특정 게시글을 검색하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #25>의 경우이다.<br>
 
  사용자가 게시판 화면에서 프로젝트를 선택한 뒤 검색 유형(제목/작성자)을 지정하여 검색창에 키워드를 입력하고 검색 버튼을 누르면 기능이 시작된다. 시스템은 먼저 선택된 프로젝트 ID로 프로젝트를 조회한 후, 키워드가 비어 있는 경우에는 해당 프로젝트의 모든 게시글 목록을 조회한다. 키워드가 존재하는 경우에는 검색 유형이 “제목”이면 제목 기준으로, “작성자”이면 작성자 이름 기준으로 게시글을 필터링하며, 그 외의 검색 유형이 요청된 경우에는 예외를 발생시킨다.<br>
  
@@ -260,10 +270,10 @@
 
 ### 공지사항 등록/해제 
 
-![[그림 4-26] 공지사항 등록/해제 Sequence diagram](./image/공지사항.png)
-[그림 4-26] 공지사항 등록/해제 Sequence diagram
+![[그림 4-27] 공지사항 등록/해제 Sequence diagram](./image/공지사항.png)
+[그림 4-27] 공지사항 등록/해제 Sequence diagram
 
- [그림 4-26]은 사용자(프로젝트 참여자)가 특정 게시글을 공지사항으로 등록 또는 해제하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #17>과 <Use Case #18>에서 수행될 수 있는 일부 흐름에 해당한다.<br>
+ [그림 4-27]은 사용자(프로젝트 참여자)가 특정 게시글을 공지사항으로 등록 또는 해제하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #17>과 <Use Case #18>에서 수행될 수 있는 일부 흐름에 해당한다.<br>
  
  사용자가 게시글 작성 화면에서 공지사항 유무 체크박스를 클릭하면 기능이 시작된다. 시스템은 먼저 로그인된 사용자 정보를 조회하며, <Use case #18>의 수정의 경우 추가적으로 해당 게시글의 작성자와 일치하는지 비교하여 공지 설정 권한을 검증한다. 작성자가 아닌 사용자가 요청한 경우에는 권한 예외를 발생시켜 동작을 중단한다.<br>
  
@@ -271,10 +281,10 @@
 
 ### 투표하기
 
-![[그림 4-27] 투표하기 Sequence diagram](./image/투표.png)
-[그림 4-27] 투표하기 Sequence diagram
+![[그림 4-28] 투표하기 Sequence diagram](./image/투표.png)
+[그림 4-28] 투표하기 Sequence diagram
 
- [그림 4-27]은 사용자(프로젝트 참여자)가 게시글에 생성된 투표를 하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #19>에서 수행될 수 있는 일부 흐름에 해당한다.<br>
+ [그림 4-28]은 사용자(프로젝트 참여자)가 게시글에 생성된 투표를 하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #19>에서 수행될 수 있는 일부 흐름에 해당한다.<br>
  
  사용자가 특정 투표 항목을 선택하고 “투표하기” 버튼을 클릭하면 기능이 시작된다. 시스템은 먼저 선택된 옵션 ID를 기반으로 VoteOption 정보를 조회하고, 해당 옵션이 속한 투표(Vote)의 마감 시간이 지나지 않았는지 검증한다. 이어서 로그인된 사용자 정보를 조회하여 투표 참여가 가능한 사용자임을 확인한다.<br>
  
@@ -284,10 +294,10 @@
 
 ### 재투표하기
 
-![[그림 4-28] 재투표하기 Sequence diagram](./image/재투표.png)
-[그림 4-28] 재투표하기 Sequence diagram
+![[그림 4-29] 재투표하기 Sequence diagram](./image/재투표.png)
+[그림 4-29] 재투표하기 Sequence diagram
 
- [그림 4-28]은 사용자(프로젝트 참여자)가 기존에 참여한 투표 결과를 수정하기 위해 재투표를 수행하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #19>에서 수행될 수 있는 일부 흐름에 해당한다.<br>
+ [그림 4-29]는 사용자(프로젝트 참여자)가 기존에 참여한 투표 결과를 수정하기 위해 재투표를 수행하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #19>에서 수행될 수 있는 일부 흐름에 해당한다.<br>
  
  사용자가 게시글의 투표 영역에서 기존 선택을 변경하기 위해 “재투표하기” 버튼을 클릭하면 기능이 시작된다. 시스템은 먼저 로그인된 사용자를 조회하고, 사용자가 선택한 특정 옵션 ID 목록을 전달받는다. 이후 투표(Vote)의 기본 정보를 확인하여 투표가 이미 마감되었는지 검증한 뒤, 사용자가 해당 투표에 대해 이전에 남긴 모든 투표 기록(VoteRecord)을 불러온다.<br>
  
@@ -308,10 +318,10 @@
 
 ### 시간조율표 생성
 
-![[그림 4-29] 시간조율표 생성 Sequence diagram](./image/4-26.png)
-[그림 4-29] 시간조율표 생성 Sequence diagram
+![[그림 4-30] 시간조율표 생성 Sequence diagram](./image/4-26.png)
+[그림 4-30] 시간조율표 생성 Sequence diagram
 
-[그림 4-29]는 사용자가 새로운 시간조율표를 생성하는 과정을 나타내는 sequence diagram이다. use case description에서 <Use Case #20>의 경우이다.<br>
+[그림 4-30]은 사용자가 새로운 시간조율표를 생성하는 과정을 나타내는 sequence diagram이다. use case description에서 <Use Case #20>의 경우이다.<br>
 
 사용자가 시간조율 생성 화면에서 제목, 날짜, 시간 범위 등을 입력하고 “생성” 버튼을 눌러서 POST /api/time-poll 요청을 전송한다. TimePollController는 이를 받아 createTimePoll()을 호출하며, 서비스는 Project와 User 정보를 조회한 뒤 새로운 TimePoll 엔티티를 생성 및 저장한다.<br>
 
@@ -319,10 +329,10 @@
 
 ### 시간 일정 편집
 
-![[그림 4-30] 시간 일정 편집 Sequence diagram](./image/4-27.png)
-[그림 4-30] 시간 일정 편집 Sequence diagram
+![[그림 4-31] 시간 일정 편집 Sequence diagram](./image/4-27.png)
+[그림 4-31] 시간 일정 편집 Sequence diagram
 
-[그림 4-30]은 사용자가 특정 시간조율에 대해 자신의 가능 시간을 제출하거나 수정하는 과정을 나타낸 sequence diagram이다. use case description에서 <Use Case #21>의 경우이다.<br>
+[그림 4-31]은 사용자가 특정 시간조율에 대해 자신의 가능 시간을 제출하거나 수정하는 과정을 나타낸 sequence diagram이다. use case description에서 <Use Case #21>의 경우이다.<br>
 
 사용자가 가능 시간을 선택하여 POST /api/time-poll/submit요청을 보내면, TimePollController는 이를 TimePollService의 submitResponse()로 전달한다. 서비스는 해당 사용자가 이전에 제출한 응답이 있는지 확인하고, 존재할 경우 기존 응답들을 먼저 삭제한다. 이후 전달받은 availableTimes 정보를 기반으로 새로운 TimeResponse 목록을 생성하여 한 번에 저장한다.<br>
 
@@ -330,26 +340,12 @@
 
 ### 시간 일정 확인
 
-![[그림 4-31] 시간 일정 확인 Sequence diagram](./image/4-28.png)
+![[그림 4-32] 시간 일정 확인 Sequence diagram](./image/4-28.png)
 
-[그림 4-31] 시간 일정 확인 Sequence diagram
+[그림 4-32] 시간 일정 확인 Sequence diagram
 
-[그림 4-31]은 사용자가 특정 시간조율의 상세 정보를 조회하는 과정을 나타내는 sequence diagram이다. use case description에서 <Use Case #22>의 경우이다.<br>
+[그림 4-32]는 사용자가 특정 시간조율의 상세 정보를 조회하는 과정을 나타내는 sequence diagram이다. use case description에서 <Use Case #22>의 경우이다.<br>
 
 사용자가 GET /api/time-poll/{pollId}?userId=U요청을 전송하면, TimePollController는 이를 받아 서비스의 getPollDetailGrid(pollId, U)를 호출한다. TimePollService는 먼저 TimePollRepository에서 해당 시간 조율표 정보를 조회한 뒤, TimeResponseRepository를 통해 전체 사용자 응답 목록(allResponses)과 현재 사용자의 응답 목록(myResponses)을 각각 가져온다.<br>
 
 조회된 응답 데이터는 동일한 그리드 생성 로직을 사용하여 반복문을 통해 teamGrid와 myGrid로 채워진다. 이후 서비스는 완성된 DetailResponse 객체를 컨트롤러로 반환하고, 컨트롤러는 이를 사용자에게 전달한다. 최종적으로 사용자는 구성된 시간표(teamGrid, myGrid)를 확인하며 팀 전체의 가능 시간과 자신의 가능 시간을 비교해볼 수 있다.
-
---- 
-
-## 4.6. MyPage sequence diagram
-
-### 개인 일정 확인
-
-![[그림 4-32] 개인 일정 확인 Sequence diagram](./image/마이페이지.png)
-
-[그림 4-32] 개인 일정 확인 Sequence diagram
-
-[그림 4-32]는 사용자가 마이페이지에서 개인의 일정을 확인하는 sequence diagram이다. use case description에서 <Use Case #3>의 경우이다.<br>
-  
-사용자가 마이페이지에 접속하면 시스템은 사용자의 이메일을 CalendarEventService로 전달한다. Service는 ProjectUserRepository를 통해 사용자가 'APPROVED' 상태로 참여 중인 모든 프로젝트의 ID 목록을 조회한다. 그 후, calendarEventRepository.findByProject_ProjectPkIn을 호출하여 해당 프로젝트들에 속한 모든 일정을 한 번에 조회하고, List로 변환하여 반환한다.
