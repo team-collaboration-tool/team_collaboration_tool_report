@@ -193,20 +193,25 @@
 | Attributes | userPk | Long | private | 사용자 고유 식별자 (PK) |
 | | password | String | private | 암호화된 비밀번호 |
 | | name | String | private | 사용자 이름 |
-| | email | String | private | 사용자 이메일 |
+| | email | String | private | 사용자 이메일 (UK) |
 | | phone | String | private | 사용자 전화번호 |
-| | field | String | private | 사용자 분야 |
+| | field | String | private | 사용자 분야 (선택사항) |
+| | isDeleted | Boolean | private | 탈퇴 여부 (기본값: false) |
+| | deletedAt | LocalDateTime | private | 탈퇴 시각 |
+| | ownedProjects | List<Project> | private | 소유한 프로젝트 목록 (1:N) |
+| | projectUsers | List<ProjectUser> | private | 참여 중인 프로젝트 관계 (1:N) |
+| | posts | List<Post> | private | 작성한 게시글 목록 (1:N) |
 
 **Operations**
 | 구분 | Name | Argument | Returns | Description |
 | --- | --- | --- | --- | --- |
-| Operations | User | password : String,<br>name : String,<br>email : String,<br>phone : String,<br>field : String | 생성자 | 새 사용자 객체를 생성하는 생성자 |
+| Operations | User | password : String,<br>name : String,<br>email : String,<br>phone : String,<br>field : String | 생성자 | 새 사용자 객체를 생성하는 생성자 (isDeleted는 false로 초기화) |
 
 ---
 
 #### UserController
 
-**Class Description:** 사용자 관련 기능(회원가입, 로그인, 정보 수정, 비밀번호 변경, 개인정보 조회)을 담당하는 컨트롤러 class
+**Class Description:** 사용자 관련 기능(회원가입, 로그인, 정보 수정, 비밀번호 변경, 개인정보 확인, 회원탈퇴)을 담당하는 컨트롤러 class
 
 **Attributes**
 | 구분 | Name | Type | Visibility | Description |
@@ -218,11 +223,14 @@
 **Operations**
 | 구분 | Name | Argument | Returns | Description |
 | --- | --- | --- | --- | --- |
-| Operations | signup | request : UserSignupRequestDTO | ResponseEntity | 회원가입 요청을 처리하는 메서드 |
-| | login | request : Map<String,String> | ResponseEntity | 사용자 로그인 처리 및 JWT 토큰 발급 |
-| | getMyInfo | userEmail : String | ResponseEntity | 로그인된 사용자의 개인정보를 반환 |
-| | updateUser | userEmail : String, request : UserUpdateRequest | ResponseEntity | 사용자 정보를 수정하는 메서드 |
-| | updatePassword | userEmail : String, request : UserPasswordUpdateRequest | ResponseEntity | 비밀번호를 변경하는 메서드 |
+| Operations | signup | request : UserSignupRequestDTO | ResponseEntity<User> | 회원가입 요청을 처리하는 메서드 |
+| | checkEmailDuplicate | email : String | ResponseEntity<Map> | 이메일 중복 확인 메서드 |
+| | login | request : LoginRequestDTO | ResponseEntity<Map> | 사용자 로그인 처리 및 JWT 토큰 발급 |
+| | getMyInfo | userEmail : String | ResponseEntity<UserInfoResponse> | 로그인된 사용자의 개인정보를 반환 (JWT 인증) |
+| | updateUser | userEmail : String,<br>request : UserUpdateRequest | ResponseEntity<Void> | 사용자 정보를 수정하는 메서드 |
+| | verifyPassword | userEmail : String,<br>request : PasswordVerifyRequest | ResponseEntity<Map> | 비밀번호 확인 메서드 |
+| | updatePassword | userEmail : String,<br>request : UserPasswordUpdateRequest | ResponseEntity<Void> | 비밀번호를 변경하는 메서드 |
+| | deleteUser | userEmail : String,<br>request : PasswordVerifyRequest | ResponseEntity<Void> | 회원 탈퇴 처리 (Soft Delete) |
 
 ---
 
@@ -233,14 +241,14 @@
 **Operations**
 | 구분 | Name | Argument | Returns | Description |
 | --- | --- | --- | --- | --- |
-| Operations | findByEmail | email : String | Optional | 이메일로 사용자 조회 |
-| | existsByEmail | email : String | boolean | 이메일 중복 여부 확인 |
+| Operations | findByEmail | email : String | Optional<User> | 이메일로 사용자 조회 |
+| | existsByEmail | email : String | boolean | 이메일 중복 여부 확인 (탈퇴 계정 포함) |
 
 ---
 
 #### UserService
 
-**Class Description:** 회원가입, 사용자 정보 조회 및 수정, 비밀번호 변경 등 사용자 관련 로직을 담당하는 서비스 class
+**Class Description:** 회원가입, 사용자 정보 조회 및 수정, 비밀번호 변경, 회원 탈퇴 등 사용자 관련 로직을 담당하는 서비스 class
 
 **Attributes**
 | 구분 | Name | Type | Visibility | Description |
@@ -251,10 +259,106 @@
 **Operations**
 | 구분 | Name | Argument | Returns | Description |
 | --- | --- | --- | --- | --- |
-| Operations | registerUser | request : UserSignupRequestDTO | User | 회원가입 처리 및 사용자 저장 |
-| | findByEmail | email : String | User | 이메일로 사용자 조회 |
-| | updateUser | email : String, <br>request : UserUpdateRequest | void | 사용자 정보 수정 |
-| | updatePassword | email : String, <br>request : UserPasswordUpdateRequest | void | 비밀번호 변경 처리 |
+| Operations | isEmailExists | email : String | boolean | 이메일 중복 여부 확인 |
+| | registerUser | request : UserSignupRequestDTO | User | 회원가입 처리 및 사용자 저장 (비밀번호 암호화) |
+| | findByEmail | email : String | User | 이메일로 사용자 조회 (존재하지 않으면 예외 발생) |
+| | updateUser | email : String,<br>request : UserUpdateRequest | void | 사용자 정보 수정 (이름, 전화번호, 분야) |
+| | verifyPassword | email : String,<br>password : String | boolean | 비밀번호 일치 여부 확인 (본인 인증용) |
+| | updatePassword | email : String,<br>request : UserPasswordUpdateRequest | void | 비밀번호 변경 처리 (현재 비밀번호 검증 후 변경) |
+| | deleteUser | email : String | void | 회원 탈퇴 처리 (Soft Delete: isDeleted=true, deletedAt 설정) |
+
+---
+
+#### DTO Classes
+
+- UserSignupRequestDTO
+
+**Attributes**
+| Name | Type | Constraints |
+| --- | --- | --- |
+| password | String | @NotBlank,<br> @Pattern: 8~20자 영문/숫자/특수문자 |
+| name | String | @NotBlank |
+| email | String | @NotBlank,<br>  @Pattern: 이메일 형식 |
+| phone | String | @NotBlank,<br>  @Pattern: 11자리 숫자 |
+| field | String | 선택사항,<br>  @NotBlank 제거됨 |
+
+- LoginRequestDTO
+
+**Attributes**
+| Name | Type | Constraints |
+| --- | --- | --- |
+| email | String | |
+| password | String | |
+
+- UserInfoResponse
+
+**Attributes**
+| Name | Type | Constraints |
+| --- | --- | --- |
+| userPk | Long | |
+| name | String | |
+| email | String | |
+| phone | String | |
+| field | String | |
+
+- UserUpdateRequest
+
+**Attributes**
+| Name | Type | Constraints |
+| --- | --- | --- |
+| name | String | 선택사항 |
+| phone | String | 선택사항,<br> @Pattern: 11자리 숫자 |
+| field | String | 선택사항 |
+
+- UserPasswordUpdateRequest
+
+**Attributes**
+| Name | Type | Constraints |
+| --- | --- | --- |
+| currentPassword | String | @NotBlank |
+| newPassword | String | @NotBlank,<br> @Pattern: 8~20자 |
+
+- PasswordVerifyRequest
+
+**Attributes**
+| Name | Type | Constraints |
+| --- | --- | --- |
+| password | String | @NotBlank |
+
+---
+
+#### JwtTokenProvider
+
+**Class Description:** JWT 토큰 생성, 검증, 정보 추출을 담당하는 유틸리티 class
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | secretKey | String | private | JWT 서명용 비밀키 (환경변수) |
+| | expirationTime | long | private | 토큰 만료 시간 (86400000ms = 24시간) |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | generateToken | email : String | String | 이메일 기반 JWT 토큰 생성 |
+| | getEmailFromToken | token : String | String | 토큰에서 이메일 추출 |
+| | validateToken | token : String | boolean | 토큰 유효성 검증 (만료, 서명 등) |
+
+---
+
+#### JwtAuthenticationFilter
+
+**Class Description:** HTTP 요청의 JWT 토큰을 검증하고 Spring Security에 인증 정보를 설정하는 필터 class
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | jwtTokenProvider | JwtTokenProvider | private | JWT 토큰 검증 유틸 |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | doFilterInternal | request : HttpServletRequest,<br>response : HttpServletResponse,<br>filterChain : FilterChain | void | Authorization 헤더에서 JWT 추출 및 검증 후 SecurityContext에 인증 정보 설정 |
 
 ---
 ---
