@@ -18,7 +18,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 12. 4. |
+| **Last Update** | 2025. 12. 8. |
 | **Status** | Analysis |
 | **Primary Actor** | 비회원 |
 | **Preconditions** | 웹사이트에 접속한 상태여야 한다. |
@@ -46,8 +46,11 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | | 3a.1. 시스템은 이메일 형식 오류 메시지를 출력한다. |
 | | 3a.2. 이메일 입력 단계로 돌아간다. (Use case #1-3) |
 | | 3b. 이메일이 중복될 경우 |
-| | 3b.1. 시스템은 아이디 중복 메시지를 출력한다. |
+| | 3b.1. 시스템은 이메일 중복 메시지를 출력한다. |
 | | 3b.2. 아이디를 입력하는 단계로 돌아간다. (Use case #1-3) |
+| | 3c. 탈퇴한 이메일일 경우 |
+| | 3c.1. 시스템은 이메일 중복 메시지를 출력한다. |
+| | 3c.2. 아이디를 입력하는 단계로 돌아간다. (Use case #1-3) |
 | 4 | 4a. 이메일 중복 확인을 진행하지 않은 경우 |
 | | 4a.1. 다음 버튼은 비활성화 상태를 유지한다. |
 | | 4a.2. 이메일 중복 확인 단계로 돌아간다. (Use case #1-3) |
@@ -82,12 +85,12 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 25. |
+| **Last Update** | 2025. 12. 8. |
 | **Status** | Analysis |
 | **Primary Actor** | 비회원 |
 | **Preconditions** | 사용자는 웹사이트에 접속한 상태여야 하고, 회원가입이 완료된 상태여야 한다. |
 | **Trigger** | 로그인 페이지에서 로그인 버튼을 누를 때 |
-| **Success Post Condition** | 사용자는 로그인에 성공하여 대시보드 페이지로 이동된다. |
+| **Success Post Condition** | 사용자는 로그인에 성공하여 마이페이지로 이동된다. |
 | **Failed Post Condition** | 사용자는 로그인에 실패한다. |
 
 #### MAIN SUCCESS SCENARIO
@@ -104,7 +107,10 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | | 2a.1. 시스템은 오류 메시지를 출력한다. |
 | | 2a.2. 비밀번호를 입력하는 단계로 돌아간다. (Use case #2-1) |
 | | 2b. 사용자 정보가 존재하지 않을 경우(아이디가 일치하지 않을 경우) |
-| | 2b.1. 아이디 칸 아래에 시스템은 오류 메시지를 출력한다. |
+| | 2b.1. 아시스템은 오류 메시지를 출력한다. |
+| | 2c. 회원 탈퇴한 계정일 경우 |
+| | 2c.1. 시스템은 "탈퇴한 계정입니다." 오류 메시지를 출력한다. |
+| | 2c.2. 시스템은 로그인을 거부하고 로그인 화면을 유지한다. |
 
 #### RELATED INFORMATION
 | | |
@@ -215,16 +221,16 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 #### GENERAL CHARACTERISTICS
 | | |
 | :--- | :--- |
-| **Summary** | 웹사이트 사용을 더 이상 사용하지 않을 사용자들은 회원을 탈퇴한다. |
+| **Summary** | 웹사이트 사용을 더 이상 원하지 않는 사용자는 회원 탈퇴를 통해 계정을 비활성화한다. |
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 25. |
+| **Last Update** | 2025. 12. 8. |
 | **Status** | Analysis |
 | **Primary Actor** | 회원 |
 | **Preconditions** | 사용자는 설정 페이지에 접근한 상태여야 한다. |
 | **Trigger** | 사용자가 회원 탈퇴 버튼을 누를 때 |
-| **Success Post Condition** | 사용자의 계정 정보가 ‘협업의 민족’에서 삭제된다. |
+| **Success Post Condition** | 사용자의 계정이 비활성화 상태로 변경되고, 탈퇴 시각이 기록된다. |
 | **Failed Post Condition** | 사용자는 회원 탈퇴에 실패한다. |
 
 #### MAIN SUCCESS SCENARIO
@@ -234,7 +240,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | 1 | 회원 탈퇴 버튼을 누른다. |
 | 2 | 사용자는 현재 설정된 비밀번호를 입력한다. |
 | 3 | 비밀번호가 일치하면 사용자는 시스템에 회원 탈퇴를 요청한다. |
-| 4 | 시스템은 DB에서 해당 사용자의 개인 정보만 삭제한다. |
+| 4 | 시스템은 해당 사용자의 DB 레코드 중 isDeleted 필드를 true로 업데이트한다. (Soft Delete) |
 
 #### EXTENSION SCENARIOS
 | Step | Branching Action |
@@ -515,11 +521,11 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 12. 7. |
+| **Last Update** | 2025. 12. 8. |
 | **Status** | Analysis |
 | **Primary Actor** | 회원 |
 | **Preconditions** | 사용자는 참여하고자 하는 프로젝트가 생성되어 있어야 하고, 프로젝트 참여코드를 알고 있는 상태여야 한다. |
-| **Trigger** | 대시보드 페이지의 검색창을 누를 때 |
+| **Trigger** | 상단 내비바의 참여코드를 입력하고 Enter 키를 누를 때 |
 | **Success Post Condition** | 프로젝트에 참여 요청을 보낸다. |
 | **Failed Post Condition** | 프로젝트 참여 요청 보내기에 실패한다. |
 
@@ -527,7 +533,7 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | Step | Action |
 | :--- | :--- |
 | S | 프로젝트에 참여하기 위해 참여 요청을 보낸다. |
-| 1 | 대시보드 페이지의 검색창을 누른다. |
+| 1 | 상단 내비바의 검색창을 누른다. |
 | 2 | 사용자는 참여하고자 하는 프로젝트의 참여코드를 입력한다. |
 | 3 | 사용자는 Enter 키를 눌러 프로젝트 참여 요청을 보낸다. |
 
@@ -1027,11 +1033,11 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 #### GENERAL CHARACTERISTICS
 | | |
 | :--- | :--- |
-| **Summary** | 회원가입 시 등록한 사용자의 정보를 확인한다. |
+| **Summary** | JWT 토큰 인증을 통해 로그인한 사용자의 정보를 조회한다. |
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 25. |
+| **Last Update** | 2025. 12. 8. |
 | **Status** | Analysis |
 | **Primary Actor** | 회원 |
 | **Preconditions** | 사용자는 시스템에 회원으로 등록된 상태로, 로그인한 상태여야 한다. |
@@ -1066,16 +1072,16 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 #### GENERAL CHARACTERISTICS
 | | |
 | :--- | :--- |
-| **Summary** | 웹사이트 사용을 끝낸 필요 없어진 사용자의 토큰을 반납한다. |
+| **Summary** | 웹사이트 사용을 끝낸 사용자가 로그아웃하여 인증 토큰을 무효화한다. |
 | **Scope** | 협업의 민족 |
 | **Level** | User level |
 | **Author** | 박한비 |
-| **Last Update** | 2025. 11. 25. |
+| **Last Update** | 2025. 12. 8. |
 | **Status** | Analysis |
 | **Primary Actor** | 회원 |
 | **Preconditions** | 로그아웃을 하기 위해 사용자는 로그인 상태여야 한다. |
 | **Trigger** | 로그아웃 버튼을 누를 때 |
-| **Success Post Condition** | 사용자는 로그아웃에 성공하여, 권한이 해제되고 다시 로그인할 수 있다. |
+| **Success Post Condition** | 사용자의 인증 토큰이 클라이언트에서 삭제되고, 로그인 페이지로 이동한다. |
 | **Failed Post Condition** | 사용자는 로그아웃에 실패한다. |
 
 #### MAIN SUCCESS SCENARIO
@@ -1083,8 +1089,8 @@ Use case diagram에 관한 고려사항은 아래와 같다.
 | :--- | :--- |
 | S | 사용자가 ‘협업의 민족’ 사용을 마치기 위해 로그아웃을 한다. |
 | 1 | 사용자는 로그아웃 버튼을 누른다. |
-| 2 | 시스템은 사용자의 인증 토큰을 반납 받고 세션을 무효화한다. |
-| 3 | 시스템은 사용자의 권한을 해제하여 일부 기능에 대한 접근을 제한한다. |
+| 2 | 클라이언트는 로컬 스토리지에서 JMT 인증 토큰을 삭제한다. |
+| 3 | 시스템은 사용자를 로그인 페이지로 이동시킨다. |
 
 #### EXTENSION SCENARIOS
 | Step | Branching Action |
