@@ -51,99 +51,108 @@
 
 사용자가 설정 화면에서 현재 비밀번호와 새 비밀번호, 새 비밀번호 확인을 입력하고 저장 버튼을 클릭할 때 기능이 시작된다. 사용자가 비밀번호 변경 요청을 보내면, 시스템은 JWT 토큰을 통해 사용자를 인증하고, 현재 비밀번호가 일치할 경우, 새 비밀번호와 새 비밀번호 확인까지 일치하면 비밀번호를 변경할 수 있다.
 
+### 회원 탈퇴
+
+![[그림 4-6] 회원 탈퇴 Sequence diagram](./image/회원탈퇴.png)
+[그림 4-6] 회원 탈퇴 Sequence diagram
+
+[그림 4-6]은 사용자가 회원을 탈퇴하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #5>의 경우이다.<br>
+
+사용자가 로그인된 상태에서 회원 탈퇴를 요청할 때 기능이 시작된다. 사용자가 회원 탈퇴 요청을 보내면, 시스템은 JWT 토큰을 통해 사용자를 인증하고, 토큰에 포함된 이메일을 기반으로 해당 사용자를 조회한다. 시스템은 해당 계정이 이미 탈퇴된 상태인지 확인하고, 정상 계정인 경우 Soft Delete 방식으로 탈퇴를 처리한다. 실제 데이터를 삭제하는 대신 isDeleted 플래그를 true로 변경하고 deletedAt 필드에 현재 시간을 기록하여 데이터베이스에 저장한다. 탈퇴가 완료되면 클라이언트에 "회원 탈퇴가 완료되었습니다"라는 성공 메시지가 반환되며, 해당 계정은 로그인이 불가능한 상태가 된다.
+
 ---
 
 ## 4.2. Project sequence diagram
 
 ### 프로젝트 생성
 
-![[그림 4-6] 프로젝트 생성 Sequence diagram](./image/4-6.png)
-[그림 4-6] 프로젝트 생성 Sequence diagram
+![[그림 4-7] 프로젝트 생성 Sequence diagram](./image/4-6.png)
+[그림 4-7] 프로젝트 생성 Sequence diagram
 
-[그림 4-6]은 사용자가 새 프로젝트를 생성하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #6>의 경우이다.<br>
+[그림 4-7]은 사용자가 새 프로젝트를 생성하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #6>의 경우이다.<br>
 
 사용자가 ProjectCreateRequest와 함께 생성 요청을 보내면, 시스템 JwtAuthenticationFilter를 통해 ownerEmail을 확인하고, ProjectServices는 이 이메일로 User 엔티티를 조회한다. 그 후, Service는 Project 엔티티를 생성하며, 엔티티는 UUID를 이용해 고유한 참여코드를 자동 생성한다. 동시에 ProjectUser 엔티티도 OWNER 역할과 APPROVED 상태로 함께 생성되어 DB에 저장된다.
 
 ### 프로젝트 접근
 
-![[그림 4-7] 프로젝트 접근 Sequence diagram](./image/4-7.png)
-[그림 4-7] 프로젝트 접근 Sequence diagram
+![[그림 4-8] 프로젝트 접근 Sequence diagram](./image/4-7.png)
+[그림 4-8] 프로젝트 접근 Sequence diagram
 
-[그림 4-7]은 사용자가 특정 프로젝트에 접근하여 정보를 확인하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #7>의 경우이다.<br>
+[그림 4-8]은 사용자가 특정 프로젝트에 접근하여 정보를 확인하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #7>의 경우이다.<br>
 
 사용자가 projectId와 함께 프로젝트 조회 요청을 보내면, 시스템은 userEmail과 projectId를 ProjectService로 전달한다. Service는 Project와 User 엔티티를 각각 조회한 후, ProjectUserRepository를 통해 두 엔티티의 관계(ProjectUser)를 확인하고 status가 'APPROVED'인지 검증한다. 권한이 확인되면, Service는 myRole과 myStatus가 포함된 ProjectResponseDTO를 생성하여 반환한다.
 
 ### 프로젝트명 수정
 
-![[그림 4-8] 프로젝트명 수정 Sequence diagram](./image/4-8.png)
+![[그림 4-9] 프로젝트명 수정 Sequence diagram](./image/4-8.png)
 [그림 4-8] 프로젝트명 수정 Sequence diagram
 
-[그림 4-8]은 사용자(프로젝트 관리자)가 프로젝트명을 수정하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #8>의 경우이다.<br>
+[그림 4-9]는 사용자(프로젝트 관리자)가 프로젝트명을 수정하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #8>의 경우이다.<br>
 
 사용자가 수정할 데이터(ProjectCreateRequest)와 projectId를 보내면, 시스템은 requesterEmail과 projectId를 ProjectService로 전달한다. Service는 findProjectById로 Project 엔티티를 조회한 뒤, 조회된 Project의 owner.email과 requesterEmail을 비교하여 권한 확인을 수행한다. 권한이 확인되면, project.update()를 호출하여 엔티티를 변경하고, 변경된 내용이 DB에 저장된다.
 
 ### 프로젝트 코드 확인
 
-![[그림 4-9] 프로젝트 코드 확인 Sequence diagram](./image/4-9.png)
-[그림 4-9] 프로젝트 코드 확인 Sequence diagram
+![[그림 4-10] 프로젝트 코드 확인 Sequence diagram](./image/4-9.png)
+[그림 4-10] 프로젝트 코드 확인 Sequence diagram
 
-[그림 4-9]는 사용자가 프로젝트 참여코드를 확인하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #9>의 경우이다.<br>
+[그림 4-10]은 사용자가 프로젝트 참여코드를 확인하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #9>의 경우이다.<br>
 
 사용자가 projectId와 함께 요청을 보내면, 시스템은 requesterEmail을 ProjectService로 전달한다. Service는 findProjectById로 Project를, UserService로 User를 조회한 뒤, ProjectUserRepository를 통해 ProjectUser 엔티티를 조회하고 status가 'APPROVED'인지 검증한다. 모든 권한 확인을 통과하면, Service는 Project 엔티티의 joinCode를 포함한 ProjectCodeResponse를 생성하여 반환한다.
 
 ### 프로젝트 참여
 
-![[그림 4-10] 프로젝트 참여  Sequence diagram](./image/4-10.png)
-[그림 4-10] 프로젝트 참여 Sequence diagram
+![[그림 4-11] 프로젝트 참여  Sequence diagram](./image/4-10.png)
+[그림 4-11] 프로젝트 참여 Sequence diagram
 
-[그림 4-10]은 사용자가 특정 프로젝트에 참여를 요청하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #12>의 경우이다.<br>
+[그림 4-11]은 사용자가 특정 프로젝트에 참여를 요청하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #12>의 경우이다.<br>
 
 사용자가 joinCode와 함께 요청을 보내면, ProjectService는 projectRepository.fi ndByJoinCode로 Project를 찾고 projectUserRepository.existsByProjectAndUser로 중복을 확인한다. 모든 검증을 통과하면, ProjectUser 엔티티가 PENDING 상태와 MEMBER 역할로 생성되어 DB에 저장된다.
 
 ### 승인 대기 멤버 확인
 
-![[그림 4-11] 승인 대기 멤버 확인 Sequence diagram](./image/4-11.png)
-[그림 4-11] 승인 대기 멤버 확인 Sequence diagram
+![[그림 4-12] 승인 대기 멤버 확인 Sequence diagram](./image/4-11.png)
+[그림 4-12] 승인 대기 멤버 확인 Sequence diagram
 
-[그림 4-11]부터 [그림 4-15]까지는 사용자(프로젝트 관리자)가 프로젝트 멤버를 관리하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #10>의 경우이다. 
+[그림 4-12]부터 [그림 4-16]까지는 사용자(프로젝트 관리자)가 프로젝트 멤버를 관리하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #10>의 경우이다. 
 
-[그림 4-11]은 프로젝트 멤버를 관리하기 위해 프로젝트 관리자가 승인 대기 멤버 목록을 확인하는 sequence diagram이다.<br>
+[그림 4-12]는 프로젝트 멤버를 관리하기 위해 프로젝트 관리자가 승인 대기 멤버 목록을 확인하는 sequence diagram이다.<br>
 
 사용자가 projectId와 함께 요청을 보내면, 시스템은 requesterEmail을 ProjectService로 전달한다. Service는 findProjectById로 Project 엔티티를 조회한 뒤, owner.email과 requesterEmail을 비교하여 관리자 권한 확인을 수행한다. 권한이 확인되면, projectUserRepository.findByProjectAndStatus를 호출하여 status가 'PENDING'인 ProjectUser 레코드 목록을 조회하고, 이 목록을 ProjectJoinRequestResponse 목록으로 변환하여 반환한다.
 
 ### 승인 대기 멤버 승인
 
-![[그림 4-12] 승인 대기 멤버 승인 Sequence diagram](./image/4-12.png)
-[그림 4-12] 승인 대기 멤버 승인 Sequence diagram
+![[그림 4-13] 승인 대기 멤버 승인 Sequence diagram](./image/4-12.png)
+[그림 4-13] 승인 대기 멤버 승인 Sequence diagram
 
-[그림 4-12]는 프로젝트 관리자가 참여 요청을 보낸 멤버를 승인하는 sequence diagram이다.<br>
+[그림 4-13]은 프로젝트 관리자가 참여 요청을 보낸 멤버를 승인하는 sequence diagram이다.<br>
 
 프로젝트 관리자가 projectId와 projectUserPk를 보내면, ProjectService는 (관리자 권한을 확인한 뒤) projectUserRepository.findById로 ProjectUser 엔티티를 조회한다. Service는 projectUser.approve() 함수를 호출하여 해당 엔티티의 status를 PENDING에서 APPROVED로 변경하고, 이 변경 사항은 DB에 저장된다.
 
 ### 승인 대기 멤버 거절
 
-![[그림 4-13] 승인 대기 멤버 거절 Sequence diagram](./image/4-13.png)
-[그림 4-13] 승인 대기 멤버 거절 Sequence diagram
+![[그림 4-14] 승인 대기 멤버 거절 Sequence diagram](./image/4-13.png)
+[그림 4-14] 승인 대기 멤버 거절 Sequence diagram
 
-[그림 4-13]은 프로젝트 관리자가 참여 요청을 보낸 멤버를 거절하는 sequence diagram이다.<br>
+[그림 4-14]는 프로젝트 관리자가 참여 요청을 보낸 멤버를 거절하는 sequence diagram이다.<br>
 
 프로젝트 관리자가 projectId와 projectUserPk를 보내면, ProjectService는 findProjectById로 Project를 조회하고, owner.email과 requesterEmail을 비교하여 권한 확인을 수행한다. 권한이 확인되면 projectUserRepository.findById로 ProjectUser를 조회하고, 여러 검증(프로젝트 일치, PENDING 상태)을 거친 뒤, projectUserRepository.delete(projectUser)를 호출하여 요청을 DB에서 삭제한다.
 
 ### 프로젝트 멤버 삭제
 
-![[그림 4-14] 프로젝트 멤버 삭제 Sequence diagram](./image/4-14.png)
-[그림 4-14] 프로젝트 멤버 삭제 Sequence diagram
+![[그림 4-15] 프로젝트 멤버 삭제 Sequence diagram](./image/4-14.png)
+[그림 4-15] 프로젝트 멤버 삭제 Sequence diagram
 
-[그림 4-14]는 프로젝트 관리자가 프로젝트에 참여 중인 멤버를 삭제하는 sequence diagram이다.<br>
+[그림 4-15]는 프로젝트 관리자가 프로젝트에 참여 중인 멤버를 삭제하는 sequence diagram이다.<br>
 
 프로젝트 관리자가 projectId와 projectUserPk를 보내면, ProjectService는 findProject ById로 Project를 조회하고, owner.email과 reque sterEmail을 비교하여 권한 확인을 수행한다. 권한이 확인되면 projectUserRepository.findById로 Projec tUser를 조회하고, 프로젝트 관리자 본인이 아닌지 검증한 뒤, projectUserRepository.del ete(memberToExpel)를 호출하여 멤버를 DB에서 삭제한다.
 
 ### 프로젝트 관리자 권한 양도
 
-![[그림 4-15] 프로젝트 관리자 권한 양도 Sequence diagram](./image/4-15.png)
-[그림 4-15] 프로젝트 관리자 권한 양도 Sequence diagram
+![[그림 4-16] 프로젝트 관리자 권한 양도 Sequence diagram](./image/4-15.png)
+[그림 4-16] 프로젝트 관리자 권한 양도 Sequence diagram
 
-[그림 4-15]는 프로젝트 관리자가 다른 멤버에게 관리자 권한을 양도하는 sequence diagram이다.<br>
+[그림 4-16]은 프로젝트 관리자가 다른 멤버에게 관리자 권한을 양도하는 sequence diagram이다.<br>
 
 사용자가 projectId와 newOwnerProjectUserPk(양도받을 멤버의 ProjectUser PK)를 보내면, 시스템은 이 정보와 인증된 currentOwnerEmail을 ProjectService.transferOwners hip으로 전달한다. Service는 findProjectById로 Project를 조회한 뒤, 핵심 권한 확인(인가) 로직으로서 project.getOwner().getEmail()과 currentOwnerEmail을 비교한다. 권한이 확인되면, Service는 projectUserRepository.findById로 양도받을 대상 멤버의 ProjectUser 엔티티를 조회하고, 이 멤버가 APPROVED 상태인지, 그리고 자기 자신에게 양도하는 것은 아닌지 추가적인 검증을 수행한다.<br>
 
@@ -151,19 +160,19 @@
 
 ### 프로젝트 삭제
 
-![[그림 4-16] 프로젝트 삭제 Sequence diagram](./image/4-16.png)
-[그림 4-16] 프로젝트 삭제 Sequence diagram
+![[그림 4-17] 프로젝트 삭제 Sequence diagram](./image/4-16.png)
+[그림 4-17] 프로젝트 삭제 Sequence diagram
 
-[그림 4-16]은 사용자(프로젝트 관리자)가 프로젝트를 삭제하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #11>의 경우이다.<br>
+[그림 4-17]은 사용자(프로젝트 관리자)가 프로젝트를 삭제하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #11>의 경우이다.<br>
 
 프로젝트 관리자가 설정 페이지에서 '삭제' 버튼을 클릭할 때 기능이 시작된다. 사용자가 projectId와 함께 삭제 요청을 보내면, ProjectService는 findProjectById로 Project 엔티티를 조회한 뒤, owner.email과 requesterEmail을 비교하여 권한 확인을 수행한다. 권한이 확인되면, projectRepository.delete(project)를 호출하여 프로젝트를 DB에서 삭제한다.
 
 ### 프로젝트 나가기
 
-![[그림 4-17] 프로젝트 나가기 Sequence diagram](./image/4-17.png)
-[그림 4-17] 프로젝트 나가기 Sequence diagram
+![[그림 4-18] 프로젝트 나가기 Sequence diagram](./image/4-17.png)
+[그림 4-18] 프로젝트 나가기 Sequence diagram
 
-[그림 4-17]은 사용자(프로젝트 참여자)가 프로젝트를 나가는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #13>의 경우이다.<br>
+[그림 4-18]은 사용자(프로젝트 참여자)가 프로젝트를 나가는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #13>의 경우이다.<br>
 
 사용자가 projectId와 projectName을 보내면, ProjectService는 findProjectById로 Project를, UserService로 User를 조회한다. Service는 프로젝트 관리자가 아닌지, 프로젝트명이 일치하는지, ProjectUser가 존재하는지 순차적으로 검증한다. 모든 검증을 통과하면, projectUserRepository.delete(projectUser)를 호출하여 DB에서 해당 관계를 삭제한다.
 
@@ -173,28 +182,28 @@
 
 ### 일정 추가
 
-![[그림 4-18] 일정 추가 Sequence diagram](./image/4-18.png)
-[그림 4-18] 일정 추가 Sequence diagram
+![[그림 4-19] 일정 추가 Sequence diagram](./image/4-18.png)
+[그림 4-19] 일정 추가 Sequence diagram
 
-[그림 4-18]은 사용자(프로젝트 참여자)가 새로운 일정을 추가하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #14>의 경우이다.<br>
+[그림 4-19]는 사용자(프로젝트 참여자)가 새로운 일정을 추가하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #14>의 경우이다.<br>
 
 사용자가 projectId와 CalendarEventCreateRequest DTO를 보내면, 시스템은 이 정보와 userEmail을 CalendarEventService로 전달한다. Service는 checkProjectMembership을 통해 'APPROVED' 상태의 멤버인지 권한 확인을 수행한다. 권한이 확인되면, Ser vice는 findParticipantsByPks를 호출하여 participantUserPks 목록을 Set 엔티티로 변환하고, 이를 newCalendarEvent 생성자에 전달하여 CalendarEvent 엔티티를 생성한 뒤 calendarEventRepository.save를 호출하여 DB에 저장하고 생성된 CalendarEventResponse를 반환한다.
 
 ### 일정 편집
 
-![[그림 4-19] 일정 편집 Sequence diagram](./image/4-19.png)
-[그림 4-19] 일정 편집 Sequence diagram
+![[그림 4-20] 일정 편집 Sequence diagram](./image/4-19.png)
+[그림 4-20] 일정 편집 Sequence diagram
 
-[그림 4-19]는 사용자(프로젝트 참여자)가 등록된 일정을 수정 또는 삭제하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #15>의 경우이다.<br>
+[그림 4-20]은 사용자(프로젝트 참여자)가 등록된 일정을 수정 또는 삭제하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #15>의 경우이다.<br>
 
 사용자가 eventId와 CalendarEventCreateRequest DTO를 보내면, 시스템은 이 정보와 userEmail을 CalendarEventService로 전달한다. Service는 findEventById로 수정할 CalendarEvent 엔티티를 조회한 뒤, 권한 확인 로직으로서 event.getCreateUser().getEmail()(일정 생성자) 또는 event.isParticipant()(참가자) 중 하나라도 userEmail과 일치하는지 비교한다. 권한이 확인되면, findParticipantsByPks로 새로운 참가자 목록을 조회하고 event.update()를 호출하여 엔티티를 변경한 뒤, 변경된 CalendarEventResponse를 반환한다.
 
 ### 일정 조회
 
-![[그림 4-20] 일정 조회 Sequence diagram](./image/4-20.png)
-[그림 4-20] 일정 조회 Sequence diagram
+![[그림 4-21] 일정 조회 Sequence diagram](./image/4-20.png)
+[그림 4-21] 일정 조회 Sequence diagram
 
-[그림 4-20]은 사용자(프로젝트 참여자)가 프로젝트의 일정을 조회하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #16>의 경우이다.<br>
+[그림 4-21]은 사용자(프로젝트 참여자)가 프로젝트의 일정을 조회하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #16>의 경우이다.<br>
 
 사용자가 projectId를 보내면, 시스템은 projectId와 userEmail을 CalendarEventService로 전달한다. Service는 findProjectById와 findByEmail로 Project와 User를 조회한 뒤, checkProjectMembership을 호출하여 요청자가 'APPROVED' 상태의 멤버인지 권한 확인을 수행한다. 권한이 확인되면, calendarEventRepository.findByProject_ProjectPk를 호출하여 DB에서 해당 프로젝트의 모든 일정을 조회하고 List로 변환하여 반환한다.
 
@@ -204,10 +213,10 @@
 
 ### 게시글 작성
 
-![[그림 4-21] 게시글 작성 Sequence diagram](./image/4-21.png)
-[그림 4-21] 게시글 작성 Sequence diagram
+![[그림 4-22] 게시글 작성 Sequence diagram](./image/4-21.png)
+[그림 4-22] 게시글 작성 Sequence diagram
 
-[그림 4-21]은 사용자(프로젝트 참여자)가 게시판에서 새 게시글을 작성하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #17>의 경우이다.<br>
+[그림 4-22]는 사용자(프로젝트 참여자)가 게시판에서 새 게시글을 작성하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #17>의 경우이다.<br>
 
  사용자가 게시판에서 “게시글 작성” 버튼을 누르고 제목, 내용, 투표 옵션(선택 사항)을 입력한 뒤 등록 버튼을 클릭하면 기능이 시작된다. 시스템은 먼저 로그인한 사용자 정보를 조회하여 게시글 작성 권한을 확인하고, 사용자가 선택한 프로젝트 정보를 불러온다. 이후 프로젝트 내 게시글 번호(postNumber)를 계산하여 새 게시글 객체를 생성한다.<br>
  
@@ -217,19 +226,19 @@
 
 ### 게시글 수정
 
-![[그림 4-22] 게시글 수정 Sequence diagram](./image/4-22.png)
-[그림 4-22] 게시글 수정 Sequence diagram
+![[그림 4-23] 게시글 수정 Sequence diagram](./image/4-22.png)
+[그림 4-23] 게시글 수정 Sequence diagram
 
-[그림 4-22]는 사용자(프로젝트 참여자)가 등록한 게시글을 수정하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #18>의 경우이다.<br>
+[그림 4-23]은 사용자(프로젝트 참여자)가 등록한 게시글을 수정하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #18>의 경우이다.<br>
 
 사용자가 게시글 상세 화면에서 “수정” 버튼을 클릭하여 제목, 내용, 공지 여부(선택 사항)를 변경한 뒤 저장을 누르면 기능이 시작된다. 시스템은 먼저 로그인한 사용자 정보를 조회하고, 수정 대상 게시글의 작성자와 일치하는지 비교하여 수정 권한을 검증한다. 권한이 확인되면 시스템은 사용자가 입력한 제목·내용·공지 여부를 게시글 엔티티에 반영하고, 기존에 연결된 투표 정보가 있는 경우에는 변경하지 않고 그대로 유지한다. 수정이 완료되면 시스템은 갱신된 게시글 정보를 PostResponse 형태로 반환한다.
 
 ### 게시글 삭제
 
-![[그림 4-23] 게시글 삭제 Sequence diagram](./image/4-23.png)
-[그림 4-23] 게시글 삭제 Sequence diagram
+![[그림 4-24] 게시글 삭제 Sequence diagram](./image/4-23.png)
+[그림 4-24] 게시글 삭제 Sequence diagram
 
-[그림 4-23]은 사용자(프로젝트 참여자)가 등록한 게시글을 삭제하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #18>의 경우이다.<br>
+[그림 4-24]는 사용자(프로젝트 참여자)가 등록한 게시글을 삭제하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #18>의 경우이다.<br>
 
  사용자가 게시글 상세 화면에서 “삭제” 버튼을 클릭해 삭제를 확정하면 기능이 시작된다. 시스템은 먼저 로그인한 사용자 정보를 조회한 뒤, 삭제 대상 게시글의 작성자와 일치하는지 비교하여 삭제 권한을 검증한다. 권한이 확인되면 시스템은 해당 게시글을 데이터베이스에서 삭제한다.<br>
  
@@ -237,10 +246,10 @@
 
 ### 게시글 접근
 
-![[그림 4-24] 게시글 접근 Sequence diagram](./image/4-24.png)
-[그림 4-24] 게시글 접근 Sequence diagram
+![[그림 4-25] 게시글 접근 Sequence diagram](./image/4-24.png)
+[그림 4-25] 게시글 접근 Sequence diagram
 
-[그림 4-24]는 사용자(프로젝트 참여자)가 특정 게시글의 상세 내용을 조회하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #19>의 경우이다.<br>
+[그림 4-25]는 사용자(프로젝트 참여자)가 특정 게시글의 상세 내용을 조회하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #19>의 경우이다.<br>
 
  사용자가 게시판 목록에서 게시글을 클릭하면 시스템은 해당 게시글 ID를 이용해 게시글, 작성자, 프로젝트 정보를 함께 조회한다. 이후 로그인된 사용자가 있을 경우, 조회된 게시글의 작성자와 비교하여 사용자가 게시글 작성자인지 여부를 판단한다.<br>
  
@@ -250,10 +259,10 @@
 
 ### 개시글 검색
 
-![[그림 4-25] 게시글 검색 Sequence diagram](./image/4-25.png)
-[그림 4-25] 게시글 검색 Sequence diagram
+![[그림 4-26] 게시글 검색 Sequence diagram](./image/4-25.png)
+[그림 4-26] 게시글 검색 Sequence diagram
 
-[그림 4-25]는 사용자(프로젝트 참여자)가 특정 게시글을 검색하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #25>의 경우이다.<br>
+[그림 4-26]은은 사용자(프로젝트 참여자)가 특정 게시글을 검색하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #25>의 경우이다.<br>
 
  사용자가 게시판 화면에서 프로젝트를 선택한 뒤 검색 유형(제목/작성자)을 지정하여 검색창에 키워드를 입력하고 검색 버튼을 누르면 기능이 시작된다. 시스템은 먼저 선택된 프로젝트 ID로 프로젝트를 조회한 후, 키워드가 비어 있는 경우에는 해당 프로젝트의 모든 게시글 목록을 조회한다. 키워드가 존재하는 경우에는 검색 유형이 “제목”이면 제목 기준으로, “작성자”이면 작성자 이름 기준으로 게시글을 필터링하며, 그 외의 검색 유형이 요청된 경우에는 예외를 발생시킨다.<br>
  
@@ -261,10 +270,10 @@
 
 ### 공지사항 등록/해제 
 
-![[그림 4-26] 공지사항 등록/해제 Sequence diagram](./image/공지사항.png)
-[그림 4-26] 공지사항 등록/해제 Sequence diagram
+![[그림 4-27] 공지사항 등록/해제 Sequence diagram](./image/공지사항.png)
+[그림 4-27] 공지사항 등록/해제 Sequence diagram
 
- [그림 4-26]은 사용자(프로젝트 참여자)가 특정 게시글을 공지사항으로 등록 또는 해제하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #17>과 <Use Case #18>에서 수행될 수 있는 일부 흐름에 해당한다.<br>
+ [그림 4-27]은 사용자(프로젝트 참여자)가 특정 게시글을 공지사항으로 등록 또는 해제하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #17>과 <Use Case #18>에서 수행될 수 있는 일부 흐름에 해당한다.<br>
  
  사용자가 게시글 작성 화면에서 공지사항 유무 체크박스를 클릭하면 기능이 시작된다. 시스템은 먼저 로그인된 사용자 정보를 조회하며, <Use case #18>의 수정의 경우 추가적으로 해당 게시글의 작성자와 일치하는지 비교하여 공지 설정 권한을 검증한다. 작성자가 아닌 사용자가 요청한 경우에는 권한 예외를 발생시켜 동작을 중단한다.<br>
  
@@ -272,10 +281,10 @@
 
 ### 투표하기
 
-![[그림 4-27] 투표하기 Sequence diagram](./image/투표.png)
-[그림 4-27] 투표하기 Sequence diagram
+![[그림 4-28] 투표하기 Sequence diagram](./image/투표.png)
+[그림 4-28] 투표하기 Sequence diagram
 
- [그림 4-27]는 사용자(프로젝트 참여자)가 게시글에 생성된 투표를 하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #19>에서 수행될 수 있는 일부 흐름에 해당한다.<br>
+ [그림 4-28]은은 사용자(프로젝트 참여자)가 게시글에 생성된 투표를 하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #19>에서 수행될 수 있는 일부 흐름에 해당한다.<br>
  
  사용자가 특정 투표 항목을 선택하고 “투표하기” 버튼을 클릭하면 기능이 시작된다. 시스템은 먼저 선택된 옵션 ID를 기반으로 VoteOption 정보를 조회하고, 해당 옵션이 속한 투표(Vote)의 마감 시간이 지나지 않았는지 검증한다. 이어서 로그인된 사용자 정보를 조회하여 투표 참여가 가능한 사용자임을 확인한다.<br>
  
@@ -285,10 +294,10 @@
 
 ### 재투표하기
 
-![[그림 4-27] 재투표하기 Sequence diagram](./image/재투표.png)
-[그림 4-27] 재투표하기 Sequence diagram
+![[그림 4-29] 재투표하기 Sequence diagram](./image/재투표.png)
+[그림 4-29] 재투표하기 Sequence diagram
 
- [그림 4-27]는 사용자(프로젝트 참여자)가 기존에 참여한 투표 결과를 수정하기 위해 재투표를 수행하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #19>에서 수행될 수 있는 일부 흐름에 해당한다.<br>
+ [그림 4-29]는 사용자(프로젝트 참여자)가 기존에 참여한 투표 결과를 수정하기 위해 재투표를 수행하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #19>에서 수행될 수 있는 일부 흐름에 해당한다.<br>
  
  사용자가 게시글의 투표 영역에서 기존 선택을 변경하기 위해 “재투표하기” 버튼을 클릭하면 기능이 시작된다. 시스템은 먼저 로그인된 사용자를 조회하고, 사용자가 선택한 특정 옵션 ID 목록을 전달받는다. 이후 투표(Vote)의 기본 정보를 확인하여 투표가 이미 마감되었는지 검증한 뒤, 사용자가 해당 투표에 대해 이전에 남긴 모든 투표 기록(VoteRecord)을 불러온다.<br>
  
@@ -309,10 +318,10 @@
 
 ### 시간조율표 생성
 
-![[그림 4-29] 시간조율표 생성 Sequence diagram](./image/4-26.png)
-[그림 4-29] 시간조율표 생성 Sequence diagram
+![[그림 4-30] 시간조율표 생성 Sequence diagram](./image/4-26.png)
+[그림 4-30] 시간조율표 생성 Sequence diagram
 
-[그림 4-29]는 사용자가 새로운 시간조율표를 생성하는 과정을 나타내는 sequence diagram이다. use case description에서 <Use Case #20>의 경우이다.<br>
+[그림 4-30]은 사용자가 새로운 시간조율표를 생성하는 과정을 나타내는 sequence diagram이다. use case description에서 <Use Case #20>의 경우이다.<br>
 
 사용자가 시간조율 생성 화면에서 제목, 날짜, 시간 범위 등을 입력하고 “생성” 버튼을 눌러서 POST /api/time-poll 요청을 전송한다. TimePollController는 이를 받아 createTimePoll()을 호출하며, 서비스는 Project와 User 정보를 조회한 뒤 새로운 TimePoll 엔티티를 생성 및 저장한다.<br>
 
@@ -320,10 +329,10 @@
 
 ### 시간 일정 편집
 
-![[그림 4-30] 시간 일정 편집 Sequence diagram](./image/4-27.png)
-[그림 4-30] 시간 일정 편집 Sequence diagram
+![[그림 4-31] 시간 일정 편집 Sequence diagram](./image/4-27.png)
+[그림 4-31] 시간 일정 편집 Sequence diagram
 
-[그림 4-30]은 사용자가 특정 시간조율에 대해 자신의 가능 시간을 제출하거나 수정하는 과정을 나타낸 sequence diagram이다. use case description에서 <Use Case #21>의 경우이다.<br>
+[그림 4-31]은 사용자가 특정 시간조율에 대해 자신의 가능 시간을 제출하거나 수정하는 과정을 나타낸 sequence diagram이다. use case description에서 <Use Case #21>의 경우이다.<br>
 
 사용자가 가능 시간을 선택하여 POST /api/time-poll/submit요청을 보내면, TimePollController는 이를 TimePollService의 submitResponse()로 전달한다. 서비스는 해당 사용자가 이전에 제출한 응답이 있는지 확인하고, 존재할 경우 기존 응답들을 먼저 삭제한다. 이후 전달받은 availableTimes 정보를 기반으로 새로운 TimeResponse 목록을 생성하여 한 번에 저장한다.<br>
 
@@ -331,11 +340,11 @@
 
 ### 시간 일정 확인
 
-![[그림 4-31] 시간 일정 확인 Sequence diagram](./image/4-28.png)
+![[그림 4-32] 시간 일정 확인 Sequence diagram](./image/4-28.png)
 
-[그림 4-31] 시간 일정 확인 Sequence diagram
+[그림 4-32] 시간 일정 확인 Sequence diagram
 
-[그림 4-31]은 사용자가 특정 시간조율의 상세 정보를 조회하는 과정을 나타내는 sequence diagram이다. use case description에서 <Use Case #22>의 경우이다.<br>
+[그림 4-32]는 사용자가 특정 시간조율의 상세 정보를 조회하는 과정을 나타내는 sequence diagram이다. use case description에서 <Use Case #22>의 경우이다.<br>
 
 사용자가 GET /api/time-poll/{pollId}?userId=U요청을 전송하면, TimePollController는 이를 받아 서비스의 getPollDetailGrid(pollId, U)를 호출한다. TimePollService는 먼저 TimePollRepository에서 해당 시간 조율표 정보를 조회한 뒤, TimeResponseRepository를 통해 전체 사용자 응답 목록(allResponses)과 현재 사용자의 응답 목록(myResponses)을 각각 가져온다.<br>
 
