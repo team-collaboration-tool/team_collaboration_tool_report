@@ -377,7 +377,7 @@
 
 #### ProjectController
 
-**Class Description:** 사용자 관련 기능(회원가입, 로그인, 정보 수정, 비밀번호 변경, 개인정보 조회)을 담당하는 컨트롤러 class
+**Class Description:** 사용자 관련 기능(회원가입, 로그인, 정보 수정, 비밀번호 변경, 개인정보 확인)을 담당하는 컨트롤러 class
 
 **Attributes**
 | 구분 | Name | Type | Visibility | Description |
@@ -388,17 +388,17 @@
 | 구분 | Name | Argument | Returns | Description |
 | --- | --- | --- | --- | --- |
 | Operations | createProject | @RequestBody ProjectCreateRequest request<br>@AuthenticationPrincipal String email | ResponseEntity<ProjectResponseDTO> | 새 프로젝트를 생성 |
-| | getParticipatingProjects | @AuthenticationPrincipal String email | ResponseEntity<List<ProjectResponseDTO>> | 현재 사용자가 참여 중인 프로젝트 목록 조회 |
-| | getProject | @PathVariable Long projectid | ResponseEntity<ProjectResponseDTO> | 단일 프로젝트의 상세 정보 조회 |
+| | getMyProjects | @AuthenticationPrincipal String email | ResponseEntity<List<ProjectResponseDTO>> | 현재 사용자가 참여 중인 프로젝트 목록 조회 |
+| | getProject | @PathVariable Long projectid<br> @Valid @RequestBody ProjectCreateRequest request<br> @AuthenticationPrincipal String email | ResponseEntity<ProjectResponseDTO> | 단일 프로젝트의 상세 정보 조회 |
 | | updateProject | @PathVariable Long projectId<br>@RequestBody ProjectCreateRequest request<br>@AuthenticationPrincipal String email | ResponseEntity<ProjectResponseDTO> | 프로젝트명 수정 |
-| | leaveProject | @PathVariable Long projectId<br>@RequestBody ProjectCreateRequest request<br>@AuthenticationPrincipal String email | ResponseEntity<void> | 프로젝트 나가기(프로젝트명 확인 필요, 관리자일 경우 불가능) |
-| | deleteProject | @PathVariable Long projectId<br>@RequestBody ProjectCreateRequest request<br>@AuthenticationPrincipal String email | ResponseEntity<void> | 프로젝트 삭제 |
+| | leaveProject | @PathVariable Long projectId<br>@RequestBody ProjectLeaveRequest request<br>@AuthenticationPrincipal String email | ResponseEntity<void> | 프로젝트 나가기(프로젝트명 확인 필요, 관리자일 경우 불가능) |
+| | deleteProject | @PathVariable Long projectId<br>@RequestBody ProjectLeaveRequest request<br>@AuthenticationPrincipal String email | ResponseEntity<void> | 프로젝트 삭제 |
 | | getProjectJoinCode | @AuthenticationPrincipal String email<br>@PathVariable Long projectId | ResponseEntity<ProjectCodeResponse> | 프로젝트의 고유 참여코드 조회 |
 | | requestJoin | @AuthenticationPrincipal String email<br>@RequestParam String joinCode | ResponseEntity<ProjectJoinRequestResponse> | 참여코드를 사용해 프로젝트 참여를 요청(상태:PENDDING) |
 | | getPendingRequestList | @AuthenticationPrincipal String email<br>@PathVariable Long projectId | ResponseEntity<List<ProjectJoinRequestRsponse>> | 프로젝트 승인 대기 멤버 목록을 조회(관리자 권한) |
 | | approveProject | @PathVariable Long projectId<br>@PathVariable Long projectUserPk<br>@AuthenticationPrincipal String email | ResponseEntity<ProjectResponseDTO> | 프로젝트 참여 요청을 승인(관리자 권한) |
-| | rejectProjectJoin | @PathVariable Long projectId<br>@PathVariable Long projectUserPk<br>@AuthenticationPrincipal String email | ResponseEntity<Void> | 프로젝트 참여 요청을 거절(관리자 권한) |
-| | expelMember | @PathVariable Long projectId<br>@PathVariable Long projectUserPk<br>@AuthenticationPrincipal String email | ResponseEntity<Void> | 프로젝트 멤버를 삭제(관리자 권한, 자신x) |
+| | rejectJoin | @PathVariable Long projectId<br>@PathVariable Long projectUserPk<br>@AuthenticationPrincipal String email | ResponseEntity<Void> | 프로젝트 참여 요청을 거절(관리자 권한) |
+| | expel | @PathVariable Long projectId<br>@PathVariable Long projectUserPk<br>@AuthenticationPrincipal String email | ResponseEntity<Void> | 프로젝트 멤버를 삭제(관리자 권한, 자신x) |
 | | transferOwnership | @PathVariable Long projectId<br>@PathVariable Long projectUserPk<br>@AuthenticationPrincipal String email | ResponseEntity<Void> | 프로젝트 관리자 권한을 다른 멤버에게 양도(관리자 권한) |
 
 ---
@@ -418,18 +418,18 @@
 | 구분 | Name | Argument | Returns | Description |
 | --- | --- | --- | --- | --- |
 | Operations | findProjectById | Long projectId | Project | ID로 Project 엔티티를 조회 |
-| | createProject | ProjectCreateRequest request | ProjectResponseDTO | 새 프로젝트를 생성하고, 요청자를 OWNER 및 APPROVED 상태로 등록 |
-| | getParticipatingProject | String userEmail | List<ProjectResponseDTO> | 사용자가 참여 중인(APPROVED 상태) 모든 프로젝트 목록 조회 |
-| | getProject | Long projectld<br>String userEmail | ProjectResponseDTO | 단일 프로젝트 정보 조회(APPROVED 상태 확인) |
-| | updateProject | Long ProjectId<br>ProjectCreateRequest request<br>String requesterEmail | ProjectRsponseDTO | 프로젝트 수정(OWNER 권한) |
-| | leaveProject | Long projectId<br>String userEmail<br>String projectName toConfirm | void | 프로젝트 나가기(요청자가 Member인지, 프로젝트명이 일치하는지 확인) |
-| | deleteProject | Long projectId | void | 프로젝트 삭제(요청자가 OWNER인지, 프로젝트명이 일치하는지 확인) |
-| | getProjectJoinCode | Long projectId<br>String requesterEmail | ProjectCodeResponse | 프로젝트 참여코드 조회 |
-| | requestJoin | String joinCode<br>String requesterEmail | ProjectJoinRequestResponse | 참여코드로 프로젝트 참여 요청(PENDING 상태로 ProjectUser 생성) |
-| | rejectProjectJoin | Long projectUserPk<br>String ownerEmail<br>Long projectid | void | projectUserPk에 해당하는 참여 요청을 거절(관리자 권한 확인) |
-| | getPendingRequestList | Long projectId | List<ProjectJoinRequestResponse> | PENDING 상태인 승인 대기 멤버 목록 조회 |
-| | expelProjectMember | Long projecUserPk<br>String ownerEmail<br>Long projectId | void | projectUserPk에 해당하는 멤버를 삭제 |
-| | transferOwnership | Long targetUserPk<br>String currentOwnerEmail | void | 프로젝트 OWNER 권한을 다른 멤버에게 양도 |
+| | createProject | ProjectCreateRequest request<br> String ownerEmail | ProjectCreateResponse | 새 프로젝트를 생성하고, 요청자를 OWNER 및 APPROVED 상태로 등록 |
+| | getParticipatingProject | String userEmail | List<ProjectListResponse> | 사용자가 참여 중인(APPROVED 상태) 모든 프로젝트 목록 조회 |
+| | getProject | Long projectld<br>String userEmail | ProjectResponseDTO | 단일 프로젝트 정보 조회(권한 확인 포함) |
+| | updateProject | Long ProjectId<br>ProjectCreateRequest request | ProjectRsponseDTO | 프로젝트 수정(관리자 권한 확인) |
+| | leaveProject | Long projectId<br>String userEmail<br>String projectNameToConfirm | void | 프로젝트 나가기(멤버 권한 및 프로젝트명 확인) |
+| | deleteProject | Long projectId<br> String requesterEmail<br> String projectNameToConfirm | void | 프로젝트 삭제(관리자 권한 및 프로젝트명 확인) |
+| | getProjectJoinCode | Long projectId<br>String requesterEmail | ProjectCodeResponse | 프로젝트 참여코드 조회 (승인된 멤버만 가능) |
+| | requestJoin | String joinCode<br>String requesterEmail | ProjectJoinRequestResponse | 참여코드로 프로젝트 참여 요청(PENDING 상태) |
+| | rejectProjectJoin | Long projectUserPk<br>String ownerEmail<br>Long projectUserPk | void | 참여 요청 거절 (관리자 권한) |
+| | getPendingRequestList | Long projectId<br> String ownerEmail<br> Long projectId | List<ProjectJoinRequestResponse> | 승인 대기 중인(PENDING) 멤버 확인 |
+| | expelProjectMember | Long projecUserPk<br>String ownerEmail<br>Long projectId | void | 프로젝트 멤버 삭제 (관리자 권한) |
+| | transferOwnership | Long projectId<br> Long targetUserPk<br>String currentOwnerEmail | void | 관리자 권한을 다른 멤버에게 양도 |
 
 ---
 ---
@@ -455,19 +455,22 @@
 | --- | --- | --- | --- | --- |
 | Operations | createEvent | @PathVariable Long projectId | ResponseEntity<CalendarEventResponse> | 새 일정을 등록 |
 | | getEventsByProject | @PathVariable Long porjectId<br>@AuthenticationPrincipal String email | ResponseEntityList<CalendarEventResponse> | 해당 프로젝트의 전체 일정 조회 |
-| | updateEvent | @PathVariable Long porjectId<br>@PathVariable Long eventId<br>@RequestVodyCalendarEventCreateRequest request<br>@AuthenticationPrincipal String email | ResponseEntity<CalendarEventResponse> | 등록된 일정 수정 |
+| | updateEvent | @PathVariable Long porjectId<br>@PathVariable Long eventId<br>@RequestVodyCalendarEventCreateRequest request<br>@AuthenticationPrincipal String email | ResponseEntity<CalendarEventResponse> | 일정 수정 |
 | | deleteEvent | @PathVariable Long porjectId<br>@PathVariable Long eventId<br>@AuthenticationPrincipal String email | ResponseEntity<Void> | 일정 삭제 |
+| | getAllEventByProject | @AuthenticationPrincipal String email | ResponseEntity<CalendarEventResponse> | 사용자가 참여 중인 전체 프로젝트 일정 조회 (메인페이지) |
+| | getEvent | @PathVariable Long projectId | ResponseEntity<CalendarEventResponse> | 단일 일정 상세 조회 |
 
 ---
 
 #### CalendarService
 
-**Class Description:** 클라이언트가 특정 프로젝트의 일정에 접근하려고 할 때 처리되는 컨트롤러 class
+**Class Description:** CalendarController로부터 요청을 받아, 일정과 관련된 모든 비즈니스 
+로직과 데이터 처리하는 서비스 class
 
 **Attributes**
 | 구분 | Name | Type | Visibility | Description |
 | --- | --- | --- | --- | --- |
-| Attributes | calendarEventService | CalendarEventService | private | CalendarEvent 도메인의 비즈니스 로직을 처리 |
+| Attributes | calendarEventRepsoitory | CalendarEventRepsoitory | private | CalendarEvent 엔티티의 DB CRUD 담당 |
 | | projectService | ProjectService | private | 프로젝트 정보를 조회하거나 권한을 확인 |
 | | userService | UserService | private | 이메일 기반으로 사용자 정보를 조회 |
 | | projectUserRepository | ProjectUserRepository | private | 사용자의 프로젝트 참여 상태를 확인 |
@@ -477,13 +480,14 @@
 | 구분 | Name | Argument | Returns | Description |
 | --- | --- | --- | --- | --- |
 | Operations | createEvent | Long projectId<br>CalendarEventCreateRequest request<br>String userEmail | CalendarEventResponse | 새 일정을 생성하고 저장 |
-| | getEventsByProject | @PathVariable Long porjectId<br>@AuthenticationPrincipal String email | List<CalendarEventResponse> | 프로젝트 멤버 확인 후, 해당 프로젝트의 모든 일정 조회 |
-| | getEvent | @PathVariable Long porjectId<br>@PathVariable Long eventId<br>@RequestBodyCalendarEventCreateRequest request<br>@AuthenticationPrincipal String email | CalendarEventResponse | 단일 일정 조회 |
-| | updateEvent | @PathVariable Long porjectId<br>@PathVariable Long eventId<br>@AuthenticationPrincipal String email | CalendarEventResponse | 일정 수정 |
-| | deleteEvent | Long eventid<br>String userEmail | void | 일정 삭제 |
+| | getEventsByProject | Long porjectId<br> String userEmail | List<CalendarEventResponse> | 프로젝트 멤버 확인 후, 해당 프로젝트의 모든 일정 조회 |
+| | getEvent | Long eventId<br> String UserEmail | CalendarEventResponse | 단일 일정 상세 조회 |
+| | updateEvent | Long eventId<br>String email<br> CalendarEventCreateRequest request | CalendarEventResponse | 일정 수정 |
+| | deleteEvent | Long eventId<br>String userEmail | void | 일정 삭제 |
 | | findEventById | Long eventId | CalendarEvent | eventId로 CalendarEvent 엔티티를 조회 |
 | | checkProjectMembership | Project project<br>User user | void | 사용자가 해당 프로젝트의 승인된 멤버인지 확인 |
 | | findParticipantsByPks | List<Long> participantUserPks | Set<User> | 사용자 PK 목록으로 User 엔티티 Set을 조회 |
+| | getAllMyEvents | String userEmail | List<CalendarEventResponse> | 사용자가 참여 중인 모든 프로젝트(APPROVED)의 일정을 통합 조회 |
 
 ---
 ---
