@@ -346,7 +346,7 @@
 
 ### 개인 일정 확인
 
-![[그림 4-32] 개인 일정 확인 Sequence diagram](./image/개인일정.png)
+![[그림 4-32] 개인 일정 확인 Sequence diagram](./image/마이페이지.png)
 
 [그림 4-32] 개인 일정 확인 Sequence diagram
 
