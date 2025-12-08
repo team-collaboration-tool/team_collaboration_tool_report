@@ -6,7 +6,7 @@
 
 * 서버의 구조를 파악하기 위해 DB의 관점에서 본 CD를 작성했다.
   * ER diagram을 먼저 작성한 후, 이를 CD로 변환시켰다.
-* 변수의 이름은 소문자로 시작하며 단어의 구분은 언더바(_)로 한다.
+* 변수의 이름은 소문자로 시작하며 단어의 구분은 대문자로 한다.
 
 ![[그림 3-1] DB class diagram](./image/DBclassdiagram.png)
 [그림 3-1] DB class diagram
@@ -19,154 +19,159 @@
 
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| Attributes | id | varchar | private | 사용자를 구분하기 위한 고유의 변수 |
-| | password | varchar | private | 사용자의 비밀번호를 나타내는 변수 |
-| | name | varchar | private | 사용자의 이름을 나타내는 변수 |
-| | email | varchar | private | 사용자의 이메일 주소를 나타내는 변수 |
-| | phone | varchar | private | 사용자의 전화번호를 나타내는 변수 |
-| | field | varchar | private | 사용자의 분야(직무/전공)를 나타내는 변수 |
+| Attributes | userPk | Long | private | 사용자의 고유 식별자(PK) |
+| | password | String | private | 암호화된 비밀번호 |
+| | name | String | private | 사용자 이름 |
+| | email | String | private | 사용자 이메일(Unique) |
+| | phone | String | private | 전화번호 |
+| | field | String | private | 직무/전공 분야 |
+| | isDeleted | Boolean | private | 탈퇴 여부(Soft delete) |
+| | deletedAt | LocalDateTime | private | 탈퇴 처리 시각 |
 
 ---
 
 #### Projects
 
-**Class Description**: 각 프로젝트들의 정보를 저장하는 class
+**Class Description**: 프로젝트 정보를 저장하는 class
 
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| Attributes | id | bigint | private | 프로젝트를 구분하기 위한 고유의 변수 |
-| | project_name | varchar | private | 각 프로젝트명을 나타내는 변수 |
-| | project_owner_user_pk | bigint | private | 프로젝트 관리자를 나타내는 변수(users.id 참조) |
-| | Invite_code | varchar | private | 각 프로젝트의 참여코드를 나타내는 변수 |
+| Attributes | projectPk | Long | private | 프로젝트 식별자(PK) |
+| | name | String | private | 프로젝트명 |
+| | joinCode | String | private | 프로젝트 참여 코드 |
+| | owner | User | private | 프로젝트 관리자(User FK) |
+| | projectUsers | List<ProjectUser> | private | 프로젝트-사용자 참여 관계 목록 |
+| | calendarEvents | List<CalendarEvent> | private | 프로젝트 일정 목록 |
+| | posts | List<Post> | private | 게시글 목록 |
+| | timePolls | List<TimePoll> | private | 시간 조율표 목록 |
 
 ---
 
-#### Project_user
+#### ProjectUser
 
-**Class Description**: 사용자와 프로젝트 간의 소속 관계를 나타내는 class
+**Class Description**: 사용자와 프로젝트 간 참여 관계 class
 
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| Attributes | id | bigint | private | 관계를 구분하기 위한 고유의 변수 |
-| | project_pk | bigint | private | 연결된 프로젝트(projects.id 참조) |
-| | user_pk | bigint | private | 연결된 사용자(users.id 참조) |
-| | status | varchar | private | 사용자의 프로젝트 내 상태를 나타내는 변수(프로젝트 멤버, 승인 대기 멤버) |
+| Attributes | projectUserPk | Long | private | 식별자(PK) |
+| | project | Project | private | 소속 프로젝트 (N:1) |
+| | user | User | private | 참여 사용자 (N:1) |
+| | status | ProjectStatus | private | 참여 상태(PENDING / APPROVED) |
+| | role | ProjectRole | private | 프로젝트 내 역할(OWNER / MEMBER) |
 
 ---
 
-#### Calendar_events
+#### Post
 
-**Class Description**: 프로젝트의 일정 정보를 저장하는 class
-
-| 구분 | Name | Type | Visibility | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| Attributes | event_pk | bigint | private | 일정을 구분하기 위한 고유의 변수 |
-| | project_pk | bigint | private | 어떤 프로젝트의 일정인지 구분하는 변수 |
-| | user_pk | bigint | private | 일정을 생성한 사용자를 구분하는 변수 |
-| | title | varchar | private | 일정의 이름을 저장하는 변수 |
-| | start_time | timestamp | private | 일정 시작 시간을 나타내는 변수 |
-| | end_time | timestamp | private | 일정 종료 시간을 나타내는 변수 |
-| | description | text | private | 일정 상세 정보를 나타내는 변수 |
-
----
-
-#### Event_participants
-
-**Class Description**: 일정 참가자 정보를 저장하는 class
+**Class Description**: 프로젝트에서 작성되는 게시글 class
 
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| Attributes | participants_pk | bigint | private | 참가 기록의 고유 식별자 |
-| | event_pk | bigint | private | 참가한 일정을 구분하기 위한 변수 |
-| | user_pk | bigint | private | 어떤 사용자가 참가하는지 구분하는 변수 |
-
----
-
-#### Posts
-
-**Class Description**: 각 프로젝트별 게시글 정보를 저장하는 class
-
-| 구분 | Name | Type | Visibility | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| Attributes | post_pk | bigint | private | 게시글을 구분하기 위한 고유의 변수 |
-| | project_pk | bigint | private | 연결된 프로젝트가 어떤 것인지 구분하는 변수 |
-| | user_pk | bigint | private | 게시글 작성자를 구분하기 위한 변수 |
-| | content | text | private | 게시글 본문 내용을 나타내는 변수 |
-| | created_at | timestamp | private | 게시글 생성 시간을 나타내는 변수 |
-| | updated_at | timestamp | private | 게시글 수정 시간을 나타내는 변수 |
-| | Is_notice | boolean | private | 공지사항 유무를 나타내는 변수 |
-| | has_voting | boolean | private | 투표 기능이 포함되어 있는지 구분하는 변수 |
-
----
-
-#### Time_polls
-
-**Class Description**: 시간조율표 정보를 저장하는 class
-
-| 구분 | Name | Type | Visibility | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| Attributes | poll_pk | bigint | private | 각 시간조율표 이벤트를 구별하는 변수 |
-| | project_pk | bigint | private | 어떤 프로젝트에 속하는지 구분하는 변수 |
-| | creator_user_pk | bigint | private | 누가 생성한 것인지 구분하는 변수 |
-| | title | varchar | private | 각 시간조율표의 이름을 저장하는 변수 |
-| | start_date | date | private | 시간조율 범위의 시작 날짜를 저장하는 변수 |
-| | end_date | date | private | 시간조율 범위의 마감 날짜를 저장하는 변수 |
-| | start_time_of_day | time | private | 시간조율표의 시작 시간을 저장하는 변수(기본값은 09:00) |
-| | end_time_of_day | time | private | 시간조율표의 종료 시간을 저장하는 변수(기본값은 18:00) |
+| Attributes | postPk | Long | private | 게시글 식별자(PK) |
+| | project | Project | private | 소속 프로젝트(FK) |
+| | user | User | private | 작성자(FK) |
+| | postNumber | Long | private | 프로젝트 내 게시글 번호 |
+| | title | String | private | 게시글 제목 |
+| | content | String | private | 게시글 본문 |
+| | isNotice | Boolean | private | 공지 여부 |
+| | hasVoting | Boolean | private | 투표 포함 여부 |
+| | vote | Vote | private | 게시글에 포함된 투표(1:1 관계) |
 
 ---
 
 #### Votes
 
-**Class Description**: 게시글 내 투표 정보를 저장하는 class
+**Class Description**: 게시글에 포함된 투표 기능 class
 
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| Attributes | vote_pk | bigint | private | 투표를 구분하기 위한 고유의 변수 |
-| | post_pk | bigint | private | 어떤 게시글의 투표인지 구분하는 변수 |
-| | title | varchar | private | 투표 제목을 나타내는 변수 |
-| | start_time | timestamp | private | 투표 시작 시간을 나타내는 변수 |
-| | end_time | timestamp | private | 투표 종료 시간을 나타내는 변수 |
-| | allow_multiple_choices | boolean | private | 복수 선택 여부를 나타내는 변수 |
-| | is_anonymous | boolean | private | 익명 투표 여부를 나타내는 변수 |
+| Attributes | id | Long | private | 투표 식별자(PK) |
+| | post | Post | private | 소속 게시글(FK, 1:1)수 |
+| | title | String | private | 투표 제목 |
+| | startTime | LocalDateTime | private | 투표 시작 시간 |
+| | endTime | LocalDateTime | private | 투표 종료 시간 |
+| | allowMultipleChoices | Boolean | private | 복수 선택 허용 여부 |
+| | isAnonymous | Boolean | private | 익명 투표 여부 |
+| | voteOptions | List<VoteOption> | private | 선택지 목록 |
 
 ---
 
-#### Time_response
+#### VoteOption 
 
-**Class Description**: 각 시간조율표에 대한 사용자들의 응답을 저장하는 class
+**Class Description**: 투표 선택지 class
 
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| Attributes | response_pk | bigint | private | 시간 응답을 구분하기 위한 고유의 변수 |
-| | poll_pk | bigint | private | 어떤 시간조율표에 대한 응답인지 구분하는 변수 |
-| | user_pk | bigint | private | 어떤 사용자가 가능한 시간대인지 구분하는 변수 |
-| | start_time_utc | timestamp | private | 드래그한 시간의 시작 시점을 UCT로 저장 |
-| | end_time_utc | timestamp | private | 드래그한 시간의 종료 시점을 UCT로 저장 |
+| Attributes | id | Long | private | 선택지 식별자(PK) |
+| | content | String | private | 선택지 내용 |
+| | count | Integer | private | 해당 선택지 득표수 |
+| | vote | Vote | private | 소속 투표(FK) |
+| | voteRecords | List<VoteRecord> | private | 사용자별 투표 기록 |
 
 ---
 
-#### Vote_options
+#### VoteRecord 
 
-**Class Description**: 투표의 선택 항목을 저장하는 class
+**Class Description**: 사용자의 투표 기록을 저장하는 class
 
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| Attributes | option_pk | bigint | private | 투표 선택 항목을 구분하기 위한 고유의 변수 |
-| | vote_pk | bigint | private | 어떤 투표에 속한 항목인지 식별하는 변수 |
-| | content | varchar | private | 투표 선택 항목의 내용을 나타내는 변수 |
+| Attributes | responsePk | Long | private | 투표 기록 식별자(PK) |
+| | voteOption | VoteOption | private | 사용자가 선택한 투표 항목 |
+| | user | User | private | 투표한 사용자(FK) |
 
 ---
 
-#### Vote_response
+#### CalendarEvents
 
-**Class Description**: 각 투표에 대해 사용자가 어떤 항목에 투표했는지 저장하는 class
+**Class Description**: 프로젝트 내에서 관리되는 일정 class
 
 | 구분 | Name | Type | Visibility | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| Attributes | response_pk | bigint | private | 투표 응답을 기록하는 변수 |
-| | option_pk | bigint | private | 어떤 항목에 투표했는지 구별하는 변수 |
-| | user_pk | bigint | private | 누가 투표를 했는지 구별하는 변수 |
+| Attributes | eventPk | Long | private | 일정 식별자(PK) |
+| | project | Project | private | 소속 프로젝트(FK) |
+| | createUser | User | private | 일정 생성자(FK) |
+| | participants | Set<User> | private | 일정 참여자 목록(N:M) |
+| | title | String | private | 일정명 |
+| | color | String | private | 일정 색상 태그 |
+| | startTime | LocalDateTime | private | 시작 시간 |
+| | endTime | LocalDateTime | private | 종료 시간 |
+| | description | String | private | 일정 상세 설명 |
+
+---
+
+#### TimePoll
+
+**Class Description**: 프로젝트 내 시간조율표 기능 class
+
+| 구분 | Name | Type | Visibility | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| Attributes | pollPk | Long | private | 조율표 식별자(PK) |
+| | project | Project | private | 소속 프로젝트(FK) |
+| | creator | User | private | 생성자(FK) |
+| | title | String | private | 조율표 제목 |
+| | startDate | LocalDate | private | 조율표 시작 날짜 |
+| | endDate | LocalDate | private | 조율표 종료 날짜 |
+| | startTimeOfDay | LocalTime | private | 하루 시작 시간 |
+| | endTimeOfDay | LocalTime | private | 하루 종료 시간 |
+| | responses | List<TimeResponse> | private | 응답 목록 |
+
+---
+
+#### TimeResponse
+
+**Class Description**: 시간조율표에서 사용자가 제출한 가능 시간 class
+
+| 구분 | Name | Type | Visibility | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| Attributes | responsePk | Long | private | 응답 식별자(PK) |
+| | poll | TimePoll | private | 소속 조율표(FK) |
+| | user | User | private | 응답 사용자(FK) |
+| | startTimeUtc | LocalDateTime | private | 가능한 시작 시간(KST 기준 변수명만 UTC) |
+| | endTimeUtc | LocalDateTime | private | 가능한 종료 시간(KST 기준 변수명만 UTC) |
+
+---
+---
 
 ## 3.2. Function class diagram
 
@@ -193,20 +198,25 @@
 | Attributes | userPk | Long | private | 사용자 고유 식별자 (PK) |
 | | password | String | private | 암호화된 비밀번호 |
 | | name | String | private | 사용자 이름 |
-| | email | String | private | 사용자 이메일 |
+| | email | String | private | 사용자 이메일 (UK) |
 | | phone | String | private | 사용자 전화번호 |
-| | field | String | private | 사용자 분야 |
+| | field | String | private | 사용자 분야 (선택사항) |
+| | isDeleted | Boolean | private | 탈퇴 여부 (기본값: false) |
+| | deletedAt | LocalDateTime | private | 탈퇴 시각 |
+| | ownedProjects | List<Project> | private | 소유한 프로젝트 목록 (1:N) |
+| | projectUsers | List<ProjectUser> | private | 참여 중인 프로젝트 관계 (1:N) |
+| | posts | List<Post> | private | 작성한 게시글 목록 (1:N) |
 
 **Operations**
 | 구분 | Name | Argument | Returns | Description |
 | --- | --- | --- | --- | --- |
-| Operations | User | password : String,<br>name : String,<br>email : String,<br>phone : String,<br>field : String | 생성자 | 새 사용자 객체를 생성하는 생성자 |
+| Operations | User | password : String,<br>name : String,<br>email : String,<br>phone : String,<br>field : String | 생성자 | 새 사용자 객체를 생성하는 생성자 (isDeleted는 false로 초기화) |
 
 ---
 
 #### UserController
 
-**Class Description:** 사용자 관련 기능(회원가입, 로그인, 정보 수정, 비밀번호 변경, 개인정보 조회)을 담당하는 컨트롤러 class
+**Class Description:** 사용자 관련 기능(회원가입, 로그인, 정보 수정, 비밀번호 변경, 개인정보 확인, 회원탈퇴)을 담당하는 컨트롤러 class
 
 **Attributes**
 | 구분 | Name | Type | Visibility | Description |
@@ -218,11 +228,14 @@
 **Operations**
 | 구분 | Name | Argument | Returns | Description |
 | --- | --- | --- | --- | --- |
-| Operations | signup | request : UserSignupRequestDTO | ResponseEntity | 회원가입 요청을 처리하는 메서드 |
-| | login | request : Map<String,String> | ResponseEntity | 사용자 로그인 처리 및 JWT 토큰 발급 |
-| | getMyInfo | userEmail : String | ResponseEntity | 로그인된 사용자의 개인정보를 반환 |
-| | updateUser | userEmail : String, request : UserUpdateRequest | ResponseEntity | 사용자 정보를 수정하는 메서드 |
-| | updatePassword | userEmail : String, request : UserPasswordUpdateRequest | ResponseEntity | 비밀번호를 변경하는 메서드 |
+| Operations | signup | request : UserSignupRequestDTO | ResponseEntity<User> | 회원가입 요청을 처리하는 메서드 |
+| | checkEmailDuplicate | email : String | ResponseEntity<Map> | 이메일 중복 확인 메서드 |
+| | login | request : LoginRequestDTO | ResponseEntity<Map> | 사용자 로그인 처리 및 JWT 토큰 발급 |
+| | getMyInfo | userEmail : String | ResponseEntity<UserInfoResponse> | 로그인된 사용자의 개인정보를 반환 (JWT 인증) |
+| | updateUser | userEmail : String,<br>request : UserUpdateRequest | ResponseEntity<Void> | 사용자 정보를 수정하는 메서드 |
+| | verifyPassword | userEmail : String,<br>request : PasswordVerifyRequest | ResponseEntity<Map> | 비밀번호 확인 메서드 |
+| | updatePassword | userEmail : String,<br>request : UserPasswordUpdateRequest | ResponseEntity<Void> | 비밀번호를 변경하는 메서드 |
+| | deleteUser | userEmail : String,<br>request : PasswordVerifyRequest | ResponseEntity<Void> | 회원 탈퇴 처리 (Soft Delete) |
 
 ---
 
@@ -233,14 +246,14 @@
 **Operations**
 | 구분 | Name | Argument | Returns | Description |
 | --- | --- | --- | --- | --- |
-| Operations | findByEmail | email : String | Optional | 이메일로 사용자 조회 |
-| | existsByEmail | email : String | boolean | 이메일 중복 여부 확인 |
+| Operations | findByEmail | email : String | Optional<User> | 이메일로 사용자 조회 |
+| | existsByEmail | email : String | boolean | 이메일 중복 여부 확인 (탈퇴 계정 포함) |
 
 ---
 
 #### UserService
 
-**Class Description:** 회원가입, 사용자 정보 조회 및 수정, 비밀번호 변경 등 사용자 관련 로직을 담당하는 서비스 class
+**Class Description:** 회원가입, 사용자 정보 조회 및 수정, 비밀번호 변경, 회원 탈퇴 등 사용자 관련 로직을 담당하는 서비스 class
 
 **Attributes**
 | 구분 | Name | Type | Visibility | Description |
@@ -251,10 +264,106 @@
 **Operations**
 | 구분 | Name | Argument | Returns | Description |
 | --- | --- | --- | --- | --- |
-| Operations | registerUser | request : UserSignupRequestDTO | User | 회원가입 처리 및 사용자 저장 |
-| | findByEmail | email : String | User | 이메일로 사용자 조회 |
-| | updateUser | email : String, <br>request : UserUpdateRequest | void | 사용자 정보 수정 |
-| | updatePassword | email : String, <br>request : UserPasswordUpdateRequest | void | 비밀번호 변경 처리 |
+| Operations | isEmailExists | email : String | boolean | 이메일 중복 여부 확인 |
+| | registerUser | request : UserSignupRequestDTO | User | 회원가입 처리 및 사용자 저장 (비밀번호 암호화) |
+| | findByEmail | email : String | User | 이메일로 사용자 조회 (존재하지 않으면 예외 발생) |
+| | updateUser | email : String,<br>request : UserUpdateRequest | void | 사용자 정보 수정 (이름, 전화번호, 분야) |
+| | verifyPassword | email : String,<br>password : String | boolean | 비밀번호 일치 여부 확인 (본인 인증용) |
+| | updatePassword | email : String,<br>request : UserPasswordUpdateRequest | void | 비밀번호 변경 처리 (현재 비밀번호 검증 후 변경) |
+| | deleteUser | email : String | void | 회원 탈퇴 처리 (Soft Delete: isDeleted=true, deletedAt 설정) |
+
+---
+
+#### DTO Classes
+
+- UserSignupRequestDTO
+
+**Attributes**
+| Name | Type | Constraints |
+| --- | --- | --- |
+| password | String | @NotBlank,<br> @Pattern: 8~20자 영문/숫자/특수문자 |
+| name | String | @NotBlank |
+| email | String | @NotBlank,<br>  @Pattern: 이메일 형식 |
+| phone | String | @NotBlank,<br>  @Pattern: 11자리 숫자 |
+| field | String | 선택사항,<br>  @NotBlank 제거됨 |
+
+- LoginRequestDTO
+
+**Attributes**
+| Name | Type | Constraints |
+| --- | --- | --- |
+| email | String | |
+| password | String | |
+
+- UserInfoResponse
+
+**Attributes**
+| Name | Type | Constraints |
+| --- | --- | --- |
+| userPk | Long | |
+| name | String | |
+| email | String | |
+| phone | String | |
+| field | String | |
+
+- UserUpdateRequest
+
+**Attributes**
+| Name | Type | Constraints |
+| --- | --- | --- |
+| name | String | 선택사항 |
+| phone | String | 선택사항,<br> @Pattern: 11자리 숫자 |
+| field | String | 선택사항 |
+
+- UserPasswordUpdateRequest
+
+**Attributes**
+| Name | Type | Constraints |
+| --- | --- | --- |
+| currentPassword | String | @NotBlank |
+| newPassword | String | @NotBlank,<br> @Pattern: 8~20자 |
+
+- PasswordVerifyRequest
+
+**Attributes**
+| Name | Type | Constraints |
+| --- | --- | --- |
+| password | String | @NotBlank |
+
+---
+
+#### JwtTokenProvider
+
+**Class Description:** JWT 토큰 생성, 검증, 정보 추출을 담당하는 유틸리티 class
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | secretKey | String | private | JWT 서명용 비밀키 (환경변수) |
+| | expirationTime | long | private | 토큰 만료 시간 (86400000ms = 24시간) |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | generateToken | email : String | String | 이메일 기반 JWT 토큰 생성 |
+| | getEmailFromToken | token : String | String | 토큰에서 이메일 추출 |
+| | validateToken | token : String | boolean | 토큰 유효성 검증 (만료, 서명 등) |
+
+---
+
+#### JwtAuthenticationFilter
+
+**Class Description:** HTTP 요청의 JWT 토큰을 검증하고 Spring Security에 인증 정보를 설정하는 필터 class
+
+**Attributes**
+| 구분 | Name | Type | Visibility | Description |
+| --- | --- | --- | --- | --- |
+| Attributes | jwtTokenProvider | JwtTokenProvider | private | JWT 토큰 검증 유틸 |
+
+**Operations**
+| 구분 | Name | Argument | Returns | Description |
+| --- | --- | --- | --- | --- |
+| Operations | doFilterInternal | request : HttpServletRequest,<br>response : HttpServletResponse,<br>filterChain : FilterChain | void | Authorization 헤더에서 JWT 추출 및 검증 후 SecurityContext에 인증 정보 설정 |
 
 ---
 ---
