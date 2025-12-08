@@ -7,7 +7,7 @@
 
 ### 회원가입
 
-![[그림 4-1] 회원가입 Sequence diagram](./image/회원가입.png)
+![[그림 4-1] 회원가입 Sequence diagram](./image/4-1.png)
 [그림 4-1] 회원가입 Sequence diagram
 
 [그림 4-1]은 사용자가 '협업의 민족'에 회원가입을 하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #1>의 경우이다.<br>
@@ -16,7 +16,7 @@
 
 ### 로그인
 
-![[그림 4-2] 로그인 Sequence diagram](./image/로그인.png)
+![[그림 4-2] 로그인 Sequence diagram](./image/4-2.png)
 [그림 4-2] 로그인 Sequence diagram
 
 [그림 4-2]는 사용자가 '협업의 민족'에 로그인을 하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #2>의 경우이다.<br>
@@ -25,8 +25,7 @@
 
 ### 개인정보 확인
 
-![[그림 4-3] 개인정보 확인 Sequence diagram](./image/개인정보_확인.png)
-
+![[그림 4-3] 개인정보 확인 Sequence diagram](./image/4-3.png)
 [그림 4-3] 개인정보 확인 Sequence diagram
 
 [그림 4-3]은 사용자가 자신의 개인정보를 확인하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #23>의 경우이다.<br>
@@ -35,7 +34,7 @@
 
 ### 개인정보 변경
 
-![[그림 4-4] 개인정보 변경 Sequence diagram](./image/개인정보_변경.png)
+![[그림 4-4] 개인정보 변경 Sequence diagram](./image/4-4.png)
 [그림 4-4] 개인정보 변경 Sequence diagram
 
 [그림 4-4]는 사용자가 비밀번호를 제외한 개인정보를 수정하는 use case를 나타내는 sequence diagram이다. use case description에서 <Use Case #4>의 경우이다.<br>
