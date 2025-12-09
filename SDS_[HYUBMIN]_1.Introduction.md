@@ -42,6 +42,7 @@
 | 12/07/2025 | 1.7.3 | Use case description 및 TimeSchedule class diagram, sequence diagram 수정 | 박한비 |
 | 12/08/2025 | 1.8.0 | Community class diagram, sequence diagram 추가 및 수정 | 박한비 |
 | 12/09/2025 | 1.8.1 | Use case descriptiopn 수정, Project, Calender class 및 sequence diagram 수정 | 박한비 |
+| 12/10/2025 | 1.8.2 | 구현 요구사항 수정 | 박한비 |
 
 ---
 
